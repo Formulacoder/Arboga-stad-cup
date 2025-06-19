@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Cup Schedule</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Ljusgrå bakgrund */
+        }
+        /* Anpassade stilar för spelkorten */
+        .game-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-lg */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Skugga för djup */
+            transition: transform 0.2s ease-in-out;
+        }
+        .game-card:hover {
+            transform: translateY(-3px); /* Subtil lyft vid hover */
+        }
+        .team-name {
+            font-weight: 600; /* semi-bold */
+        }
+        .highlighted-game {
+            border: 2px solid #3b82f6; /* Blå kantlinje för markerade spel */
+            background-color: #eff6ff; /* Ljusare blå bakgrund */
+        }
+        .highlighted-team {
+            color: #1d4ed8; /* Mörkare blå text för markerat lag */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+        <!-- Rubriksektion -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Fotbollscup Schema</h1>
+            <p class="text-lg text-gray-600">Hitta dina matcher snabbt och enkelt.</p>
+        </header>
+
+        <!-- Kontrollsektion -->
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
+            <div class="w-full sm:w-1/2">
+                <label for="team-select" class="block text-gray-700 text-sm font-medium mb-2">Välj ditt lag:</label>
+                <select id="team-select" class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800 appearance-none bg-white">
+                    <option value="All Teams">Alla lag</option>
+                    <!-- Lag kommer att fyllas i här av JavaScript -->
+                </select>
+            </div>
+            <div class="flex space-x-3 w-full sm:w-auto">
+                <button id="view-all-btn" class="flex-1 px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200">
+                    Visa alla matcher
+                </button>
+                <button id="my-games-btn" class="flex-1 px-5 py-3 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 transition duration-200">
+                    Mina matcher
+                </button>
+            </div>
+        </div>
+
+        <!-- Informations-/instruktionsmeddelande -->
+        <p id="info-message" class="text-center text-gray-600 mb-8 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            Visar alla schemalagda matcher. Välj ditt lag för att markera dina matcher.
+        </p>
+
+        <!-- Spelschema sektion -->
+        <div id="game-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Spelkorten kommer att renderas här av JavaScript -->
+            <div class="text-center text-gray-500 p-8">Laddar schema...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // !!! VIKTIGT !!!
+            // Du MÅSTE ersätta denna platshållar-URL med den faktiska publicerade CSV-URL:en från ditt Google Sheet.
+            // Instruktioner för hur du får denna URL finns i det tidigare svaret.
+            // Exempel: 'https://docs.google.com/spreadsheets/d/e/2PACX-1v.../pub?gid=1466776831&single=true&output=csv';
+            const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdzjU1q06waQZlWNaokkasHYRugpmSAuj1wXj-hU06KcCvZ6_5_RpgK2qmTZ-fvmZQDbz8R962g0_O/pub?gid=894699500&single=true&output=csv'; 
+
+            const teamSelect = document.getElementById('team-select');
+            const viewAllBtn = document.getElementById('view-all-btn');
+            const myGamesBtn = document.getElementById('my-games-btn');
+            const gameListDiv = document.getElementById('game-list');
+            const infoMessage = document.getElementById('info-message');
+
+            let allGames = []; // Lagrar rådata från CSV
+            let currentFilterTeam = 'All Teams';
+            let showMyGamesOnly = false;
+
+            /**
+             * Hämtar CSV-data från den angivna URL:en.
+             * @param {string} url URL:en till CSV-filen.
+             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             */
+            async function fetchCsvData(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP fel! status: ${response.status}`);
+                    }
+                    return await response.text();
+                } catch (error) {
+                    console.error('Fel vid hämtning av CSV-data:', error);
+                    gameListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                                                Fel vid laddning av schema. <br>
+                                                Se till att du har publicerat ditt Google Sheet till webben som CSV
+                                                och att 'csvUrl' i koden är korrekt.
+                                                <br>
+                                                <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                            </div>`;
+                    return ''; // Returnera tom sträng för att förhindra ytterligare fel
+                }
+            }
+
+            /**
+             * Parsar CSV-text till en array av spelobjekt.
+             * Förutsätter att första raden är en rubrik.
+             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i en specifik ordning baserat på din input:
+             * 0: Date, 1: Time, 2: Hemma (Home), 3: Borta (Away), 4: Plansponsor (Venue), 5: Group, 6: Anmärkning (Note)
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, måste du justera indexen nedan.
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av spelobjekt.
+             */
+            function parseCsv(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Dela upp efter rad, filtrera bort tomma rader
+                if (lines.length <= 1) { // Kräver minst rubrik + en datarad för att parsa spel
+                    console.warn("CSV har inga datarader eller bara rubriker.");
+                    return []; 
+                }
+
+                const games = [];
+
+                // Börja parsa från andra raden (index 1) för att hoppa över rubrikraden
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    
+                    // Säkerställ att tillräckligt med kolumner finns för en giltig spelpost (minst 7 förväntas)
+                    // Vi mappar efter index, så positionen är viktig.
+                    if (values.length >= 7) { 
+                        const game = {
+                            date: values[0] ? values[0].trim() : 'N/A',
+                            time: values[1] ? values[1].trim() : 'N/A',
+                            team1: values[2] ? values[2].trim() : 'N/A', // Hemma
+                            team2: values[3] ? values[3].trim() : 'N/A', // Borta
+                            venue: values[4] ? values[4].trim() : 'N/A', // Plansponsor (tolkas som plats)
+                            group: values[5] ? values[5].trim() : 'N/A',
+                            note: values[6] ? values[6].trim() : 'N/A' // Anmärkning
+                        };
+                        games.push(game);
+                    } else {
+                        console.warn(`Hoppar över felaktig rad ${i + 1}: Inte tillräckligt med kolumner (förväntade minst 7).`, lines[i]);
+                    }
+                }
+                return games;
+            }
+
+            /**
+             * Fyller i lagvalsrullgardinsmenyn med unika lag från speldatan.
+             */
+            function populateTeamDropdown() {
+                const teams = new Set();
+                allGames.forEach(game => {
+                    if (game.team1 && game.team1 !== 'N/A') teams.add(game.team1);
+                    if (game.team2 && game.team2 !== 'N/A') teams.add(game.team2);
+                });
+
+                // Rensa befintliga alternativ förutom "Alla lag"
+                teamSelect.innerHTML = '<option value="All Teams">Alla lag</option>';
+
+                // Lägg till unika lag, sorterade alfabetiskt
+                Array.from(teams).sort().forEach(team => {
+                    const option = document.createElement('option');
+                    option.value = team;
+                    option.textContent = team;
+                    teamSelect.appendChild(option);
+                });
+            }
+
+            /**
+             * Renderar spelschemat baserat på aktuella filter.
+             */
+            function renderSchedule() {
+                gameListDiv.innerHTML = ''; // Rensa tidigare spel
+
+                let gamesToDisplay = allGames;
+
+                // Använd "Mina matcher" filtret först om det är aktivt och ett lag är valt
+                if (showMyGamesOnly && currentFilterTeam !== 'All Teams') {
+                    gamesToDisplay = allGames.filter(game =>
+                        game.team1 === currentFilterTeam || game.team2 === currentFilterTeam
+                    );
+                    infoMessage.textContent = `Visar endast matcher för "${currentFilterTeam}".`;
+                } else if (!showMyGamesOnly && currentFilterTeam !== 'All Teams') {
+                    // Om "Visa alla matcher" är aktivt och ett lag är valt, visa alla men markera
+                    infoMessage.textContent = `Visar alla matcher. "${currentFilterTeam}" matcher är markerade.`;
+                } else {
+                    // Standardläge eller "Visa alla matcher" och "Alla lag" valda
+                    infoMessage.textContent = 'Visar alla schemalagda matcher. Välj ditt lag för att markera eller filtrera dina matcher.';
+                }
+
+
+                if (gamesToDisplay.length === 0) {
+                    gameListDiv.innerHTML = `<div class="text-center text-gray-500 col-span-full p-8">Inga matcher hittades som matchar dina kriterier.</div>`;
+                    return;
+                }
+
+                gamesToDisplay.forEach(game => {
+                    const gameCard = document.createElement('div');
+                    // Lägg till highlighted-game-klass om det aktuella filterlaget är en del av spelet OCH det inte är 'Alla lag'
+                    const isHighlighted = currentFilterTeam !== 'All Teams' && 
+                                          (game.team1 === currentFilterTeam || game.team2 === currentFilterTeam);
+                    gameCard.className = `game-card p-5 border border-gray-200 ${isHighlighted ? 'highlighted-game' : ''}`;
+
+                    gameCard.innerHTML = `
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">
+                            <span class="team1-display">${game.team1 || 'N/A'}</span> 
+                            <span class="text-gray-500">vs</span> 
+                            <span class="team2-display">${game.team2 || 'N/A'}</span>
+                        </h3>
+                        <p class="text-gray-700 mb-1">
+                            <span class="font-medium">Datum:</span> ${game.date || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 mb-1">
+                            <span class="font-medium">Tid:</span> ${game.time || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 mb-1">
+                            <span class="font-medium">Plats:</span> ${game.venue || 'N/A'}
+                        </p>
+                        <p class="text-gray-700">
+                            <span class="font-medium">Grupp:</span> ${game.group || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 text-sm mt-2">
+                            <span class="font-medium">Anmärkning:</span> ${game.note || 'Ingen'}
+                        </p>
+                    `;
+                    gameListDiv.appendChild(gameCard);
+
+                    // Lägg till specifik markering för lagnamnen i kortet om ett lag är valt
+                    if (currentFilterTeam !== 'All Teams') {
+                        // Nu väljer vi de nya span-elementen som skapats
+                        const team1Span = gameCard.querySelector('.team1-display');
+                        const team2Span = gameCard.querySelector('.team2-display'); 
+
+                        if (team1Span && game.team1 === currentFilterTeam) {
+                            team1Span.classList.add('highlighted-team');
+                        }
+                        if (team2Span && game.team2 === currentFilterTeam) {
+                            team2Span.classList.add('highlighted-team');
+                        }
+                    }
+                });
+            }
+
+            /**
+             * Uppdaterar knapparnas stilar baserat på det aktiva filtret.
+             */
+            function updateFilterButtons() {
+                if (showMyGamesOnly) {
+                    myGamesBtn.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+                    myGamesBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700');
+                    viewAllBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700');
+                    viewAllBtn.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+                } else {
+                    viewAllBtn.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+                    viewAllBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700');
+                    myGamesBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700');
+                    myGamesBtn.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+                }
+            }
+
+            // Händelselyssnare
+            teamSelect.addEventListener('change', (event) => {
+                currentFilterTeam = event.target.value;
+                // Om "Mina matcher" var aktivt och användaren väljer "Alla lag", växla implicit till "Visa alla" läge
+                if (showMyGamesOnly && currentFilterTeam === 'All Teams') {
+                    showMyGamesOnly = false;
+                }
+                updateFilterButtons(); // Uppdatera knappens visuella tillstånd
+                renderSchedule();
+            });
+
+            viewAllBtn.addEventListener('click', () => {
+                showMyGamesOnly = false;
+                updateFilterButtons();
+                renderSchedule();
+            });
+
+            myGamesBtn.addEventListener('click', () => {
+                // Om inget lag är valt, uppmana användaren att välja ett istället för att filtrera
+                if (currentFilterTeam === 'All Teams') {
+                    infoMessage.textContent = 'Välj ett lag från rullgardinsmenyn först för att använda filtret "Mina matcher".';
+                    // Ändra inte showMyGamesOnly till true, och ändra inte knappens aktiva tillstånd
+                } else {
+                    showMyGamesOnly = true;
+                    updateFilterButtons();
+                    renderSchedule();
+                }
+            });
+
+
+            // Initial laddning av data
+            async function initializeSchedule() {
+                const csvText = await fetchCsvData(csvUrl);
+                if (csvText) {
+                    allGames = parseCsv(csvText);
+                    populateTeamDropdown();
+                    renderSchedule();
+                    updateFilterButtons(); // Ställ in initialt knapptillstånd
+                }
+            }
+
+            initializeSchedule();
+        });
+    </script>
+</body>
+</html>
