@@ -3,91 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arboga Stad Cup - Dashboard</title>
+    <title>Lagregister</title>
     <!-- Tailwind CSS CDN för styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5; /* Ljusgrå bakgrund */
-            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
         }
-        .dashboard-card {
+        .team-card {
             background-color: #ffffff;
             border-radius: 0.75rem; /* rounded-lg */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtil skugga */
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Skugga för djup */
+            transition: transform 0.2s ease-in-out;
+        }
+        .team-card:hover {
+            transform: translateY(-3px); /* Subtil lyft vid hover */
+        }
+        .player-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .player-list li {
+            padding: 0.2rem 0;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-decoration: none; /* Ta bort understreck från länkar */
-            color: inherit; /* Ärver textfärg */
-            height: 100%; /* Säkerställer att korten fyller sin cell i rutnätet */
         }
-        .dashboard-card:hover {
-            transform: translateY(-5px); /* Mer framträdande lyft vid hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Förstärkt skugga */
+        .player-role-icon {
+            margin-right: 0.5rem;
+            font-size: 0.9em;
+            color: #4a5568; /* Grå färg för ikoner */
         }
-        .icon-container {
-            font-size: 3rem; /* Storlek på ikoner */
-            margin-bottom: 1rem;
-            color: #3b82f6; /* Blå färg för ikoner */
+        .player-name {
+            font-weight: 500;
         }
     </style>
 </head>
-<body class="flex flex-col justify-center items-center">
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full">
-        <!-- Rubriksektion -->
-        <header class="text-center mb-10">
-            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Arboga Stad Cup</h1>
-            <p class="text-xl text-gray-600">Välkommen till cupens centrala informationsplats!</p>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+        <!-- Rubriksektion och Navigering -->
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Lagregister</h1>
+            <p class="text-lg text-gray-600">Översikt över alla deltagande lag och deras spelare.</p>
+            <div class="absolute top-0 left-0 mt-2 ml-2">
+                <a href="index.html" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md hover:bg-gray-300 transition duration-200 text-sm">
+                    Till Startsidan
+                </a>
+            </div>
         </header>
 
-        <!-- Dashboard-moduler -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Modul 1: Fotbollscup Schema -->
-            <a href="fotbollsschema.html" class="dashboard-card">
-                <div class="icon-container">🗓️</div> <!-- Kalenderikon -->
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Spelschema</h2>
-                <p class="text-gray-600">Se alla matcher, tider och planer. Filtrera efter lag!</p>
-            </a>
+        <!-- Sökfält och filter (Kan läggas till senare om önskas) -->
+        <!-- Just nu visar vi bara alla lag -->
 
-            <!-- Modul 2: Lagregister -->
-            <a href="lagregister.html" class="dashboard-card">
-                <div class="icon-container">⚽</div> <!-- Fotbollslag-ikon -->
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Lagregister</h2>
-                <p class="text-gray-600">Få en översikt över deltagande lag, spelare och annan info.</p>
-            </a>
-
-            <!-- Modul 3: Spelarregister -->
-            <a href="spelaregister.html" class="dashboard-card">
-                <div class="icon-container">👤</div> <!-- Spelarikon (person) -->
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Spelarregister</h2>
-                <p class="text-gray-600">Utforska detaljerad information om alla spelare.</p>
-            </a>
-            
-            <!-- Fler moduler kan läggas till här vid behov -->
-            <!-- Exempel på en framtida modul: -->
-            <!--
-            <a href="#" class="dashboard-card opacity-50 cursor-not-allowed">
-                <div class="icon-container">🏆</div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Resultat & Tabeller</h2>
-                <p class="text-gray-600">Kommer snart: Se de senaste resultaten och grupptabellerna.</p>
-            </a>
-            -->
+        <!-- Laglistningssektion -->
+        <div id="team-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Lagkort kommer att renderas här av JavaScript -->
+            <div class="text-center text-gray-500 p-8 col-span-full">Laddar lagregister...</div>
         </div>
-
-        <footer class="text-center mt-10 text-gray-500 text-sm">
-            &copy; 2024 Arboga Stad Cup. Alla rättigheter reserverade.
-        </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // !!! VIKTIGT !!!
+            // Du MÅSTE ersätta denna platshållar-URL med den faktiska publicerade CSV-URL:en från ditt Google Sheet för lagregistret.
+            // Se instruktionerna i det föregående svaret om hur du publicerar ditt Google Sheet som CSV.
+            // Exempel på publicerad CSV-URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1v.../pub?gid=XYZ12345&single=true&output=csv';
+            // VARNING: Vanliga delningslänkar från Google Drive (t.ex. de som slutar på /view) fungerar INTE.
+            // Se också till att 'Logo'-kolumnen innehåller DIREKTA BILD-URL:er (t.ex. https://example.com/logo.png), inte länkar till Google Drive-visningssidor.
+            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdzjU1q06waQZlWNaokkasHYRugpmSAuj1wXj-hU06KcCvZ6_5_RpgK2qmTZ-fvmZQDbz8R962g0_O/pub?gid=213368947&single=true&output=csv'; 
+
+            const teamListDiv = document.getElementById('team-list');
+
+            let allTeams = []; // Lagrar rådata för lag från CSV
+
+            /**
+             * Hämtar CSV-data från den angivna URL:en.
+             * @param {string} url URL:en till CSV-filen.
+             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             */
+            async function fetchCsvData(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP fel! status: ${response.status}`);
+                    }
+                    return await response.text();
+                } catch (error) {
+                    console.error('Fel vid hämtning av CSV-data:', error);
+                    teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                                                Fel vid laddning av lagregister. <br>
+                                                Se till att du har publicerat ditt Google Sheet med lagdata till webben som CSV
+                                                och att 'teamsCsvUrl' i koden är korrekt.
+                                                <br>
+                                                <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                <p class="mt-2 text-sm text-gray-700">Kontrollera också att logotyp-URL:erna i ditt Google Sheet är DIREKTA bildlänkar (slutar på .png/.jpg etc.) och inte Google Drive-visningslänkar.</p>
+                                            </div>`;
+                    return ''; // Returnera tom sträng för att förhindra ytterligare fel
+                }
+            }
+
+            /**
+             * Parsar CSV-text till en array av lagobjekt.
+             * Förutsätter att första raden är en rubrik.
+             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i en specifik ordning:
+             * 0: Lagnamn, 1: Logo, 2: Lagkapten, 3: Samarbetspartner, 4: Grupp, 5: Spelare (K=Kapten, MV=Keeper),
+             * 6: Viktigast Vinsten, 7: Största hotet grupp, 8: tidigare erfarenhet | BetStats
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, måste du justera indexen nedan.
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av lagobjekt.
+             */
+            function parseTeamsCsv(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Dela upp efter rad, filtrera bort tomma rader
+                if (lines.length <= 1) { // Kräver minst rubrik + en datarad för att parsa lag
+                    console.warn("CSV har inga datarader för lag eller bara rubriker.");
+                    return []; 
+                }
+
+                const teams = [];
+
+                // Börja parsa från andra raden (index 1) för att hoppa över rubrikraden
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    
+                    // Säkerställ att tillräckligt med kolumner finns för en giltig lagpost (minst 9 förväntas nu)
+                    if (values.length >= 9) { 
+                        const team = {
+                            teamName: values[0] ? values[0].trim() : 'N/A',
+                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo', // Platshållarbild om ingen URL finns
+                            captainName: values[2] ? values[2].trim() : 'N/A',
+                            sponsor: values[3] ? values[3].trim() : 'N/A',
+                            group: values[4] ? values[4].trim() : 'N/A',
+                            playersRaw: values[5] ? values[5].trim() : '', // Råsträng med spelare
+                            mostImportantWin: values[6] ? values[6].trim() : 'N/A', // Ny kolumn: Viktigast Vinsten
+                            biggestThreatGroup: values[7] ? values[7].trim() : 'N/A', // Ny kolumn: Största hotet grupp
+                            pastExperienceStats: values[8] ? values[8].trim() : 'N/A' // Ny kolumn: tidigare erfarenhet | BetStats
+                        };
+
+                        // Parsa spelare från råsträngen
+                        team.players = parsePlayers(team.playersRaw, team.captainName);
+                        teams.push(team);
+                    } else {
+                        console.warn(`Hoppar över felaktig rad ${i + 1}: Inte tillräckligt med kolumner för lagdata (förväntade minst 9).`, lines[i]);
+                    }
+                }
+                return teams;
+            }
+
+            /**
+             * Parsar spelarsträngen till en array av spelarobjekt med roller.
+             * Exempel input: "Erick Dominguez (K),Sebastian Hanhe (MV),Kylian Chaath"
+             * @param {string} playersString Råsträng med spelare.
+             * @param {string} explicitCaptainName Namnet på den explicit angivna kaptenen från "Lagkapten" kolumnen.
+             * @returns {Array<Object>} Array av spelarobjekt.
+             */
+            function parsePlayers(playersString, explicitCaptainName) {
+                const players = [];
+                if (!playersString) return players;
+
+                playersString.split(',').forEach(playerEntry => {
+                    const name = playerEntry.replace('(K)', '').replace('(MV)', '').trim();
+                    if (name) {
+                        const isCaptain = playerEntry.includes('(K)') || (explicitCaptainName && name === explicitCaptainName);
+                        const isGoalkeeper = playerEntry.includes('(MV)');
+                        players.push({
+                            name: name,
+                            isCaptain: isCaptain,
+                            isGoalkeeper: isGoalkeeper
+                        });
+                    }
+                });
+                return players;
+            }
+
+            /**
+             * Renderar lagregistret.
+             */
+            function renderTeamRegister() {
+                teamListDiv.innerHTML = ''; // Rensa tidigare lagkort
+
+                if (allTeams.length === 0) {
+                    teamListDiv.innerHTML = `<div class="text-center text-gray-500 col-span-full p-8">Inga lag hittades i registret.</div>`;
+                    return;
+                }
+
+                allTeams.forEach(team => {
+                    const teamCard = document.createElement('div');
+                    teamCard.className = `team-card p-6 border border-gray-200`;
+
+                    const playerListHtml = team.players.map(player => `
+                        <li>
+                            ${player.isCaptain ? '<span class="player-role-icon" title="Kapten">👑</span>' : ''}
+                            ${player.isGoalkeeper ? '<span class="player-role-icon" title="Målvakt">🧤</span>' : ''}
+                            <span class="player-name">${player.name}</span>
+                        </li>
+                    `).join('');
+
+                    teamCard.innerHTML = `
+                        <div class="flex items-center mb-4">
+                            <img src="${team.logo}" alt="${team.teamName} Logo" class="w-16 h-16 rounded-full mr-4 object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo';">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900">${team.teamName}</h2>
+                                <p class="text-gray-600">Grupp: ${team.group}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-2">
+                            <span class="font-medium">Lagkapten:</span> ${team.captainName || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 mb-2">
+                            <span class="font-medium">Samarbetspartner:</span> ${team.sponsor || 'N/A'}
+                        </p>
+                        ${team.mostImportantWin && team.mostImportantWin !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Viktigast Vinsten:</span> ${team.mostImportantWin}</p>` : ''}
+                        ${team.biggestThreatGroup && team.biggestThreatGroup !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Största hotet grupp:</span> ${team.biggestThreatGroup}</p>` : ''}
+                        ${team.pastExperienceStats && team.pastExperienceStats !== 'N/A' ? `<p class="text-gray-700 mb-4"><span class="font-medium">Tidigare erfarenhet | BetStats:</span> ${team.pastExperienceStats}</p>` : ''}
+                        
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Spelare:</h4>
+                        <ul class="player-list">
+                            ${playerListHtml || '<li>Inga spelare listade.</li>'}
+                        </ul>
+                    `;
+                    teamListDiv.appendChild(teamCard);
+                });
+            }
+
+            // Initial laddning av data
+            async function initializeTeamRegister() {
+                const csvText = await fetchCsvData(teamsCsvUrl);
+                if (csvText) {
+                    allTeams = parseTeamsCsv(csvText);
+                    renderTeamRegister();
+                }
+            }
+
+            initializeTeamRegister();
+        });
+    </script>
 </body>
 </html>
