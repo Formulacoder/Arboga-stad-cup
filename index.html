@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arboga Stad Cup - Dashboard</title>
+    <!-- Tailwind CSS CDN för styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Ljusgrå bakgrund */
+            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .dashboard-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-lg */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtil skugga */
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none; /* Ta bort understreck från länkar */
+            color: inherit; /* Ärver textfärg */
+            height: 100%; /* Säkerställer att korten fyller sin cell i rutnätet */
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px); /* Mer framträdande lyft vid hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Förstärkt skugga */
+        }
+        .icon-container {
+            font-size: 3rem; /* Storlek på ikoner */
+            margin-bottom: 1rem;
+            color: #3b82f6; /* Blå färg för ikoner */
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-center items-center">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full">
+        <!-- Rubriksektion -->
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Arboga Stad Cup</h1>
+            <p class="text-xl text-gray-600">Välkommen till cupens centrala informationsplats!</p>
+        </header>
+
+        <!-- Dashboard-moduler -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Modul 1: Fotbollscup Schema -->
+            <a href="fotbollsschema.html" class="dashboard-card">
+                <div class="icon-container">🗓️</div> <!-- Kalenderikon -->
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Spelschema</h2>
+                <p class="text-gray-600">Se alla matcher, tider och planer. Filtrera efter lag!</p>
+            </a>
+
+            <!-- Modul 2: Lagregister -->
+            <a href="lagregister.html" class="dashboard-card">
+                <div class="icon-container">⚽</div> <!-- Fotbollslag-ikon -->
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Lagregister</h2>
+                <p class="text-gray-600">Få en översikt över deltagande lag, spelare och annan info.</p>
+            </a>
+
+            <!-- Fler moduler kan läggas till här vid behov -->
+            <!-- Exempel på en framtida modul: -->
+            <!--
+            <a href="#" class="dashboard-card opacity-50 cursor-not-allowed">
+                <div class="icon-container">🏆</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Resultat & Tabeller</h2>
+                <p class="text-gray-600">Kommer snart: Se de senaste resultaten och grupptabellerna.</p>
+            </a>
+            -->
+        </div>
+
+        <footer class="text-center mt-10 text-gray-500 text-sm">
+            &copy; 2024 Arboga Stad Cup. Alla rättigheter reserverade.
+        </footer>
+    </div>
+</body>
+</html>
