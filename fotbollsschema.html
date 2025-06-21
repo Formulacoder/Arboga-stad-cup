@@ -80,10 +80,15 @@
 </head>
 <body class="p-4 sm:p-6 lg:p-8">
     <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
-        <!-- Rubriksektion -->
-        <header class="text-center mb-8">
+        <!-- Rubriksektion och Navigering -->
+        <header class="text-center mb-8 relative">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Fotbollscup Schema</h1>
             <p class="text-lg text-gray-600">Hitta dina matcher snabbt och enkelt.</p>
+            <div class="absolute top-0 left-0 mt-2 ml-2">
+                <a href="index.html" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md hover:bg-gray-300 transition duration-200 text-sm">
+                    Till Startsidan
+                </a>
+            </div>
         </header>
 
         <!-- Kontrollsektion -->
@@ -311,7 +316,7 @@
 
                 gamesToDisplay.forEach(game => {
                     const gameRow = document.createElement('div');
-                    // Lägg till highlighted-game-klass om det aktuella filterlaget är en del av spelet OCH det inte är 'Alla lag'
+                    // Lägg till highlighted-game-klass om det aktuella filterlaget är en del av spelet OCH det inte är 'All Teams'
                     const isHighlighted = currentFilterTeam !== 'All Teams' && 
                                           (game.team1 === currentFilterTeam || game.team2 === currentFilterTeam);
                     gameRow.className = `game-row ${isHighlighted ? 'highlighted-game' : ''}`;
