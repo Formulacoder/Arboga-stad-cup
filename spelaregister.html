@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelarregister</title>
+    <!-- Tailwind CSS CDN för styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Ljusgrå bakgrund */
+        }
+        /* Ingen specifik .group-section längre, korten är huvudgrupperaren */
+        .team-card-player {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease-in-out;
+        }
+        .team-card-player:hover {
+            transform: translateY(-3px);
+        }
+        .player-list-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .player-list-section.expanded {
+            max-height: 1500px; /* Tillräckligt stort för att visa alla spelare, justera vid behov */
+            transition: max-height 0.5s ease-in;
+        }
+        .player-item {
+            display: flex;
+            align-items: center;
+            padding: 0.2rem 0; /* Minskad padding för att göra raderna mindre höga */
+            border-bottom: 1px dashed #e2e8f0;
+            flex-wrap: wrap; /* Låt innehållet bryta rad om det blir för trångt */
+            gap: 0.5rem; /* Mindre mellanrum mellan spelarnamn och detaljer */
+        }
+        .player-item:last-child {
+            border-bottom: none;
+        }
+        .player-role-icon {
+            margin-right: 0.5rem;
+            font-size: 0.9em;
+            color: #4a5568;
+            flex-shrink: 0; /* Förhindra att ikoner krymper */
+        }
+        .player-name {
+            font-weight: 500;
+            /* Borttagen fast bredd för bättre flexibilitet */
+            white-space: nowrap; /* Förhindra radbrytning av namnet */
+            overflow: hidden; /* Dölj överflödig text */
+            text-overflow: ellipsis; /* Lägg till "..." för överflödig text */
+            flex-shrink: 0; /* Förhindra att namn krymper */
+            max-width: 150px; /* Maxbredd för namn om det är väldigt långt */
+        }
+        .player-details-compact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem; /* Mellanrum mellan detaljer */
+            font-size: 0.8em; /* Mindre textstorlek för detaljer */
+            color: #6b7280; /* Mörkare grå för detaljer */
+            margin-left: auto; /* Trycker detaljerna till höger */
+            align-items: center; /* Centrera vertikalt i flexboxen */
+        }
+        .player-details-compact span {
+            /* Stil för varje individuell detalj */
+            background-color: #f7fafc; /* Ljus bakgrund för varje detalj */
+            padding: 0.2em 0.5em;
+            border-radius: 0.25rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Responsive justeringar för detaljer */
+        @media (max-width: 640px) { /* För mobil */
+            .player-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .player-details-compact {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+        <!-- Rubriksektion och Navigering -->
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Spelarregister</h1>
+            <p class="text-lg text-gray-600">Detaljerad översikt över alla spelare.</p>
+            <div class="absolute top-0 left-0 mt-2 ml-2">
+                <a href="index.html" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md hover:bg-gray-300 transition duration-200 text-sm">
+                    Till Startsidan
+                </a>
+            </div>
+        </header>
+
+        <!-- Sökfält och filter (kan läggas till senare) -->
+
+        <!-- Spelarlistningssektion -->
+        <div id="player-list-container" class="flex flex-col gap-6">
+            <div class="text-center text-gray-500 p-8 col-span-full">Laddar spelarregister...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // !!! VIKTIGT !!!
+            // Du MÅSTE ersätta denna platshållar-URL med den faktiska publicerade CSV-URL:en från ditt Google Sheet för SPELARDATA.
+            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
+            // Exempel: 'https://docs.google.com/spreadsheets/d/e/2PACX-1v.../pub?gid=1028240933&single=true&output=csv';
+            const playerCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdzjU1q06waQZlWNaokkasHYRugpmSAuj1wXj-hU06KcCvZ6_5_RpgK2qmTZ-fvmZQDbz8R962g0_O/pub?gid=1028240933&single=true&output=csv';
+
+            const playerListContainer = document.getElementById('player-list-container');
+            let allPlayers = []; // Lagrar rådata från spelar CSV
+
+            /**
+             * Hämtar CSV-data från den angivna URL:en.
+             * @param {string} url URL:en till CSV-filen.
+             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             */
+            async function fetchCsvData(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP fel! status: ${response.status}`);
+                    }
+                    return await response.text();
+                } catch (error) {
+                    console.error('Fel vid hämtning av CSV-data från:', url, error);
+                    playerListContainer.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                                                        Fel vid laddning av spelarregister. <br>
+                                                        Se till att du har publicerat ditt Google Sheet med spelardata till webben som CSV
+                                                        och att 'playerCsvUrl' i koden är korrekt.
+                                                        <br>
+                                                        <a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                        <p class="mt-2 text-sm text-gray-700">Om data visas som "undefined", kontrollera att din Google Sheet är korrekt publicerad som *Comma-separated values (.csv)* och att ALLA kolumner matchar den förväntade ordningen i koden.</p>
+                                                    </div>`;
+                    throw error;
+                }
+            }
+
+            /**
+             * Parsar CSV-text till en array av spelarobjekt.
+             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * NAME, KAPTEN, ROLL, LAG, SPONSOR, NR, GROUP, NICKNAME, NICKNAME_EXT, STRONG, WEAK, FOOTBALL_ACTIVE, FOOTBALL_EXT, FOOTBALL_DIV, FOOTBALL_MAX, FOOTBALL_MAX_EXT, CUP_CRUSH, CUP_UNDERDOG, CUP_GOLIAT, SPONSOR_HIGHLIGHT, STATS_YELLOW, STATS_RED, STATS_GOALS, STATS_ASSISTS
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av spelarobjekt.
+             */
+            function parsePlayersCsv(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                if (lines.length <= 1) {
+                    console.warn("Spelar CSV har inga datarader eller bara rubriker.");
+                    return [];
+                }
+
+                const players = [];
+                // Kolumnmappning baserat på ordningen i den nya CSV:n
+                // Totalt 24 kolumner
+                const headers = [
+                    'name', 'isCaptainRaw', 'role', 'team', 'sponsor', 'number', 'group', 
+                    'nickname', 'nicknameExt', 'strongFoot', 'weakFoot', 'footballActive', 
+                    'footballExt', 'footballDiv', 'footballMax', 'footballMaxExt', 'cupCrush', 
+                    'cupUnderdog', 'cupGoliat', 'sponsorHighlight', 'statsYellow', 
+                    'statsRed', 'statsGoals', 'statsAssists'
+                ];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    if (values.length >= headers.length) { // Säkerställ att alla förväntade kolumner finns
+                        const player = {};
+                        headers.forEach((header, index) => {
+                            player[header] = values[index] ? values[index].trim() : 'N/A';
+                        });
+
+                        // Konvertera KAPTEN till boolean (baserat på KAPTEN-kolumnen eller ROLL)
+                        player.isCaptain = player.isCaptainRaw.toLowerCase() === 'k' || 
+                                           player.isCaptainRaw.toLowerCase() === 'kapten' || 
+                                           player.isCaptainRaw.toLowerCase() === 'ja';
+                        // Konvertera ROLL till isGoalkeeper boolean
+                        player.isGoalkeeper = player.role.toLowerCase() === 'mv' || 
+                                              player.role.toLowerCase() === 'keeper' || 
+                                              player.role.toLowerCase() === 'målvakt';
+
+                        players.push(player);
+                    } else {
+                        // Logga specifikt vilken rad som är för kort
+                        console.warn(`Hoppar över felaktig spelarrad ${i + 1}: Inte tillräckligt med kolumner (förväntade minst ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
+                    }
+                }
+                return players;
+            }
+
+            /**
+             * Renderar spelarregistret, grupperat efter lag.
+             */
+            function renderPlayerRegister() {
+                playerListContainer.innerHTML = ''; // Rensa tidigare innehåll
+
+                if (allPlayers.length === 0) {
+                    playerListContainer.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga spelare hittades i registret.</div>`;
+                    return;
+                }
+
+                // Gruppera spelare efter lag
+                const groupedByTeam = allPlayers.reduce((acc, player) => {
+                    const team = player.team || 'Okänt Lag';
+                    if (!acc[team]) acc[team] = [];
+                    acc[team].push(player);
+                    return acc;
+                }, {});
+
+                // Sortera lag alfabetiskt
+                const sortedTeams = Object.keys(groupedByTeam).sort();
+
+                sortedTeams.forEach(teamName => {
+                    const teamPlayers = groupedByTeam[teamName];
+                    // Hitta en representativ spelare för att få gruppnamnet för lagkortet
+                    const representativePlayer = teamPlayers.find(p => p.group && p.group !== 'N/A') || teamPlayers[0];
+                    const groupName = representativePlayer ? representativePlayer.group : 'N/A';
+
+                    const teamCard = document.createElement('div');
+                    teamCard.className = 'team-card-player';
+                    teamCard.innerHTML = `
+                        <div class="flex justify-between items-center cursor-pointer team-header" data-target="#players-${teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
+                            <h3 class="text-xl font-bold text-gray-900">${teamName} <span class="text-gray-500 text-base font-normal">(Grupp: ${groupName}, ${teamPlayers.length} spelare)</span></h3>
+                            <span class="expand-toggle text-gray-500 text-2xl font-semibold">+</span>
+                        </div>
+                        <div id="players-${teamName.replace(/\s+/g, '-')}" class="player-list-section mt-4">
+                            <ul class="player-list">
+                                ${teamPlayers.map(player => `
+                                    <li class="player-item">
+                                        ${player.isCaptain ? '<span class="player-role-icon" title="Kapten">👑</span>' : ''}
+                                        ${player.isGoalkeeper ? '<span class="player-role-icon" title="Målvakt">🧤</span>' : ''}
+                                        <span class="player-name">${player.name || 'N/A'}</span>
+                                        <div class="player-details-compact">
+                                            ${player.number && player.number !== 'N/A' ? `<span>Nr: ${player.number}</span>` : ''}
+                                            ${player.role && player.role !== 'N/A' && !player.isGoalkeeper && !player.isCaptain ? `<span>Roll: ${player.role}</span>` : ''}
+                                            ${player.nickname && player.nickname !== 'N/A' ? `<span>Smeknamn: ${player.nickname}</span>` : ''}
+                                            ${player.statsGoals && player.statsGoals !== 'N/A' ? `<span>Mål: ${player.statsGoals}</span>` : ''}
+                                            ${player.statsAssists && player.statsAssists !== 'N/A' ? `<span>Ass: ${player.statsAssists}</span>` : ''}
+                                            ${player.strongFoot && player.strongFoot !== 'N/A' ? `<span>Stark fot: ${player.strongFoot}</span>` : ''}
+                                            ${player.weakFoot && player.weakFoot !== 'N/A' ? `<span>Svag fot: ${player.weakFoot}</span>` : ''}
+                                            ${player.footballActive && player.footballActive !== 'N/A' ? `<span>Aktiv fotboll: ${player.footballActive}</span>` : ''}
+                                            ${player.footballExt && player.footballExt !== 'N/A' ? `<span>Ext fotboll: ${player.footballExt}</span>` : ''}
+                                            ${player.footballDiv && player.footballDiv !== 'N/A' ? `<span>Fotboll Division: ${player.footballDiv}</span>` : ''}
+                                            ${player.footballMax && player.footballMax !== 'N/A' ? `<span>Fotboll Max: ${player.footballMax}</span>` : ''}
+                                            ${player.footballMaxExt && player.footballMaxExt !== 'N/A' ? `<span>Fotboll Max Ext: ${player.footballMaxExt}</span>` : ''}
+                                            ${player.cupCrush && player.cupCrush !== 'N/A' ? `<span>Cup Crush: ${player.cupCrush}</span>` : ''}
+                                            ${player.cupUnderdog && player.cupUnderdog !== 'N/A' ? `<span>Cup Underdog: ${player.cupUnderdog}</span>` : ''}
+                                            ${player.cupGoliat && player.cupGoliat !== 'N/A' ? `<span>Cup Goliat: ${player.cupGoliat}</span>` : ''}
+                                            ${player.sponsorHighlight && player.sponsorHighlight !== 'N/A' ? `<span>Sponsor Highlight: ${player.sponsorHighlight}</span>` : ''}
+                                            ${player.statsYellow && player.statsYellow !== 'N/A' ? `<span>Gula kort: ${player.statsYellow}</span>` : ''}
+                                            ${player.statsRed && player.statsRed !== 'N/A' ? `<span>Röda kort: ${player.statsRed}</span>` : ''}
+                                        </div>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    playerListContainer.appendChild(teamCard);
+                });
+
+                // Lägg till eventlyssnare för expandering/kollaps
+                document.querySelectorAll('.team-header').forEach(header => {
+                    header.addEventListener('click', (event) => {
+                        const targetId = header.dataset.target;
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.classList.toggle('expanded');
+                            header.querySelector('.expand-toggle').textContent = targetElement.classList.contains('expanded') ? '−' : '+'; // Ändrade till matematiskt minus-tecken
+                        }
+                    });
+                });
+            }
+
+            // Initial laddning av data
+            async function initializePlayerRegister() {
+                try {
+                    const csvText = await fetchCsvData(playerCsvUrl);
+                    allPlayers = parsePlayersCsv(csvText);
+                    renderPlayerRegister();
+                } catch (error) {
+                    console.error("Felsökning: Ett fel uppstod vid initialisering av spelarregistret.", error);
+                    // Felmeddelande visas redan av fetchCsvData
+                }
+            }
+
+            initializePlayerRegister();
+        });
+    </script>
+</body>
+</html>
