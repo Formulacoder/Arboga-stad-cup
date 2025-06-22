@@ -10,6 +10,43 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5; /* Ljusgrå bakgrund */
+            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            display: flex;
+            flex-direction: column; /* För att navbaren ska ligga överst */
+            align-items: center;
+            justify-content: flex-start; /* Justera för navbar */
+            padding: 0; /* Ta bort padding från body */
+        }
+        .navbar {
+            width: 100%;
+            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Kvar på toppen vid scroll */
+            top: 0;
+            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            background-color: #4a5568; /* Mörkare grå vid hover */
+        }
+        .content-container {
+            max-width: 960px; /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem; /* Justerad padding */
+            margin-top: 2rem; /* Marginal från navbar */
+            margin-bottom: 2rem;
         }
         .team-card {
             background-color: #ffffff;
@@ -37,14 +74,41 @@
         .player-name {
             font-weight: 500;
         }
+        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
-<body class="p-4 sm:p-6 lg:p-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+<body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
+    <nav class="navbar">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
+                <a href="index.html">Startsida</a>
+                <a href="fotbollsschema.html">Spelschema</a>
+                <a href="lagregister.html">Lagregister</a>
+                <a href="spelaregister.html">Spelarregister</a>
+                <a href="sponsorer.html">Samarbetspartners</a>
+                <a href="aktiviteter.html">Aktiviteter</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
         <!-- Rubriksektion -->
-        <header class="text-center mb-8">
+        <header class="text-center mb-8 relative">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Lagregister</h1>
             <p class="text-lg text-gray-600">Översikt över alla deltagande lag och deras spelare.</p>
+            <!-- Länk till startsidan tas bort härifrån eftersom den nu finns i navbaren -->
         </header>
 
         <!-- Sökfält och filter (Kan läggas till senare om önskas) -->
@@ -60,12 +124,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // !!! VIKTIGT !!!
-            // Du MÅSTE ersätta denna platshållar-URL med den faktiska publicerade CSV-URL:en från ditt Google Sheet för lagregistret.
-            // Se instruktionerna i det föregående svaret om hur du publicerar ditt Google Sheet som CSV.
-            // Exempel på publicerad CSV-URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1v.../pub?gid=XYZ12345&single=true&output=csv';
-            // VARNING: Vanliga delningslänkar från Google Drive (t.ex. de som slutar på /view) fungerar INTE.
+            // Denna URL pekar nu på din dedikerade PUB_TEAMINFO Google Sheet.
+            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
             // Se också till att 'Logo'-kolumnen innehåller DIREKTA BILD-URL:er (t.ex. https://example.com/logo.png), inte länkar till Google Drive-visningssidor.
-            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdzjU1q06waQZlWNaokkasHYRugpmSAuj1wXj-hU06KcCvZ6_5_RpgK2qmTZ-fvmZQDbz8R962g0_O/pub?gid=213368947&single=true&output=csv'; 
+            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv'; 
 
             const teamListDiv = document.getElementById('team-list');
 
@@ -99,11 +161,9 @@
 
             /**
              * Parsar CSV-text till en array av lagobjekt.
-             * Förutsätter att första raden är en rubrik.
-             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i en specifik ordning:
-             * 0: Lagnamn, 1: Logo, 2: Lagkapten, 3: Samarbetspartner, 4: Grupp, 5: Spelare (K=Kapten, MV=Keeper),
-             * 6: Viktigast Vinsten, 7: Största hotet grupp, 8: tidigare erfarenhet | BetStats
-             * Om kolumnordningen i ditt Google Sheet är annorlunda, måste du justera indexen nedan.
+             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i DENNA SPECIFIKA ORDNING:
+             * Lagnamn|Logo|Lagkapten|Samarbetspartner|Grupp|Spelare (K=Kapten, MV=Keeper)|TEAM_DESCRIPTION|TEAM_STYLE|SECRET_WEAPON|HIGHLIGHT_OPS|GROUP_THREAT|TEAM_EXP|CELEBRATION|MOTTO|BetStats
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
              * @param {string} csvText CSV-innehållet som en sträng.
              * @returns {Array<Object>} En array av lagobjekt.
              */
@@ -115,13 +175,17 @@
                 }
 
                 const teams = [];
+                // Kolumnmappning baserat på din angivna ordning
+                const headers = [
+                    'teamName', 'logo', 'captainName', 'sponsor', 'group', 'playersRaw',
+                    'teamDescription', 'teamStyle', 'secretWeapon', 'highlightOps',
+                    'groupThreat', 'teamExp', 'celebration', 'motto', 'betStats'
+                ];
 
-                // Börja parsa från andra raden (index 1) för att hoppa över rubrikraden
                 for (let i = 1; i < lines.length; i++) {
                     const values = lines[i].split(',');
-                    
-                    // Säkerställ att tillräckligt med kolumner finns för en giltig lagpost (minst 9 förväntas nu)
-                    if (values.length >= 9) { 
+                    // Säkerställ att tillräckligt med kolumner finns för en giltig lagpost
+                    if (values.length >= headers.length) { 
                         const team = {
                             teamName: values[0] ? values[0].trim() : 'N/A',
                             logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo', // Platshållarbild om ingen URL finns
@@ -129,16 +193,22 @@
                             sponsor: values[3] ? values[3].trim() : 'N/A',
                             group: values[4] ? values[4].trim() : 'N/A',
                             playersRaw: values[5] ? values[5].trim() : '', // Råsträng med spelare
-                            mostImportantWin: values[6] ? values[6].trim() : 'N/A', // Ny kolumn: Viktigast Vinsten
-                            biggestThreatGroup: values[7] ? values[7].trim() : 'N/A', // Ny kolumn: Största hotet grupp
-                            pastExperienceStats: values[8] ? values[8].trim() : 'N/A' // Ny kolumn: tidigare erfarenhet | BetStats
+                            teamDescription: values[6] ? values[6].trim() : 'N/A',
+                            teamStyle: values[7] ? values[7].trim() : 'N/A',
+                            secretWeapon: values[8] ? values[8].trim() : 'N/A',
+                            highlightOps: values[9] ? values[9].trim() : 'N/A',
+                            groupThreat: values[10] ? values[10].trim() : 'N/A',
+                            teamExp: values[11] ? values[11].trim() : 'N/A',
+                            celebration: values[12] ? values[12].trim() : 'N/A',
+                            motto: values[13] ? values[13].trim() : 'N/A',
+                            betStats: values[14] ? values[14].trim() : 'N/A'
                         };
 
                         // Parsa spelare från råsträngen
                         team.players = parsePlayers(team.playersRaw, team.captainName);
                         teams.push(team);
                     } else {
-                        console.warn(`Hoppar över felaktig rad ${i + 1}: Inte tillräckligt med kolumner för lagdata (förväntade minst 9).`, lines[i]);
+                        console.warn(`Hoppar över felaktig rad ${i + 1}: Inte tillräckligt med kolumner för lagdata (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
                     }
                 }
                 return teams;
@@ -207,9 +277,15 @@
                         <p class="text-gray-700 mb-2">
                             <span class="font-medium">Samarbetspartner:</span> ${team.sponsor || 'N/A'}
                         </p>
-                        ${team.mostImportantWin && team.mostImportantWin !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Viktigast Vinsten:</span> ${team.mostImportantWin}</p>` : ''}
-                        ${team.biggestThreatGroup && team.biggestThreatGroup !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Största hotet grupp:</span> ${team.biggestThreatGroup}</p>` : ''}
-                        ${team.pastExperienceStats && team.pastExperienceStats !== 'N/A' ? `<p class="text-gray-700 mb-4"><span class="font-medium">Tidigare erfarenhet | BetStats:</span> ${team.pastExperienceStats}</p>` : ''}
+                        ${team.teamDescription && team.teamDescription !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Beskrivning:</span> ${team.teamDescription}</p>` : ''}
+                        ${team.teamStyle && team.teamStyle !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Spelstil:</span> ${team.teamStyle}</p>` : ''}
+                        ${team.secretWeapon && team.secretWeapon !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Hemlig Vapen:</span> ${team.secretWeapon}</p>` : ''}
+                        ${team.highlightOps && team.highlightOps !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Highlight Ops:</span> ${team.highlightOps}</p>` : ''}
+                        ${team.groupThreat && team.groupThreat !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Största Hotet (Grupp):</span> ${team.groupThreat}</p>` : ''}
+                        ${team.teamExp && team.teamExp !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Tidigare Erfarenhet:</span> ${team.teamExp}</p>` : ''}
+                        ${team.celebration && team.celebration !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Målfirande:</span> ${team.celebration}</p>` : ''}
+                        ${team.motto && team.motto !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Motto:</span> ${team.motto}</p>` : ''}
+                        ${team.betStats && team.betStats !== 'N/A' ? `<p class="text-gray-700 mb-4"><span class="font-medium">BetStats:</span> ${team.betStats}</p>` : ''}
                         
                         <h4 class="text-lg font-semibold text-gray-800 mb-2">Spelare:</h4>
                         <ul class="player-list">
