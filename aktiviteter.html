@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arboga Stad Cup - Aktiviteter</title>
+    <!-- Tailwind CSS CDN för styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Ljusgrå bakgrund */
+            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            display: flex;
+            flex-direction: column; /* För att navbaren ska ligga överst */
+            align-items: center;
+            justify-content: flex-start; /* Justera för navbar */
+            padding: 0; /* Ta bort padding från body */
+        }
+        .navbar {
+            width: 100%;
+            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Kvar på toppen vid scroll */
+            top: 0;
+            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            background-color: #4a5568; /* Mörkare grå vid hover */
+        }
+        .content-container {
+            max-width: 960px; /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem; /* Justerad padding */
+            margin-top: 2rem; /* Marginal från navbar */
+            margin-bottom: 2rem;
+        }
+        .activity-card {
+            background-color: #f7fafc; /* Ljusare bakgrund för aktivitetskort */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .activity-image {
+            width: 100%; /* Bilden fyller kortets bredd */
+            max-height: 180px; /* Maxhöjd för bilden */
+            object-fit: cover; /* Beskär bilden för att fylla ut */
+            border-radius: 0.5rem; /* Lätt rundade hörn */
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
+    <nav class="navbar">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
+                <a href="index.html">Startsida</a>
+                <a href="fotbollsschema.html">Spelschema</a>
+                <a href="lagregister.html">Lagregister</a>
+                <a href="spelaregister.html">Spelarregister</a>
+                <a href="sponsorer.html">Samarbetspartners</a>
+                <a href="aktiviteter.html">Aktiviteter</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <!-- Rubriksektion -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Aktiviteter Runt Cupen</h1>
+            <p class="text-lg text-gray-600">Upptäck allt kul som händer utanför planen!</p>
+        </header>
+
+        <!-- Aktivitetslistningssektion -->
+        <div id="activity-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Aktivitetskort kommer att renderas här av JavaScript -->
+            <div class="text-center text-gray-500 p-8 col-span-full">Laddar aktiviteter...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // !!! VIKTIGT !!!
+            // Denna URL pekar nu på din dedikerade PUB_OTHER_ACTIVITY Google Sheet.
+            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
+            const activitiesCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=498075591&single=true&output=csv'; 
+
+            const activityListDiv = document.getElementById('activity-list');
+
+            let allActivities = []; // Lagrar rådata från aktiviteter CSV
+
+            /**
+             * Hämtar CSV-data från den angivna URL:en.
+             * @param {string} url URL:en till CSV-filen.
+             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             */
+            async function fetchCsvData(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP fel! status: ${response.status}`);
+                    }
+                    return await response.text();
+                } catch (error) {
+                    console.error('Fel vid hämtning av CSV-data från:', url, error);
+                    activityListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                                                    Fel vid laddning av aktiviteter. <br>
+                                                    Se till att du har publicerat ditt Google Sheet med aktivitetsdata till webben som CSV
+                                                    och att 'activitiesCsvUrl' i koden är korrekt.
+                                                    <br>
+                                                    <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                    <p class="mt-2 text-sm text-gray-700">Kontrollera att kolumnerna stämmer och att bild-URL:erna är DIREKTA bildlänkar.</p>
+                                                </div>`;
+                    throw error;
+                }
+            }
+
+            /**
+             * Parsar CSV-text till en array av aktivitetsobjekt.
+             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i DENNA SPECIFIKA ORDNING:
+             * Aktivitet|Beskrivning|Tid|Plats|Bild_URL
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av aktivitetsobjekt.
+             */
+            function parseActivitiesCsv(csvText) {
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                if (lines.length <= 1) {
+                    console.warn("Aktivitets CSV har inga datarader eller bara rubriker.");
+                    return [];
+                }
+
+                const activities = [];
+                // Kolumnmappning baserat på din angivna ordning
+                const headers = ['name', 'description', 'time', 'location', 'imageUrl'];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    // Säkerställ att tillräckligt med kolumner finns
+                    if (values.length >= headers.length) { 
+                        const activity = {
+                            name: values[0] ? values[0].trim() : 'N/A',
+                            description: values[1] ? values[1].trim() : 'N/A',
+                            time: values[2] ? values[2].trim() : 'N/A',
+                            location: values[3] ? values[3].trim() : 'N/A',
+                            imageUrl: values[4] ? values[4].trim() : 'https://placehold.co/300x180/aabbcc/ffffff?text=Aktivitet+Bild'
+                        };
+                        activities.push(activity);
+                    } else {
+                        console.warn(`Hoppar över felaktig aktivitetsrad ${i + 1}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
+                    }
+                }
+                return activities;
+            }
+
+            /**
+             * Kontrollerar om en URL ser ut som en giltig bild-URL.
+             * @param {string} url
+             * @returns {boolean}
+             */
+            function isValidImageUrl(url) {
+                return (url.startsWith('http://') || url.startsWith('https://')) && 
+                       (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
+            }
+
+            /**
+             * Renderar listan över aktiviteter.
+             */
+            function renderActivities() {
+                activityListDiv.innerHTML = ''; // Rensa tidigare innehåll
+
+                if (allActivities.length === 0) {
+                    activityListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga aktiviteter hittades.</div>`;
+                    return;
+                }
+
+                allActivities.forEach(activity => {
+                    const activityCard = document.createElement('div');
+                    activityCard.className = 'activity-card';
+                    
+                    const imageUrl = isValidImageUrl(activity.imageUrl) ? activity.imageUrl : 'https://placehold.co/300x180/aabbcc/ffffff?text=Aktivitet+Bild';
+
+                    activityCard.innerHTML = `
+                        <img src="${imageUrl}" alt="${activity.name} Bild" class="activity-image" onerror="this.onerror=null; this.src='https://placehold.co/300x180/aabbcc/ffffff?text=Aktivitet+Bild';">
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">${activity.name || 'N/A'}</h2>
+                        <p class="text-gray-700 text-sm mb-2">${activity.description || 'Ingen beskrivning.'}</p>
+                        <p class="text-gray-600 text-sm"><span class="font-medium">Tid:</span> ${activity.time || 'N/A'}</p>
+                        <p class="text-gray-600 text-sm"><span class="font-medium">Plats:</span> ${activity.location || 'N/A'}</p>
+                    `;
+                    activityListDiv.appendChild(activityCard);
+                });
+            }
+
+            // Initial laddning av data
+            async function initializeActivities() {
+                try {
+                    const csvText = await fetchCsvData(activitiesCsvUrl);
+                    allActivities = parseActivitiesCsv(csvText);
+                    renderActivities();
+                } catch (error) {
+                    console.error("Felsökning: Ett fel uppstod vid initialisering av aktivitetsidan.", error);
+                    // Felmeddelande visas redan av fetchCsvData
+                }
+            }
+
+            initializeActivities();
+        });
+    </script>
+</body>
+</html>
