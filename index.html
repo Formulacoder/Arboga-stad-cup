@@ -12,9 +12,41 @@
             background-color: #f0f2f5; /* Ljusgrå bakgrund */
             min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
             display: flex;
+            flex-direction: column; /* För att navbaren ska ligga överst */
             align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            justify-content: flex-start; /* Justera för navbar */
+            padding: 0; /* Ta bort padding från body */
+        }
+        .navbar {
+            width: 100%;
+            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Kvar på toppen vid scroll */
+            top: 0;
+            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            background-color: #4a5568; /* Mörkare grå vid hover */
+        }
+        .dashboard-container {
+            max-width: 960px; /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem; /* Justerad padding */
+            margin-top: 2rem; /* Marginal från navbar */
+            margin-bottom: 2rem;
         }
         .dashboard-card {
             background-color: #ffffff;
@@ -41,10 +73,36 @@
             margin-bottom: 1rem;
             color: #3b82f6; /* Blå färg för ikoner */
         }
+        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
-<body class="flex flex-col justify-center items-center">
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full">
+<body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
+    <nav class="navbar">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
+                <a href="index.html">Startsida</a>
+                <a href="fotbollsschema.html">Spelschema</a>
+                <a href="lagregister.html">Lagregister</a>
+                <a href="spelaregister.html">Spelarregister</a>
+                <a href="sponsorer.html">Samarbetspartners</a>
+                <a href="aktiviteter.html">Aktiviteter</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
         <!-- Rubriksektion -->
         <header class="text-center mb-10">
             <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Arboga Stad Cup</h1>
@@ -74,10 +132,24 @@
                 <p class="text-gray-600">Utforska detaljerad information om alla spelare.</p>
             </a>
             
+            <!-- Modul 4: Samarbetspartners -->
+            <a href="sponsorer.html" class="dashboard-card">
+                <div class="icon-container">🤝</div> <!-- Handskakningsikon -->
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Samarbetspartners</h2>
+                <p class="text-gray-600">Ett stort tack till alla som möjliggör cupen!</p>
+            </a>
+
+            <!-- Modul 5: Aktiviteter -->
+            <a href="aktiviteter.html" class="dashboard-card">
+                <div class="icon-container">🎉</div> <!-- Festikon -->
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Aktiviteter</h2>
+                <p class="text-gray-600">Upptäck allt kul som händer utanför planen!</p>
+            </a>
+
             <!-- Fler moduler kan läggas till här vid behov -->
-            <!-- Exempel på en framtida modul: -->
+            <!-- Exempel på en framtida modul: Resultat & Tabeller -->
             <!--
-            <a href="#" class="dashboard-card opacity-50 cursor-not-allowed">
+            <a href="resultat.html" class="dashboard-card opacity-50 cursor-not-allowed">
                 <div class="icon-container">🏆</div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Resultat & Tabeller</h2>
                 <p class="text-gray-600">Kommer snart: Se de senaste resultaten och grupptabellerna.</p>
