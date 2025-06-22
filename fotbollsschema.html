@@ -10,6 +10,43 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5; /* Ljusgrå bakgrund */
+            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            display: flex;
+            flex-direction: column; /* För att navbaren ska ligga överst */
+            align-items: center;
+            justify-content: flex-start; /* Justera för navbar */
+            padding: 0; /* Ta bort padding från body */
+        }
+        .navbar {
+            width: 100%;
+            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Kvar på toppen vid scroll */
+            top: 0;
+            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            background-color: #4a5568; /* Mörkare grå vid hover */
+        }
+        .content-container {
+            max-width: 960px; /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem; /* Justerad padding */
+            margin-top: 2rem; /* Marginal från navbar */
+            margin-bottom: 2rem;
         }
         /* Anpassade stilar för matchraderna */
         .game-row {
@@ -76,19 +113,41 @@
             font-size: 0.875rem; /* text-sm */
             color: #6b7280; /* mörkare grå */
         }
+        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
-<body class="p-4 sm:p-6 lg:p-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
-        <!-- Rubriksektion och Navigering -->
+<body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
+    <nav class="navbar">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
+                <a href="index.html">Startsida</a>
+                <a href="fotbollsschema.html">Spelschema</a>
+                <a href="lagregister.html">Lagregister</a>
+                <a href="spelaregister.html">Spelarregister</a>
+                <a href="sponsorer.html">Samarbetspartners</a>
+                <a href="aktiviteter.html">Aktiviteter</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <!-- Rubriksektion -->
         <header class="text-center mb-8 relative">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Fotbollscup Schema</h1>
             <p class="text-lg text-gray-600">Hitta dina matcher snabbt och enkelt.</p>
-            <div class="absolute top-0 left-0 mt-2 ml-2">
-                <a href="index.html" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-md hover:bg-gray-300 transition duration-200 text-sm">
-                    Till Startsidan
-                </a>
-            </div>
+            <!-- Länk till startsidan tas bort härifrån eftersom den nu finns i navbaren -->
         </header>
 
         <!-- Kontrollsektion -->
@@ -125,17 +184,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // !!! VIKTIGT !!!
-            // Du MÅSTE ersätta denna platshållar-URL med den faktiska publicerade CSV-URL:en från ditt Google Sheet för MATCH-SCHEMAT.
-            // Exempel: 'https://docs.google.com/spreadsheets/d/e/2PACX-1v.../pub?gid=1466776831&single=true&output=csv';
-            const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdzjU1q06waQZlWNaokkasHYRugpmSAuj1wXj-hU06KcCvZ6_5_RpgK2qmTZ-fvmZQDbz8R962g0_O/pub?gid=894699500&single=true&output=csv'; 
+            // Denna URL pekar nu på din dedikerade PUB_GROUP_SCHDULE Google Sheet.
+            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
+            const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv'; 
             
             // !!! VIKTIGT FÖR LOGOTYPER !!!
-            // Du MÅSTE ersätta denna platshållar-URL med den faktiska publicerade CSV-URL:en från ditt Google Sheet för LAGREGISTRET.
-            // Denna fil används för att hämta logotyp-URL:er för lagen.
-            // Se instruktionerna i det föregående svaret om hur du publicerar DITT LAGREGISTER Google Sheet som CSV.
-            // VARNING: Vanliga delningslänkar från Google Drive (t.ex. de som slutar på /view) fungerar INTE.
+            // Denna URL pekar nu på din dedikerade PUB_TEAMINFO Google Sheet.
+            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
             // Se också till att 'Logo'-kolumnen i lagregistret innehåller DIREKTA BILD-URL:er (t.ex. https://example.com/logo.png), inte länkar till Google Drive-visningssidor.
-            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRdzjU1q06waQZlWNaokkasHYRugpmSAuj1wXj-hU06KcCvZ6_5_RpgK2qmTZ-fvmZQDbz8R962g0_O/pub?gid=213368947&single=true&output=csv'; 
+            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv'; 
 
             const teamSelect = document.getElementById('team-select');
             const viewAllBtn = document.getElementById('view-all-btn');
@@ -169,10 +226,9 @@
 
             /**
              * Parsar CSV-text till en array av spelobjekt.
-             * Förutsätter att första raden är en rubrik.
-             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i en specifik ordning:
-             * 0: Date, 1: Time, 2: Hemma (Home), 3: Borta (Away), 4: Plansponsor (Venue), 5: Group, 6: Anmärkning (Note)
-             * Om kolumnordningen i ditt Google Sheet är annorlunda, måste du justera indexen nedan.
+             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i DENNA SPECIFIKA ORDNING:
+             * Date, Time, Hemma, Borta, Plansponsor, Group, Anmärkning
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
              * @param {string} csvText CSV-innehållet som en sträng.
              * @returns {Array<Object>} En array av spelobjekt.
              */
@@ -184,9 +240,12 @@
                 }
 
                 const games = [];
+                // Kolumnmappning baserat på din angivna ordning: Date|Time|Hemma|Borta|Plansponsor|Group|Anmärkning
+                const headers = ['date', 'time', 'team1', 'team2', 'venue', 'group', 'note'];
+
                 for (let i = 1; i < lines.length; i++) {
                     const values = lines[i].split(',');
-                    if (values.length >= 7) {
+                    if (values.length >= headers.length) {
                         const game = {
                             date: values[0] ? values[0].trim() : 'N/A',
                             time: values[1] ? values[1].trim() : 'N/A',
@@ -198,7 +257,7 @@
                         };
                         games.push(game);
                     } else {
-                        console.warn(`Hoppar över felaktig schemarad ${i + 1}: Inte tillräckligt med kolumner (förväntade minst 7).`, lines[i]);
+                        console.warn(`Hoppar över felaktig schemarad ${i + 1}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
                     }
                 }
                 return games;
@@ -206,9 +265,9 @@
 
             /**
              * Parsar CSV-text till en array av lagobjekt. Används för att hämta logotyper.
-             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i denna ordning:
-             * 0: Lagnamn, 1: Logo, 2: Lagkapten, 3: Samarbetspartner, 4: Grupp, 5: Spelare (K=Kapten, MV=Keeper),
-             * 6: Viktigast Vinsten, 7: Största hotet grupp, 8: tidigare erfarenhet | BetStats
+             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * Lagnamn|Logo|Lagkapten|Samarbetspartner|Grupp|Spelare (K=Kapten, MV=Keeper)|TEAM_DESCRIPTION|TEAM_STYLE|SECRET_WEAPON|HIGHLIGHT_OPS|GROUP_THREAT|TEAM_EXP|CELEBRATION|MOTTO|BetStats
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
              * @param {string} csvText CSV-innehållet som en sträng.
              * @returns {Array<Object>} En array av lagobjekt.
              */
@@ -220,23 +279,36 @@
                 }
 
                 const teams = [];
+                // Kolumnmappning baserat på din angivna ordning
+                const headers = [
+                    'teamName', 'logo', 'captainName', 'sponsor', 'group', 'playersRaw',
+                    'teamDescription', 'teamStyle', 'secretWeapon', 'highlightOps',
+                    'groupThreat', 'teamExp', 'celebration', 'motto', 'betStats'
+                ];
+
                 for (let i = 1; i < lines.length; i++) {
                     const values = lines[i].split(',');
-                    if (values.length >= 9) { // Nu förväntas minst 9 kolumner
+                    if (values.length >= headers.length) {
                         const team = {
                             teamName: values[0] ? values[0].trim() : 'N/A',
-                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo',
+                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo', // Platshållarbild om ingen URL finns
                             captainName: values[2] ? values[2].trim() : 'N/A',
                             sponsor: values[3] ? values[3].trim() : 'N/A',
                             group: values[4] ? values[4].trim() : 'N/A',
                             playersRaw: values[5] ? values[5].trim() : '',
-                            mostImportantWin: values[6] ? values[6].trim() : 'N/A',
-                            biggestThreatGroup: values[7] ? values[7].trim() : 'N/A',
-                            pastExperienceStats: values[8] ? values[8].trim() : 'N/A'
+                            teamDescription: values[6] ? values[6].trim() : 'N/A',
+                            teamStyle: values[7] ? values[7].trim() : 'N/A',
+                            secretWeapon: values[8] ? values[8].trim() : 'N/A',
+                            highlightOps: values[9] ? values[9].trim() : 'N/A',
+                            groupThreat: values[10] ? values[10].trim() : 'N/A',
+                            teamExp: values[11] ? values[11].trim() : 'N/A',
+                            celebration: values[12] ? values[12].trim() : 'N/A',
+                            motto: values[13] ? values[13].trim() : 'N/A',
+                            betStats: values[14] ? values[14].trim() : 'N/A'
                         };
                         teams.push(team);
                     } else {
-                        console.warn(`Hoppar över felaktig lagrad ${i + 1}: Inte tillräckligt med kolumner (förväntade minst 9).`, lines[i]);
+                        console.warn(`Hoppar över felaktig lagrad ${i + 1}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
                     }
                 }
                 return teams;
@@ -316,7 +388,7 @@
 
                 gamesToDisplay.forEach(game => {
                     const gameRow = document.createElement('div');
-                    // Lägg till highlighted-game-klass om det aktuella filterlaget är en del av spelet OCH det inte är 'All Teams'
+                    // Lägg till highlighted-game-klass om det aktuella filterlaget är en del av spelet OCH det inte är 'Alla lag'
                     const isHighlighted = currentFilterTeam !== 'All Teams' && 
                                           (game.team1 === currentFilterTeam || game.team2 === currentFilterTeam);
                     gameRow.className = `game-row ${isHighlighted ? 'highlighted-game' : ''}`;
