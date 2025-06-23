@@ -1,135 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spelarregister</title>
+    <title>Arboga Stad Cup - Samarbetspartners</title>
     <!-- Tailwind CSS CDN för styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Ljusgrå bakgrund */
-            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            background-color: #f0f2f5;
+            /* Ljusgrå bakgrund */
+            min-height: 100vh;
+            /* Säkerställer att bakgrunden täcker hela sidan */
             display: flex;
-            flex-direction: column; /* För att navbaren ska ligga överst */
+            flex-direction: column;
+            /* För att navbaren ska ligga överst */
             align-items: center;
-            justify-content: flex-start; /* Justera för navbar */
-            padding: 0; /* Ta bort padding från body */
+            justify-content: flex-start;
+            /* Justera för navbar */
+            padding: 0;
+            /* Ta bort padding från body */
         }
+
         .navbar {
             width: 100%;
-            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            background-color: #1a202c;
+            /* Mörk bakgrund för navbar */
             color: white;
             padding: 1rem 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky; /* Kvar på toppen vid scroll */
+            position: sticky;
+            /* Kvar på toppen vid scroll */
             top: 0;
-            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+            z-index: 1000;
+            /* Säkerställ att den ligger över annat innehåll */
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 0.5rem 1rem;
-            border-radius: 0.375rem; /* rounded-md */
+            border-radius: 0.375rem;
+            /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
         }
+
         .navbar a:hover {
-            background-color: #4a5568; /* Mörkare grå vid hover */
-        }
-        .content-container {
-            max-width: 960px; /* max-w-4xl är ca 960px */
-            width: 100%;
-            background-color: #ffffff;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 2rem 1.5rem; /* Justerad padding */
-            margin-top: 2rem; /* Marginal från navbar */
-            margin-bottom: 2rem;
-        }
-        /* Ingen specifik .group-section längre, korten är huvudgrupperaren */
-        .team-card-player {
-            background-color: #ffffff;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: transform 0.2s ease-in-out;
-        }
-        .team-card-player:hover {
-            transform: translateY(-3px);
-        }
-        .player-list-section {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .player-list-section.expanded {
-            max-height: 1500px; /* Tillräckligt stort för att visa alla spelare, justera vid behov */
-            transition: max-height 0.5s ease-in;
-        }
-        .player-item {
-            display: flex;
-            align-items: center;
-            padding: 0.2rem 0; /* Minskad padding för att göra raderna mindre höga */
-            border-bottom: 1px dashed #e2e8f0;
-            flex-wrap: wrap; /* Låt innehållet bryta rad om det blir för trångt */
-            gap: 0.5rem; /* Mindre mellanrum mellan spelarnamn och detaljer */
-        }
-        .player-item:last-child {
-            border-bottom: none;
-        }
-        .player-role-icon {
-            margin-right: 0.5rem;
-            font-size: 0.9em;
-            color: #4a5568;
-            flex-shrink: 0; /* Förhindra att ikoner krymper */
-        }
-        .player-name {
-            font-weight: 500;
-            /* Borttagen fast bredd för bättre flexibilitet */
-            white-space: nowrap; /* Förhindra radbrytning av namnet */
-            overflow: hidden; /* Dölj överflödig text */
-            text-overflow: ellipsis; /* Lägg till "..." för överflödig text */
-            flex-shrink: 0; /* Förhindra att namn krymper */
-            max-width: 150px; /* Maxbredd för namn om det är väldigt långt */
-        }
-        .player-details-compact {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem; /* Mellanrum mellan detaljer */
-            font-size: 0.8em; /* Mindre textstorlek för detaljer */
-            color: #6b7280; /* Mörkare grå för detaljer */
-            margin-left: auto; /* Trycker detaljerna till höger */
-            align-items: center; /* Centrera vertikalt i flexboxen */
-        }
-        .player-details-compact span {
-            /* Stil för varje individuell detalj */
-            background-color: #f7fafc; /* Ljus bakgrund för varje detalj */
-            padding: 0.2em 0.5em;
-            border-radius: 0.25rem;
-            border: 1px solid #e2e8f0;
+            background-color: #4a5568;
+            /* Mörkare grå vid hover */
         }
 
-        /* Responsive justeringar för detaljer */
-        @media (max-width: 640px) { /* För mobil */
-            .player-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .player-details-compact {
-                margin-left: 0;
-                margin-top: 0.5rem;
-                width: 100%;
-                justify-content: flex-start;
-            }
+        .content-container {
+            max-width: 960px;
+            /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem;
+            /* Justerad padding */
+            margin-top: 2rem;
+            /* Marginal från navbar */
+            margin-bottom: 2rem;
         }
-        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+
+        .sponsor-card {
+            background-color: #f7fafc;
+            /* Ljusare bakgrund för sponsor kort */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .sponsor-logo {
+            /* Updated styling for logo to allow flexible aspect ratio */
+            max-width: 10rem;
+            /* Maximal bredd */
+            max-height: 8rem;
+            /* Maximal höjd */
+            height: auto;
+            /* Behåll proportioner */
+            width: auto;
+            /* Behåll proportioner */
+            object-fit: scale-down;
+            /* Skala ner stora bilder, skala inte upp små */
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            /* Lätt rundade hörn */
+        }
+
+        .sponsor-website {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            display: block;
+            /* För att länken ska ta upp egen rad */
+        }
+
+        .sponsor-website:hover {
+            text-decoration: underline;
+        }
+
+        .category-heading {
+            width: 100%;
+            text-align: center;
+            font-size: 2.25rem;
+            /* text-4xl */
+            font-weight: 800;
+            /* font-extrabold */
+            color: #4a5568;
+            /* grå text */
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #cbd5e0;
+            /* Lätt grå linje under rubrik */
+        }
+
+        @media (max-width: 640px) {
+
+            /* För mobil (sm breakpoint) */
             .navbar-links {
                 flex-direction: column;
                 align-items: center;
             }
+
             .navbar a {
                 width: 100%;
                 text-align: center;
@@ -138,6 +142,7 @@
         }
     </style>
 </head>
+
 <body class="flex flex-col">
     <!-- Global Navigationsmeny -->
     <nav class="navbar">
@@ -148,6 +153,7 @@
                 <a href="fotbollsschema.html">Spelschema</a>
                 <a href="lagregister.html">Lagregister</a>
                 <a href="spelaregister.html">Spelarregister</a>
+                <a href="tabeller.html">Tabeller</a>
                 <a href="sponsorer.html">Samarbetspartners</a>
                 <a href="aktiviteter.html">Aktiviteter</a>
             </div>
@@ -156,29 +162,28 @@
 
     <div class="content-container">
         <!-- Rubriksektion -->
-        <header class="text-center mb-8 relative">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Spelarregister</h1>
-            <p class="text-lg text-gray-600">Detaljerad översikt över alla spelare.</p>
-            <!-- Länk till startsidan tas bort härifrån eftersom den nu finns i navbaren -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Våra Samarbetspartners</h1>
+            <p class="text-lg text-gray-600">Ett stort tack till alla som möjliggör cupen!</p>
         </header>
 
-        <!-- Sökfält och filter (kan läggas till senare) -->
-
-        <!-- Spelarlistningssektion -->
-        <div id="player-list-container" class="flex flex-col gap-6">
-            <div class="text-center text-gray-500 p-8 col-span-full">Laddar spelarregister...</div>
+        <!-- Sponsorslistningssektion -->
+        <div id="sponsor-list" class="flex flex-col gap-6">
+            <!-- Sponsor kort kommer att renderas här av JavaScript -->
+            <div class="text-center text-gray-500 p-8 col-span-full">Laddar samarbetspartners...</div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // !!! VIKTIGT !!!
-            // Denna URL pekar nu på din dedikerade PUB_PLAYERINFO Google Sheet.
+            // Denna URL pekar nu på din dedikerade PUB_PARTNERS Google Sheet.
             // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
-            const playerCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1028240933&single=true&output=csv';
+            const partnersCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1030318842&single=true&output=csv';
 
-            const playerListContainer = document.getElementById('player-list-container');
-            let allPlayers = []; // Lagrar rådata från spelar CSV
+            const sponsorListDiv = document.getElementById('sponsor-list');
+
+            let allPartnersData = []; // Lagrar rådata från partners CSV
 
             /**
              * Hämtar CSV-data från den angivna URL:en.
@@ -189,172 +194,204 @@
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error(`HTTP fel! status: ${response.status}`);
+                        throw new Error(`HTTP Error! status: ${response.status}`);
                     }
                     return await response.text();
                 } catch (error) {
                     console.error('Fel vid hämtning av CSV-data från:', url, error);
-                    playerListContainer.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
-                                                        Fel vid laddning av spelarregister. <br>
-                                                        Se till att du har publicerat ditt Google Sheet med spelardata till webben som CSV
-                                                        och att 'playerCsvUrl' i koden är korrekt.
-                                                        <br>
-                                                        <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
-                                                        <p class="mt-2 text-sm text-gray-700">Om data visas som "undefined", kontrollera att din Google Sheet är korrekt publicerad som *Comma-separated values (.csv)* och att ALLA kolumner matchar den förväntade ordningen i koden.</p>
-                                                    </div>`;
+                    sponsorListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                                                    Fel vid laddning av samarbetspartners. <br>
+                                                    Se till att du har publicerat ditt Google Sheet med partnerdata till webben som CSV
+                                                    och att 'partnersCsvUrl' i koden är korrekt.
+                                                    <br>
+                                                    <a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                    <p class="mt-2 text-sm text-gray-700">Kontrollera att kolumnerna stämmer och att logotyp-URL:erna är DIREKTA bildlänkar.</p>
+                                                </div>`;
                     throw error;
                 }
             }
 
             /**
-             * Parsar CSV-text till en array av spelarobjekt.
-             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
-             * NAME|KAPTEN|ROLL|LAG|SPONSOR|NR|GROUP|NICKNAME|NICKNAME_EXT|STRONG|WEAK|FOOTBALL_ACTIVE|FOOTBALL_EXT|FOOTBALL_DIV|FOOTBALL_MAX|FOOTBALL_MAX_EXT|CUP_CRUSH|CUP_UNDERDOG|CUP_GOLIAT|SPONSOR_HIGHLIGHT|STATS_YELLOW|STATS_RED|STATS_GOALS|STATS_ASSISTS
-             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
+             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
+             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
+             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
              * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Object>} En array av spelarobjekt.
+             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
              */
-            function parsePlayersCsv(csvText) {
+            function parseRobustCsv(csvText) {
+                const rows = [];
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
-                if (lines.length <= 1) {
-                    console.warn("Spelar CSV har inga datarader eller bara rubriker.");
+
+                if (lines.length === 0) { // Tom CSV eller bara whitespace-rader
                     return [];
                 }
 
-                const players = [];
-                // Kolumnmappning baserat på din angivna ordning
-                const headers = [
-                    'name', 'isCaptainRaw', 'role', 'team', 'sponsor', 'number', 'group', 
-                    'nickname', 'nicknameExt', 'strongFoot', 'weakFoot', 'footballActive', 
-                    'footballExt', 'footballDiv', 'footballMax', 'footballMaxExt', 'cupCrush', 
-                    'cupUnderdog', 'cupGoliat', 'sponsorHighlight', 'statsYellow', 
-                    'statsRed', 'statsGoals', 'statsAssists'
-                ];
+                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const values = [];
+                    let inQuote = false;
+                    let currentField = '';
 
-                for (let i = 1; i < lines.length; i++) {
-                    const values = lines[i].split(',');
-                    // Säkerställ att alla förväntade kolumner finns
-                    if (values.length >= headers.length) { 
-                        const player = {};
-                        headers.forEach((header, index) => {
-                            player[header] = values[index] ? values[index].trim() : 'N/A';
-                        });
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        const nextChar = line[j + 1];
 
-                        // Konvertera KAPTEN till boolean (baserat på KAPTEN-kolumnen eller ROLL)
-                        player.isCaptain = player.isCaptainRaw.toLowerCase() === 'k' || 
-                                           player.isCaptainRaw.toLowerCase() === 'kapten' || 
-                                           player.isCaptainRaw.toLowerCase() === 'ja';
-                        // Konvertera ROLL till isGoalkeeper boolean
-                        player.isGoalkeeper = player.role.toLowerCase() === 'mv' || 
-                                              player.role.toLowerCase() === 'keeper' || 
-                                              player.role.toLowerCase() === 'målvakt';
-
-                        players.push(player);
-                    } else {
-                        // Logga specifikt vilken rad som är för kort
-                        console.warn(`Hoppar över felaktig spelarrad ${i + 1}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
+                        if (char === '"') {
+                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
+                                currentField += char;
+                                j++; // Hoppa över nästa citationstecken
+                            } else {
+                                inQuote = !inQuote; // Växla in/ut ur citerat läge
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField.trim());
+                            currentField = '';
+                        } else {
+                            currentField += char;
+                        }
                     }
+                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
+                    rows.push(values);
                 }
-                return players;
+                return rows.slice(1); // Returnera alla rader utom rubrikraden
             }
 
             /**
-             * Renderar spelarregistret, grupperat efter lag.
+             * Parsar CSV-text till en array av partnerobjekt.
+             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * Samarbetspartner, Roll, Beskrivning, webbsida, Logo1Default, Logo2, Logo3, Logo4, Logo5
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av partnerobjekt.
              */
-            function renderPlayerRegister() {
-                playerListContainer.innerHTML = ''; // Rensa tidigare innehåll
+            function parsePartnersCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
 
-                if (allPlayers.length === 0) {
-                    playerListContainer.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga spelare hittades i registret.</div>`;
+                const partners = [];
+                // Kolumnmappning baserat på din NYA angivna ordning för PUB_PARTNERS
+                // Samarbetspartner, Roll, Beskrivning, webbsida, Logo1Default, Logo2, Logo3, Logo4, Logo5
+                const headers = [
+                    'name', 'role', 'description', 'website', 'logo1Default',
+                    'logo2', 'logo3', 'logo4', 'logo5'
+                ];
+
+                rawRows.forEach((values, index) => {
+                    // Kontrollera att tillräckligt med kolumner finns för de obligatoriska fälten
+                    if (values.length >= headers.length) {
+                        const partner = {
+                            name: values[0] ? values[0].trim() : 'N/A',
+                            role: values[1] ? values[1].trim() : 'N/A', // Roll är nu på index 1
+                            description: values[2] ? values[2].trim() : 'N/A', // Beskrivning är nu på index 2
+                            website: values[3] ? values[3].trim() : '', // Webbsida är nu på index 3
+                            // Vi använder 'Logo1Default' (index 4) som primär logotyp
+                            logo: (values[4] && isValidImageUrl(values[4])) ? values[4].trim() :
+                                'https://placehold.co/128x128/eeeeee/333333?text=Sponsor+Logo'
+                        };
+                        partners.push(partner);
+                    } else {
+                        console.warn(`Hoppar över felaktig partnerrad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}).`);
+                    }
+                });
+                return partners;
+            }
+
+            /**
+             * Kontrollerar om en URL ser ut som en giltig bild-URL.
+             * @param {string} url
+             * @returns {boolean}
+             */
+            function isValidImageUrl(url) {
+                return (url.startsWith('http://') || url.startsWith('https://')) &&
+                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
+            }
+
+            /**
+             * Renderar listan över samarbetspartners, grupperade efter roll.
+             */
+            function renderSponsors() {
+                sponsorListDiv.innerHTML = ''; // Rensa tidigare innehåll
+
+                if (allPartnersData.length === 0) {
+                    sponsorListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga samarbetspartners hittades.</div>`;
                     return;
                 }
 
-                // Gruppera spelare efter lag
-                const groupedByTeam = allPlayers.reduce((acc, player) => {
-                    const team = player.team || 'Okänt Lag';
-                    if (!acc[team]) acc[team] = [];
-                    acc[team].push(player);
+                // Gruppera partners efter deras roll
+                const groupedPartners = allPartnersData.reduce((acc, partner) => {
+                    const role = partner.role && partner.role !== 'N/A' ? partner.role : 'Övriga partners';
+                    if (!acc[role]) {
+                        acc[role] = [];
+                    }
+                    acc[role].push(partner);
                     return acc;
                 }, {});
 
-                // Sortera lag alfabetiskt
-                const sortedTeams = Object.keys(groupedByTeam).sort();
+                // Definiera önskad ordning för kategorierna
+                const categoryOrder = [
+                    'Huvudpartner',
+                    'Officiell partner',
+                    'Vän till Vallen',
+                    'Lagsponsor',
+                    'Övriga partners' // Fallback för de som inte matchar eller saknar roll
+                ];
 
-                sortedTeams.forEach(teamName => {
-                    const teamPlayers = groupedByTeam[teamName];
-                    // Hitta en representativ spelare för att få gruppnamnet för lagkortet
-                    const representativePlayer = teamPlayers.find(p => p.group && p.group !== 'N/A') || teamPlayers[0];
-                    const groupName = representativePlayer ? representativePlayer.group : 'N/A';
+                // Hämta alla unika roller som faktiskt finns i datan, utöver de definierade
+                const existingRoles = Object.keys(groupedPartners);
+                const customRoles = existingRoles.filter(role => !categoryOrder.includes(role));
 
-                    const teamCard = document.createElement('div');
-                    teamCard.className = 'team-card-player';
-                    teamCard.innerHTML = `
-                        <div class="flex justify-between items-center cursor-pointer team-header" data-target="#players-${teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
-                            <h3 class="text-xl font-bold text-gray-900">${teamName} <span class="text-gray-500 text-base font-normal">(Grupp: ${groupName}, ${teamPlayers.length} spelare)</span></h3>
-                            <span class="expand-toggle text-gray-500 text-2xl font-semibold">+</span>
-                        </div>
-                        <div id="players-${teamName.replace(/\s+/g, '-')}" class="player-list-section mt-4">
-                            <ul class="player-list">
-                                ${teamPlayers.map(player => `
-                                    <li class="player-item">
-                                        ${player.isCaptain ? '<span class="player-role-icon" title="Kapten">👑</span>' : ''}
-                                        ${player.isGoalkeeper ? '<span class="player-role-icon" title="Målvakt">🧤</span>' : ''}
-                                        <span class="player-name">${player.name || 'N/A'}</span>
-                                        <div class="player-details-compact">
-                                            ${player.number && player.number !== 'N/A' ? `<span>Nr: ${player.number}</span>` : ''}
-                                            ${player.role && player.role !== 'N/A' && !player.isGoalkeeper && !player.isCaptain ? `<span>Roll: ${player.role}</span>` : ''}
-                                            ${player.nickname && player.nickname !== 'N/A' ? `<span>Smeknamn: ${player.nickname}</span>` : ''}
-                                            ${player.statsGoals && player.statsGoals !== 'N/A' ? `<span>Mål: ${player.statsGoals}</span>` : ''}
-                                            ${player.statsAssists && player.statsAssists !== 'N/A' ? `<span>Ass: ${player.statsAssists}</span>` : ''}
-                                            ${player.strongFoot && player.strongFoot !== 'N/A' ? `<span>Stark fot: ${player.strongFoot}</span>` : ''}
-                                            ${player.weakFoot && player.weakFoot !== 'N/A' ? `<span>Svag fot: ${player.weakFoot}</span>` : ''}
-                                            ${player.footballActive && player.footballActive !== 'N/A' ? `<span>Aktiv fotboll: ${player.footballActive}</span>` : ''}
-                                            ${player.footballExt && player.footballExt !== 'N/A' ? `<span>Ext fotboll: ${player.footballExt}</span>` : ''}
-                                            ${player.footballDiv && player.footballDiv !== 'N/A' ? `<span>Fotboll Division: ${player.footballDiv}</span>` : ''}
-                                            ${player.footballMax && player.footballMax !== 'N/A' ? `<span>Fotboll Max: ${player.footballMax}</span>` : ''}
-                                            ${player.footballMaxExt && player.footballMaxExt !== 'N/A' ? `<span>Fotboll Max Ext: ${player.footballMaxExt}</span>` : ''}
-                                            ${player.cupCrush && player.cupCrush !== 'N/A' ? `<span>Cup Crush: ${player.cupCrush}</span>` : ''}
-                                            ${player.cupUnderdog && player.cupUnderdog !== 'N/A' ? `<span>Cup Underdog: ${player.cupUnderdog}</span>` : ''}
-                                            ${player.cupGoliat && player.cupGoliat !== 'N/A' ? `<span>Cup Goliat: ${player.cupGoliat}</span>` : ''}
-                                            ${player.sponsorHighlight && player.sponsorHighlight !== 'N/A' ? `<span>Sponsor Highlight: ${player.sponsorHighlight}</span>` : ''}
-                                            ${player.statsYellow && player.statsYellow !== 'N/A' ? `<span>Gula kort: ${player.statsYellow}</span>` : ''}
-                                            ${player.statsRed && player.statsRed !== 'N/A' ? `<span>Röda kort: ${player.statsRed}</span>` : ''}
-                                        </div>
-                                    </li>
-                                `).join('')}
-                            </ul>
-                        </div>
-                    `;
-                    playerListContainer.appendChild(teamCard);
-                });
+                // Lägg till eventuella "egna" roller sist, sorterade alfabetiskt
+                const finalCategoryOrder = [...categoryOrder.filter(role => existingRoles.includes(role)), ...customRoles.sort()];
 
-                // Lägg till eventlyssnare för expandering/kollaps
-                document.querySelectorAll('.team-header').forEach(header => {
-                    header.addEventListener('click', (event) => {
-                        const targetId = header.dataset.target;
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            targetElement.classList.toggle('expanded');
-                            header.querySelector('.expand-toggle').textContent = targetElement.classList.contains('expanded') ? '−' : '+'; // Ändrade till matematiskt minus-tecken
-                        }
-                    });
+                // Renderar varje kategori och dess partners
+                finalCategoryOrder.forEach(category => {
+                    const partnersInCategory = groupedPartners[category];
+                    if (partnersInCategory && partnersInCategory.length > 0) {
+                        const categorySection = document.createElement('div');
+                        categorySection.className = 'w-full';
+                        categorySection.innerHTML = `<h2 class="category-heading">${category}</h2>`;
+                        sponsorListDiv.appendChild(categorySection);
+
+                        const categoryGrid = document.createElement('div');
+                        categoryGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'; // Grid för korten
+
+                        // Sortera partners inom varje kategori alfabetiskt efter namn
+                        partnersInCategory.sort((a, b) => a.name.localeCompare(b.name)).forEach(partner => {
+                            const sponsorCard = document.createElement('div');
+                            sponsorCard.className = 'sponsor-card';
+
+                            const imageUrl = isValidImageUrl(partner.logo) ? partner.logo : 'https://placehold.co/128x128/eeeeee/333333?text=Sponsor+Logo';
+
+                            sponsorCard.innerHTML = `
+                                <img src="${imageUrl}" alt="${partner.name} Logo" class="sponsor-logo" onerror="this.onerror=null; this.src='https://placehold.co/128x128/eeeeee/333333?text=Sponsor+Logo';">
+                                <h3 class="text-xl font-bold text-gray-800">${partner.name || 'N/A'}</h3>
+                                ${partner.website && partner.website !== 'N/A' ? `<a href="${partner.website}" target="_blank" rel="noopener noreferrer" class="sponsor-website">Besök webbsida</a>` : ''}
+                                ${partner.role && partner.role !== 'N/A' && partner.role !== category ? `<p class="text-gray-600 text-sm">Roll: ${partner.role}</p>` : ''}
+                                ${partner.description && partner.description !== 'N/A' ? `<p class="text-gray-600 text-sm mt-1">${partner.description}</p>` : ''}
+                            `;
+                            categoryGrid.appendChild(sponsorCard);
+                        });
+                        sponsorListDiv.appendChild(categoryGrid);
+                    }
                 });
             }
 
             // Initial laddning av data
-            async function initializePlayerRegister() {
+            async function initializeSponsors() {
                 try {
-                    const csvText = await fetchCsvData(playerCsvUrl);
-                    allPlayers = parsePlayersCsv(csvText);
-                    renderPlayerRegister();
+                    const csvText = await fetchCsvData(partnersCsvUrl);
+                    allPartnersData = parsePartnersCsv(csvText);
+                    renderSponsors();
                 } catch (error) {
-                    console.error("Felsökning: Ett fel uppstod vid initialisering av spelarregistret.", error);
+                    console.error("Felsökning: Ett fel uppstod vid initialisering av sponsorsidan.", error);
                     // Felmeddelande visas redan av fetchCsvData
                 }
             }
 
-            initializePlayerRegister();
+            initializeSponsors();
         });
     </script>
 </body>
+
 </html>

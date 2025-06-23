@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arboga Stad Cup - Tabeller</title>
+    <!-- Tailwind CSS CDN för styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* Ljusgrå bakgrund */
+            min-height: 100vh;
+            /* Säkerställer att bakgrunden täcker hela sidan */
+            display: flex;
+            flex-direction: column;
+            /* För att navbaren ska ligga överst */
+            align-items: center;
+            justify-content: flex-start;
+            /* Justera för navbar */
+            padding: 0;
+            /* Ta bort padding från body */
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #1a202c;
+            /* Mörk bakgrund för navbar */
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            /* Kvar på toppen vid scroll */
+            top: 0;
+            z-index: 1000;
+            /* Säkerställ att den ligger över annat innehåll */
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            background-color: #4a5568;
+            /* Mörkare grå vid hover */
+        }
+
+        .content-container {
+            max-width: 960px;
+            /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem;
+            /* Justerad padding */
+            margin-top: 2rem;
+            /* Marginal från navbar */
+            margin-bottom: 2rem;
+        }
+
+        .group-table-section {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .group-heading {
+            font-size: 2rem;
+            /* text-3xl */
+            font-weight: 800;
+            /* font-extrabold */
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .standings-table th,
+        .standings-table td {
+            padding: 0.75rem 0.5rem;
+            /* Anpassad padding */
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            /* Lätt linje */
+        }
+
+        .standings-table th {
+            background-color: #f0f4f8;
+            /* Ljusare bakgrund för rubrik */
+            color: #4a5568;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .standings-table td {
+            color: #2d3748;
+        }
+
+        .standings-table tbody tr:hover {
+            background-color: #f7fafc;
+            /* Ljusare rad vid hover */
+        }
+
+        .team-cell {
+            font-weight: 600;
+        }
+
+        .points-cell {
+            font-weight: 700;
+            color: #3b82f6;
+            /* Blå färg för poäng */
+        }
+
+        /* Justera kolumnbredder för bättre läsbarhet på större skärmar */
+        .standings-table th:nth-child(1),
+        .standings-table td:nth-child(1) {
+            width: 25%;
+            /* Lag */
+        }
+
+        .standings-table th:nth-child(2),
+        .standings-table td:nth-child(2) {
+            width: 7%;
+            /* M */
+        }
+
+        .standings-table th:nth-child(3),
+        .standings-table td:nth-child(3) {
+            width: 7%;
+            /* V */
+        }
+
+        .standings-table th:nth-child(4),
+        .standings-table td:nth-child(4) {
+            width: 7%;
+            /* O */
+        }
+
+        .standings-table th:nth-child(5),
+        .standings-table td:nth-child(5) {
+            width: 7%;
+            /* F */
+        }
+
+        .standings-table th:nth-child(6),
+        .standings-table td:nth-child(6) {
+            width: 7%;
+            /* GM */
+        }
+
+        .standings-table th:nth-child(7),
+        .standings-table td:nth-child(7) {
+            width: 7%;
+            /* IM */
+        }
+
+        .standings-table th:nth-child(8),
+        .standings-table td:nth-child(8) {
+            width: 7%;
+            /* MS */
+        }
+
+        .standings-table th:nth-child(9),
+        .standings-table td:nth-child(9) {
+            width: 10%;
+            /* P */
+        }
+
+        .standings-table th:nth-child(10),
+        .standings-table td:nth-child(10) {
+            width: 15%;
+            /* Nästa */
+        }
+
+        /* Ny kolumn */
+
+
+        @media (max-width: 640px) {
+
+            /* För mobil (sm breakpoint) */
+            .navbar-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar a {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .standings-table thead {
+                display: none;
+                /* Dölj tabellhuvud på små skärmar */
+            }
+
+            .standings-table,
+            .standings-table tbody,
+            .standings-table tr,
+            .standings-table td {
+                display: block;
+                /* Visa element som block för staplad layout */
+                width: 100%;
+            }
+
+            .standings-table tr {
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.5rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            }
+
+            .standings-table td {
+                text-align: right;
+                /* Högerjustera värden */
+                padding-left: 50%;
+                /* Gör plats för etikett */
+                position: relative;
+                border: none;
+            }
+
+            .standings-table td::before {
+                content: attr(data-label);
+                /* Använd data-label som etikett */
+                position: absolute;
+                left: 0.5rem;
+                width: calc(50% - 1rem);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: #4a5568;
+            }
+
+            .standings-table th:nth-child(1),
+            .standings-table td:nth-child(1) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(2),
+            .standings-table td:nth-child(2) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(3),
+            .standings-table td:nth-child(3) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(4),
+            .standings-table td:nth-child(4) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(5),
+            .standings-table td:nth-child(5) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(6),
+            .standings-table td:nth-child(6) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(7),
+            .standings-table td:nth-child(7) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(8),
+            .standings-table td:nth-child(8) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(9),
+            .standings-table td:nth-child(9) {
+                width: auto;
+            }
+
+            .standings-table th:nth-child(10),
+            .standings-table td:nth-child(10) {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
+    <nav class="navbar">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
+                <a href="index.html">Startsida</a>
+                <a href="fotbollsschema.html">Spelschema</a>
+                <a href="lagregister.html">Lagregister</a>
+                <a href="spelaregister.html">Spelarregister</a>
+                <a href="tabeller.html">Tabeller</a> <!-- Ny länk -->
+                <a href="sponsorer.html">Samarbetspartners</a>
+                <a href="aktiviteter.html">Aktiviteter</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <!-- Rubriksektion -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Resultat och Tabeller</h1>
+            <p class="text-lg text-gray-600">Se ställningen i alla grupper.</p>
+        </header>
+
+        <!-- Tabeller sektion -->
+        <div id="standings-list" class="flex flex-col gap-8">
+            <!-- Tabeller kommer att renderas här av JavaScript -->
+            <div class="text-center text-gray-500 p-8 col-span-full">Laddar tabeller...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // !!! VIKTIGT !!!
+            // Denna URL pekar nu på din dedikerade PUB_STANDINGS Google Sheet.
+            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
+            const standingsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1900542434&single=true&output=csv';
+
+            const standingsListDiv = document.getElementById('standings-list');
+
+            let allStandingsData = []; // Lagrar rådata från standings CSV
+
+            /**
+             * Hämtar CSV-data från den angivna URL:en.
+             * @param {string} url URL:en till CSV-filen.
+             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             */
+            async function fetchCsvData(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error! status: ${response.status}`);
+                    }
+                    return await response.text();
+                } catch (error) {
+                    console.error('Fel vid hämtning av CSV-data från:', url, error);
+                    standingsListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                                                    Fel vid laddning av tabeller. <br>
+                                                    Se till att du har publicerat ditt Google Sheet med tabelldata till webben som CSV
+                                                    och att 'standingsCsvUrl' i koden är korrekt.
+                                                    <br>
+                                                    <a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                    <p class="mt-2 text-sm text-gray-700">Kontrollera att kolumnerna stämmer överens med den förväntade ordningen.</p>
+                                                </div>`;
+                    throw error;
+                }
+            }
+
+            /**
+             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
+             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
+             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
+             */
+            function parseRobustCsv(csvText) {
+                const rows = [];
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+
+                if (lines.length === 0) { // Tom CSV eller bara whitespace-rader
+                    return [];
+                }
+
+                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const values = [];
+                    let inQuote = false;
+                    let currentField = '';
+
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        const nextChar = line[j + 1];
+
+                        if (char === '"') {
+                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
+                                currentField += char;
+                                j++; // Hoppa över nästa citationstecken
+                            } else {
+                                inQuote = !inQuote; // Växla in/ut ur citerat läge
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField.trim());
+                            currentField = '';
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
+                    rows.push(values);
+                }
+                return rows.slice(1); // Returnera alla rader utom rubrikraden
+            }
+
+            /**
+             * Parsar CSV-text till en array av tabellobjekt från PUB_STANDINGS.
+             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * Lag, Grupp, M, V, O, F, GM, IM, MS, P, Nästa
+             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av lagobjekt för tabellen.
+             */
+            function parseStandingsCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
+
+                const standings = [];
+                // Kolumnmappning baserad på din angivna ordning
+                const headers = [
+                    'teamName', 'group', 'matchesPlayed', 'wins', 'draws',
+                    'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points', 'nextMatch'
+                ];
+
+                rawRows.forEach((values, index) => {
+                    // Kontrollera att tillräckligt med kolumner finns
+                    if (values.length >= headers.length) {
+                        const entry = {};
+                        headers.forEach((header, colIndex) => {
+                            let value = values[colIndex] ? values[colIndex].trim() : 'N/A';
+                            // Konvertera numeriska värden till nummer för relevanta kolumner
+                            if (['matchesPlayed', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].includes(header)) {
+                                entry[header] = parseInt(value) || 0; // Standard till 0 om inte ett nummer
+                            } else {
+                                entry[header] = value;
+                            }
+                        });
+                        standings.push(entry);
+                    } else {
+                        console.warn(`Hoppar över felaktig tabellrad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}).`);
+                    }
+                });
+                return standings;
+            }
+
+            /**
+             * Renderar tabellerna, grupperade per grupp.
+             */
+            function renderStandings() {
+                standingsListDiv.innerHTML = ''; // Rensa tidigare innehåll
+
+                if (allStandingsData.length === 0) {
+                    standingsListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga tabelluppgifter hittades.</div>`;
+                    return;
+                }
+
+                // Gruppera data efter 'Grupp'
+                const groupedByGroup = allStandingsData.reduce((acc, team) => {
+                    const group = team.group || 'Okänd Grupp';
+                    if (!acc[group]) {
+                        acc[group] = [];
+                    }
+                    acc[group].push(team);
+                    return acc;
+                }, {});
+
+                // Sortera gruppnamnen (t.ex. Grupp A, Grupp B)
+                const sortedGroupNames = Object.keys(groupedByGroup).sort();
+
+                sortedGroupNames.forEach(groupName => {
+                    const teamsInGroup = groupedByGroup[groupName];
+
+                    // Sortera lag inom gruppen:
+                    // 1. Efter poäng (P), fallande
+                    // 2. Efter målskillnad (MS), fallande
+                    // 3. Efter gjorda mål (GM), fallande
+                    teamsInGroup.sort((a, b) => {
+                        if (b.points !== a.points) return b.points - a.points;
+                        if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
+                        return b.goalsFor - a.goalsFor;
+                    });
+
+                    const groupSection = document.createElement('div');
+                    groupSection.className = 'group-table-section';
+
+                    groupSection.innerHTML = `
+                        <h2 class="group-heading">${groupName}</h2>
+                        <div class="overflow-x-auto rounded-lg shadow-md">
+                            <table class="standings-table">
+                                <thead>
+                                    <tr>
+                                        <th>Lag</th>
+                                        <th title="Matcher Spelade">M</th>
+                                        <th title="Vinster">V</th>
+                                        <th title="Oavgjorda">O</th>
+                                        <th title="Förluster">F</th>
+                                        <th title="Gjorda Mål">GM</th>
+                                        <th title="Insläppta Mål">IM</th>
+                                        <th title="Målskillnad">MS</th>
+                                        <th title="Poäng">P</th>
+                                        <th title="Nästa Match">Nästa</th> <!-- Ny rubrik -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${teamsInGroup.map(team => `
+                                        <tr>
+                                            <td class="team-cell" data-label="Lag">${team.teamName}</td>
+                                            <td data-label="M">${team.matchesPlayed}</td>
+                                            <td data-label="V">${team.wins}</td>
+                                            <td data-label="O">${team.draws}</td>
+                                            <td data-label="F">${team.losses}</td>
+                                            <td data-label="GM">${team.goalsFor}</td>
+                                            <td data-label="IM">${team.goalsAgainst}</td>
+                                            <td data-label="MS">${team.goalDifference}</td>
+                                            <td class="points-cell" data-label="P">${team.points}</td>
+                                            <td data-label="Nästa">${team.nextMatch || 'N/A'}</td> <!-- Ny kolumn -->
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                    standingsListDiv.appendChild(groupSection);
+                });
+            }
+
+            // Initial laddning av data
+            async function initializeStandings() {
+                try {
+                    const csvText = await fetchCsvData(standingsCsvUrl);
+                    allStandingsData = parseStandingsCsv(csvText);
+                    renderStandings();
+                } catch (error) {
+                    console.error("Felsökning: Ett fel uppstod vid initialisering av tabellsidan.", error);
+                    // Felmeddelande visas redan av fetchCsvData
+                }
+            }
+
+            initializeStandings();
+        });
+    </script>
+</body>
+
+</html>

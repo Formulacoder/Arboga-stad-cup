@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,47 +10,67 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Ljusgrå bakgrund */
-            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            background-color: #f0f2f5;
+            /* Ljusgrå bakgrund */
+            min-height: 100vh;
+            /* Säkerställer att bakgrunden täcker hela sidan */
             display: flex;
-            flex-direction: column; /* För att navbaren ska ligga överst */
+            flex-direction: column;
+            /* För att navbaren ska ligga överst */
             align-items: center;
-            justify-content: flex-start; /* Justera för navbar */
-            padding: 0; /* Ta bort padding från body */
+            justify-content: flex-start;
+            /* Justera för navbar */
+            padding: 0;
+            /* Ta bort padding från body */
         }
+
         .navbar {
             width: 100%;
-            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            background-color: #1a202c;
+            /* Mörk bakgrund för navbar */
             color: white;
             padding: 1rem 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky; /* Kvar på toppen vid scroll */
+            position: sticky;
+            /* Kvar på toppen vid scroll */
             top: 0;
-            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+            z-index: 1000;
+            /* Säkerställ att den ligger över annat innehåll */
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 0.5rem 1rem;
-            border-radius: 0.375rem; /* rounded-md */
+            border-radius: 0.375rem;
+            /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
         }
+
         .navbar a:hover {
-            background-color: #4a5568; /* Mörkare grå vid hover */
+            background-color: #4a5568;
+            /* Mörkare grå vid hover */
         }
+
         .content-container {
-            max-width: 960px; /* max-w-4xl är ca 960px */
+            max-width: 960px;
+            /* max-w-4xl är ca 960px */
             width: 100%;
             background-color: #ffffff;
-            border-radius: 0.75rem; /* rounded-xl */
+            border-radius: 0.75rem;
+            /* rounded-xl */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 2rem 1.5rem; /* Justerad padding */
-            margin-top: 2rem; /* Marginal från navbar */
+            padding: 2rem 1.5rem;
+            /* Justerad padding */
+            margin-top: 2rem;
+            /* Marginal från navbar */
             margin-bottom: 2rem;
         }
+
         .activity-card {
-            background-color: #f7fafc; /* Ljusare bakgrund för aktivitetskort */
+            background-color: #f7fafc;
+            /* Ljusare bakgrund för aktivitetskort */
             border-radius: 0.75rem;
             padding: 1.5rem;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -58,18 +79,27 @@
             align-items: center;
             text-align: center;
         }
+
         .activity-image {
-            width: 100%; /* Bilden fyller kortets bredd */
-            max-height: 180px; /* Maxhöjd för bilden */
-            object-fit: cover; /* Beskär bilden för att fylla ut */
-            border-radius: 0.5rem; /* Lätt rundade hörn */
+            width: 100%;
+            /* Bilden fyller kortets bredd */
+            max-height: 180px;
+            /* Maxhöjd för bilden */
+            object-fit: cover;
+            /* Beskär bilden för att fylla ut */
+            border-radius: 0.5rem;
+            /* Lätt rundade hörn */
             margin-bottom: 1rem;
         }
-        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+
+        @media (max-width: 640px) {
+
+            /* För mobil (sm breakpoint) */
             .navbar-links {
                 flex-direction: column;
                 align-items: center;
             }
+
             .navbar a {
                 width: 100%;
                 text-align: center;
@@ -78,6 +108,7 @@
         }
     </style>
 </head>
+
 <body class="flex flex-col">
     <!-- Global Navigationsmeny -->
     <nav class="navbar">
@@ -88,6 +119,7 @@
                 <a href="fotbollsschema.html">Spelschema</a>
                 <a href="lagregister.html">Lagregister</a>
                 <a href="spelaregister.html">Spelarregister</a>
+                <a href="tabeller.html">Tabeller</a>
                 <a href="sponsorer.html">Samarbetspartners</a>
                 <a href="aktiviteter.html">Aktiviteter</a>
             </div>
@@ -113,7 +145,7 @@
             // !!! VIKTIGT !!!
             // Denna URL pekar nu på din dedikerade PUB_OTHER_ACTIVITY Google Sheet.
             // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
-            const activitiesCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=498075591&single=true&output=csv'; 
+            const activitiesCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=498075591&single=true&output=csv';
 
             const activityListDiv = document.getElementById('activity-list');
 
@@ -128,7 +160,7 @@
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error(`HTTP fel! status: ${response.status}`);
+                        throw new Error(`HTTP Error! status: ${response.status}`);
                     }
                     return await response.text();
                 } catch (error) {
@@ -138,11 +170,57 @@
                                                     Se till att du har publicerat ditt Google Sheet med aktivitetsdata till webben som CSV
                                                     och att 'activitiesCsvUrl' i koden är korrekt.
                                                     <br>
-                                                    <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                    <a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
                                                     <p class="mt-2 text-sm text-gray-700">Kontrollera att kolumnerna stämmer och att bild-URL:erna är DIREKTA bildlänkar.</p>
                                                 </div>`;
                     throw error;
                 }
+            }
+
+            /**
+             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
+             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
+             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
+             */
+            function parseRobustCsv(csvText) {
+                const rows = [];
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+
+                if (lines.length === 0) { // Tom CSV eller bara whitespace-rader
+                    return [];
+                }
+
+                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const values = [];
+                    let inQuote = false;
+                    let currentField = '';
+
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        const nextChar = line[j + 1];
+
+                        if (char === '"') {
+                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
+                                currentField += char;
+                                j++; // Hoppa över nästa citationstecken
+                            } else {
+                                inQuote = !inQuote; // Växla in/ut ur citerat läge
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField.trim());
+                            currentField = '';
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
+                    rows.push(values);
+                }
+                return rows.slice(1); // Returnera alla rader utom rubrikraden
             }
 
             /**
@@ -154,20 +232,15 @@
              * @returns {Array<Object>} En array av aktivitetsobjekt.
              */
             function parseActivitiesCsv(csvText) {
-                const lines = csvText.split('\n').filter(line => line.trim() !== '');
-                if (lines.length <= 1) {
-                    console.warn("Aktivitets CSV har inga datarader eller bara rubriker.");
-                    return [];
-                }
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
 
                 const activities = [];
                 // Kolumnmappning baserat på din angivna ordning
                 const headers = ['name', 'description', 'time', 'location', 'imageUrl'];
 
-                for (let i = 1; i < lines.length; i++) {
-                    const values = lines[i].split(',');
-                    // Säkerställ att tillräckligt med kolumner finns
-                    if (values.length >= headers.length) { 
+                rawRows.forEach((values, index) => { // Börja från index 0 eftersom parseRobustCsv redan hanterat rubrikraden
+                    if (values.length >= headers.length) {
                         const activity = {
                             name: values[0] ? values[0].trim() : 'N/A',
                             description: values[1] ? values[1].trim() : 'N/A',
@@ -177,9 +250,9 @@
                         };
                         activities.push(activity);
                     } else {
-                        console.warn(`Hoppar över felaktig aktivitetsrad ${i + 1}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
+                        console.warn(`Hoppar över felaktig aktivitetsrad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}).`);
                     }
-                }
+                });
                 return activities;
             }
 
@@ -189,8 +262,8 @@
              * @returns {boolean}
              */
             function isValidImageUrl(url) {
-                return (url.startsWith('http://') || url.startsWith('https://')) && 
-                       (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
+                return (url.startsWith('http://') || url.startsWith('https://')) &&
+                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
             }
 
             /**
@@ -207,7 +280,7 @@
                 allActivities.forEach(activity => {
                     const activityCard = document.createElement('div');
                     activityCard.className = 'activity-card';
-                    
+
                     const imageUrl = isValidImageUrl(activity.imageUrl) ? activity.imageUrl : 'https://placehold.co/300x180/aabbcc/ffffff?text=Aktivitet+Bild';
 
                     activityCard.innerHTML = `
@@ -237,4 +310,5 @@
         });
     </script>
 </body>
+
 </html>

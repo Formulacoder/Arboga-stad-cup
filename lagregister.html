@@ -1,94 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lagregister</title>
-    <!-- Tailwind CSS CDN för styling -->
+    <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Ljusgrå bakgrund */
-            min-height: 100vh; /* Säkerställer att bakgrunden täcker hela sidan */
+            background-color: #f0f2f5;
+            /* Light grey background */
+            min-height: 100vh;
+            /* Ensures background covers entire page */
             display: flex;
-            flex-direction: column; /* För att navbaren ska ligga överst */
+            flex-direction: column;
+            /* For navbar to be at the top */
             align-items: center;
-            justify-content: flex-start; /* Justera för navbar */
-            padding: 0; /* Ta bort padding från body */
+            justify-content: flex-start;
+            /* Adjust for navbar */
+            padding: 0;
+            /* Remove padding from body */
         }
+
         .navbar {
             width: 100%;
-            background-color: #1a202c; /* Mörk bakgrund för navbar */
+            background-color: #1a202c;
+            /* Dark background for navbar */
             color: white;
             padding: 1rem 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky; /* Kvar på toppen vid scroll */
+            position: sticky;
+            /* Stays at the top on scroll */
             top: 0;
-            z-index: 1000; /* Säkerställ att den ligger över annat innehåll */
+            z-index: 1000;
+            /* Ensure it's above other content */
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 0.5rem 1rem;
-            border-radius: 0.375rem; /* rounded-md */
+            border-radius: 0.375rem;
+            /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
         }
+
         .navbar a:hover {
-            background-color: #4a5568; /* Mörkare grå vid hover */
+            background-color: #4a5568;
+            /* Darker grey on hover */
         }
+
         .content-container {
-            max-width: 960px; /* max-w-4xl är ca 960px */
+            max-width: 960px;
+            /* max-w-4xl is approx 960px */
             width: 100%;
             background-color: #ffffff;
-            border-radius: 0.75rem; /* rounded-xl */
+            border-radius: 0.75rem;
+            /* rounded-xl */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 2rem 1.5rem; /* Justerad padding */
-            margin-top: 2rem; /* Marginal från navbar */
+            padding: 2rem 1.5rem;
+            /* Justerad padding */
+            margin-top: 2rem;
+            /* Marginal från navbar */
             margin-bottom: 2rem;
         }
-        .team-card {
+
+        /* Grid container for teams */
+        #team-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            /* Responsive grid */
+            gap: 1.5rem;
+            /* Space between cards */
+        }
+
+        /* Base team card styling (initial collapsed view) */
+        .team-card-compact {
             background-color: #ffffff;
-            border-radius: 0.75rem; /* rounded-lg */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Skugga för djup */
-            transition: transform 0.2s ease-in-out;
+            border-radius: 0.75rem;
+            /* rounded-lg */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            /* Shadow for depth */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            overflow: hidden;
+            /* Ensures rounded corners apply correctly */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+            /* Initial padding */
         }
-        .team-card:hover {
-            transform: translateY(-3px); /* Subtil lyft vid hover */
+
+        .team-card-compact:hover {
+            transform: translateY(-3px);
+            /* Subtle lift on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+            /* Slightly darker shadow on hover */
         }
-        .player-list {
-            list-style: none;
-            padding-left: 0;
+
+        .team-logo-main {
+            width: 6rem;
+            /* Larger logo size for initial view */
+            height: 6rem;
+            border-radius: 9999px;
+            /* Circular */
+            object-fit: cover;
+            margin-bottom: 1rem;
         }
-        .player-list li {
-            padding: 0.2rem 0;
+
+        .team-name-compact {
+            font-size: 1.5rem;
+            /* text-xl */
+            font-weight: 700;
+            /* font-bold */
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-group-compact {
+            font-size: 0.95rem;
+            color: #6b7280;
+        }
+
+        /* Expanded state styling */
+        .team-card-expanded {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            /* More prominent shadow when expanded */
+            padding: 1.5rem;
+            transition: all 0.5s ease-in-out;
+            /* Smooth transition for expand/collapse */
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            /* Take full width when expanded */
+            grid-column: 1 / -1;
+            /* Make it span all columns in the grid */
+        }
+
+        /* Header for expandable team card when expanded */
+        .team-expanded-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            /* Space before details */
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+        }
+
+        .team-expanded-header-content {
             display: flex;
             align-items: center;
         }
+
+        .team-logo-expanded {
+            width: 4rem;
+            /* Smaller logo in expanded header */
+            height: 4rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .team-name-expanded {
+            font-size: 2rem;
+            /* text-3xl */
+            font-weight: 800;
+            /* font-extrabold */
+            color: #1a202c;
+        }
+
+        /* Common detail item styling */
+        .detail-item {
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        .detail-item strong {
+            color: #1a202c;
+            margin-right: 0.4rem;
+        }
+
+        .detail-item p {
+            /* For descriptions that might have paragraphs */
+            margin-top: 0.5rem;
+            white-space: pre-wrap;
+            /* Preserve whitespace and line breaks */
+        }
+
+        /* Collapsible sections within expanded card */
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f0f4f8;
+            /* Lighter background for nested headers */
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #2d3748;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .collapsible-header:hover {
+            background-color: #e2e8f0;
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+
+        .collapsible-content.expanded {
+            max-height: 1500px;
+            /* Sufficiently large to show content */
+            padding-bottom: 1rem;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a5568;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Player List styling */
+        .player-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+
+        .player-list li {
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px dashed #cbd5e0;
+        }
+
+        .player-list li:last-child {
+            border-bottom: none;
+        }
+
         .player-role-icon {
             margin-right: 0.5rem;
             font-size: 0.9em;
-            color: #4a5568; /* Grå färg för ikoner */
+            color: #4a5568;
         }
+
         .player-name {
             font-weight: 500;
+            color: #2d3748;
         }
-        @media (max-width: 640px) { /* För mobil (sm breakpoint) */
+
+        .player-number {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-left: auto;
+            /* Push number to the right */
+            flex-shrink: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+
+            /* Medium screens and smaller */
+            #team-list {
+                grid-template-columns: 1fr;
+                /* Single column layout */
+            }
+        }
+
+        @media (max-width: 640px) {
+
+            /* For mobile (sm breakpoint) */
             .navbar-links {
                 flex-direction: column;
                 align-items: center;
             }
+
             .navbar a {
                 width: 100%;
                 text-align: center;
                 margin-bottom: 0.5rem;
             }
+
+            .team-expanded-header {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .team-logo-expanded {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .team-name-expanded {
+                font-size: 1.75rem;
+                width: 100%;
+            }
+
+            .toggle-icon {
+                position: absolute;
+                /* Position toggle icon absolutely */
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .team-expanded-header {
+                position: relative;
+                /* Make header position relative for absolute icon */
+            }
+
+            .collapsible-content {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
         }
     </style>
 </head>
+
 <body class="flex flex-col">
-    <!-- Global Navigationsmeny -->
+    <!-- Global Navigation Menu -->
     <nav class="navbar">
         <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
             <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
@@ -97,6 +346,7 @@
                 <a href="fotbollsschema.html">Spelschema</a>
                 <a href="lagregister.html">Lagregister</a>
                 <a href="spelaregister.html">Spelarregister</a>
+                <a href="tabeller.html">Tabeller</a>
                 <a href="sponsorer.html">Samarbetspartners</a>
                 <a href="aktiviteter.html">Aktiviteter</a>
             </div>
@@ -104,95 +354,130 @@
     </nav>
 
     <div class="content-container">
-        <!-- Rubriksektion -->
+        <!-- Header Section -->
         <header class="text-center mb-8 relative">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Lagregister</h1>
-            <p class="text-lg text-gray-600">Översikt över alla deltagande lag och deras spelare.</p>
-            <!-- Länk till startsidan tas bort härifrån eftersom den nu finns i navbaren -->
+            <p class="text-lg text-gray-600">Översikt över alla deltagande lag.</p>
         </header>
 
-        <!-- Sökfält och filter (Kan läggas till senare om önskas) -->
-        <!-- Just nu visar vi bara alla lag -->
-
-        <!-- Laglistningssektion -->
-        <div id="team-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Lagkort kommer att renderas här av JavaScript -->
+        <!-- Team Listing Section -->
+        <div id="team-list">
+            <!-- Team cards will be rendered here by JavaScript -->
             <div class="text-center text-gray-500 p-8 col-span-full">Laddar lagregister...</div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // !!! VIKTIGT !!!
-            // Denna URL pekar nu på din dedikerade PUB_TEAMINFO Google Sheet.
-            // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
-            // Se också till att 'Logo'-kolumnen innehåller DIREKTA BILD-URL:er (t.ex. https://example.com/logo.png), inte länkar till Google Drive-visningssidor.
-            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv'; 
+            // !!! IMPORTANT !!!
+            // This URL points to your PUB_TEAMINFO Google Sheet.
+            // Ensure your Google Sheet is published as "Comma-separated values (.csv)".
+            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
+            // This URL points to your PUB_PLAYERINFO Google Sheet.
+            const playerCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1028240933&single=true&output=csv';
 
             const teamListDiv = document.getElementById('team-list');
 
-            let allTeams = []; // Lagrar rådata för lag från CSV
+            let allTeams = []; // Stores raw team data from PUB_TEAMINFO CSV
+            let allPlayers = []; // Stores raw player data from PUB_PLAYERINFO CSV
+            let expandedTeamCard = null; // Tracks the currently expanded team card
 
             /**
-             * Hämtar CSV-data från den angivna URL:en.
-             * @param {string} url URL:en till CSV-filen.
-             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             * Fetches CSV data from the given URL.
+             * @param {string} url The URL to the CSV file.
+             * @returns {Promise<string>} A promise that resolves with the CSV text.
              */
             async function fetchCsvData(url) {
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error(`HTTP fel! status: ${response.status}`);
+                        throw new Error(`HTTP Error! status: ${response.status}`);
                     }
                     return await response.text();
                 } catch (error) {
-                    console.error('Fel vid hämtning av CSV-data:', error);
+                    console.error('Error fetching CSV data from:', url, error);
+                    // Display a general error message for CSV loading issues
                     teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
-                                                Fel vid laddning av lagregister. <br>
-                                                Se till att du har publicerat ditt Google Sheet med lagdata till webben som CSV
-                                                och att 'teamsCsvUrl' i koden är korrekt.
-                                                <br>
-                                                <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
-                                                <p class="mt-2 text-sm text-gray-700">Kontrollera också att logotyp-URL:erna i ditt Google Sheet är DIREKTA bildlänkar (slutar på .png/.jpg etc.) och inte Google Drive-visningslänkar.</p>
+                                                Fel vid laddning av data. Se till att dina Google Sheets är korrekt publicerade som CSV.
+                                                <br><a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
                                             </div>`;
-                    return ''; // Returnera tom sträng för att förhindra ytterligare fel
+                    throw error; // Re-throw to propagate error for Promise.all
                 }
             }
 
             /**
-             * Parsar CSV-text till en array av lagobjekt.
-             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i DENNA SPECIFIKA ORDNING:
-             * Lagnamn|Logo|Lagkapten|Samarbetspartner|Grupp|Spelare (K=Kapten, MV=Keeper)|TEAM_DESCRIPTION|TEAM_STYLE|SECRET_WEAPON|HIGHLIGHT_OPS|GROUP_THREAT|TEAM_EXP|CELEBRATION|MOTTO|BetStats
-             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
-             * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Object>} En array av lagobjekt.
+             * A robust CSV parsing function that handles fields with commas and quotes.
+             * Assumes that fields containing commas are enclosed in double quotes.
+             * Also handles double quotes within quoted fields (by doubling them, e.g., "He said ""Hello""").
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Array<string>>} An array of rows, where each row is an array of string values.
              */
-            function parseTeamsCsv(csvText) {
-                const lines = csvText.split('\n').filter(line => line.trim() !== ''); // Dela upp efter rad, filtrera bort tomma rader
-                if (lines.length <= 1) { // Kräver minst rubrik + en datarad för att parsa lag
-                    console.warn("CSV har inga datarader för lag eller bara rubriker.");
-                    return []; 
+            function parseRobustCsv(csvText) {
+                const rows = [];
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+
+                if (lines.length === 0) {
+                    return [];
                 }
 
+                // Process data rows (skip header row for internal parsing)
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const values = [];
+                    let inQuote = false;
+                    let currentField = '';
+
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        const nextChar = line[j + 1];
+
+                        if (char === '"') {
+                            if (inQuote && nextChar === '"') {
+                                currentField += char;
+                                j++;
+                            } else {
+                                inQuote = !inQuote;
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField.trim());
+                            currentField = '';
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    values.push(currentField.trim());
+                    rows.push(values);
+                }
+                return rows.slice(1); // Return all rows except the header row
+            }
+
+            /**
+             * Parsar den robusta CSV-texten till en array av lagobjekt (från PUB_TEAMINFO).
+             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * Lagnamn|Logo|Lagkapten|Samarbetspartner|Grupp|Spelare (K=Kapten, MV=Keeper)|TEAM_DESCRIPTION|TEAM_STYLE|SECRET_WEAPON|HIGHLIGHT_OPS|GROUP_THREAT|TEAM_EXP|CELEBRATION|MOTTO|BetStats
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Object>} An array of team objects.
+             */
+            function parseTeamsCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
+
                 const teams = [];
-                // Kolumnmappning baserat på din angivna ordning
                 const headers = [
                     'teamName', 'logo', 'captainName', 'sponsor', 'group', 'playersRaw',
                     'teamDescription', 'teamStyle', 'secretWeapon', 'highlightOps',
                     'groupThreat', 'teamExp', 'celebration', 'motto', 'betStats'
                 ];
 
-                for (let i = 1; i < lines.length; i++) {
-                    const values = lines[i].split(',');
-                    // Säkerställ att tillräckligt med kolumner finns för en giltig lagpost
-                    if (values.length >= headers.length) { 
+                rawRows.forEach((values, index) => {
+                    if (values.length >= 15) { // Ensure enough columns for all headers
                         const team = {
                             teamName: values[0] ? values[0].trim() : 'N/A',
-                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo', // Platshållarbild om ingen URL finns
+                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo',
                             captainName: values[2] ? values[2].trim() : 'N/A',
                             sponsor: values[3] ? values[3].trim() : 'N/A',
                             group: values[4] ? values[4].trim() : 'N/A',
-                            playersRaw: values[5] ? values[5].trim() : '', // Råsträng med spelare
+                            playersRaw: values[5] ? values[5].trim() : '', // This field won't be used directly now, but keep for parsing consistency
                             teamDescription: values[6] ? values[6].trim() : 'N/A',
                             teamStyle: values[7] ? values[7].trim() : 'N/A',
                             secretWeapon: values[8] ? values[8].trim() : 'N/A',
@@ -203,48 +488,60 @@
                             motto: values[13] ? values[13].trim() : 'N/A',
                             betStats: values[14] ? values[14].trim() : 'N/A'
                         };
-
-                        // Parsa spelare från råsträngen
-                        team.players = parsePlayers(team.playersRaw, team.captainName);
                         teams.push(team);
                     } else {
-                        console.warn(`Hoppar över felaktig rad ${i + 1}: Inte tillräckligt med kolumner för lagdata (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${lines[i]}"`);
+                        console.warn(`Skipping invalid team row ${index + 2}: Not enough columns (expected ${headers.length}, found ${values.length}). Row content: "${values.join(',')}"`);
                     }
-                }
+                });
                 return teams;
             }
 
             /**
-             * Parsar spelarsträngen till en array av spelarobjekt med roller.
-             * Exempel input: "Erick Dominguez (K),Sebastian Hanhe (MV),Kylian Chaath"
-             * @param {string} playersString Råsträng med spelare.
-             * @param {string} explicitCaptainName Namnet på den explicit angivna kaptenen från "Lagkapten" kolumnen.
-             * @returns {Array<Object>} Array av spelarobjekt.
+             * Parsar CSV-text till en array av spelarobjekt (från PUB_PLAYERINFO).
+             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * UID|NAME|KAPTEN|ROLL|LAG|SPONSOR|NR|GROUP|NICKNAME|NICKNAME_EXT|CUP_EXPERIENCE|FOOTBALL_EXPERIENCE|FAVORITE_PLAYER_AND_TEAM|OUTSIDE_FOOTBALL|UNEXPECTED_ABOUT_YOU|GAME_RIITUAL|CUP_CRUSH|EGO_DEATH_TUNNEL|BLAME_IF_LOSE|CELEBRATE_FINAL|STATS_YELLOW|STATS_RED|STATS_GOALS
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Object>} An array of player objects.
              */
-            function parsePlayers(playersString, explicitCaptainName) {
-                const players = [];
-                if (!playersString) return players;
+            function parsePlayersCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
 
-                playersString.split(',').forEach(playerEntry => {
-                    const name = playerEntry.replace('(K)', '').replace('(MV)', '').trim();
-                    if (name) {
-                        const isCaptain = playerEntry.includes('(K)') || (explicitCaptainName && name === explicitCaptainName);
-                        const isGoalkeeper = playerEntry.includes('(MV)');
-                        players.push({
-                            name: name,
-                            isCaptain: isCaptain,
-                            isGoalkeeper: isGoalkeeper
+                const players = [];
+                // Nya headers för PUB_PLAYERINFO
+                const headers = [
+                    'uid', 'name', 'isCaptainRaw', 'role', 'team', 'sponsor', 'number', 'group',
+                    'nickname', 'nicknameExt', 'cupExperience', 'footballExperience',
+                    'favoritePlayerAndTeam', 'outsideFootball', 'unexpectedAboutYou',
+                    'gameRitual', 'cupCrush', 'egoDeathTunnel', 'blameIfLose',
+                    'celebrateFinal', 'statsYellow', 'statsRed', 'statsGoals'
+                ];
+
+                rawRows.forEach((values, index) => {
+                    if (values.length >= headers.length) {
+                        const player = {};
+                        headers.forEach((header, colIndex) => {
+                            player[header] = values[colIndex] ? values[colIndex].trim() : 'N/A';
                         });
+                        player.isCaptain = player.isCaptainRaw.toLowerCase() === 'k' ||
+                            player.isCaptainRaw.toLowerCase() === 'kapten' ||
+                            player.isCaptainRaw.toLowerCase() === 'ja';
+                        player.isGoalkeeper = player.role.toLowerCase() === 'mv' ||
+                            player.role.toLowerCase() === 'keeper' ||
+                            player.role.toLowerCase() === 'målvakt';
+                        players.push(player);
+                    } else {
+                        console.warn(`Hoppar över felaktig spelarrad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}).`);
                     }
                 });
                 return players;
             }
 
             /**
-             * Renderar lagregistret.
+             * Renders the team register with expand/collapse functionality.
              */
             function renderTeamRegister() {
-                teamListDiv.innerHTML = ''; // Rensa tidigare lagkort
+                teamListDiv.innerHTML = ''; // Clear previous team cards
 
                 if (allTeams.length === 0) {
                     teamListDiv.innerHTML = `<div class="text-center text-gray-500 col-span-full p-8">Inga lag hittades i registret.</div>`;
@@ -253,55 +550,194 @@
 
                 allTeams.forEach(team => {
                     const teamCard = document.createElement('div');
-                    teamCard.className = `team-card p-6 border border-gray-200`;
+                    teamCard.className = `team-card-compact`;
+                    teamCard.setAttribute('data-team-name', team.teamName); // Set data attribute for identification
 
-                    const playerListHtml = team.players.map(player => `
+                    // Initial compact view content
+                    teamCard.innerHTML = `
+                        <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-main" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                        <h2 class="team-name-compact">${team.teamName}</h2>
+                        <p class="team-group-compact">Grupp: ${team.group}</p>
+                    `;
+                    teamListDiv.appendChild(teamCard);
+
+                    // Create the expanded content section (initially hidden)
+                    const expandedContentDiv = document.createElement('div');
+                    expandedContentDiv.className = `team-card-expanded hidden`; // Start hidden
+                    expandedContentDiv.setAttribute('id', `team-expanded-${team.teamName.replace(/\s+/g, '-')}`);
+
+                    // Filter players for the current team
+                    const playersInTeam = allPlayers.filter(player => player.team === team.teamName);
+                    // Sort players alphabetically for consistent display
+                    playersInTeam.sort((a, b) => a.name.localeCompare(b.name));
+
+                    const playerListHtml = playersInTeam.map(player => `
                         <li>
                             ${player.isCaptain ? '<span class="player-role-icon" title="Kapten">👑</span>' : ''}
                             ${player.isGoalkeeper ? '<span class="player-role-icon" title="Målvakt">🧤</span>' : ''}
                             <span class="player-name">${player.name}</span>
+                            ${player.number && player.number !== 'N/A' ? `<span class="player-number">Nr: ${player.number}</span>` : ''}
                         </li>
                     `).join('');
 
-                    teamCard.innerHTML = `
-                        <div class="flex items-center mb-4">
-                            <img src="${team.logo}" alt="${team.teamName} Logo" class="w-16 h-16 rounded-full mr-4 object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo';">
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900">${team.teamName}</h2>
-                                <p class="text-gray-600">Grupp: ${team.group}</p>
+                    expandedContentDiv.innerHTML = `
+                        <div class="team-expanded-header">
+                            <div class="team-expanded-header-content">
+                                <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-expanded" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                                <h2 class="team-name-expanded">${team.teamName}</h2>
                             </div>
+                            <span class="toggle-icon cursor-pointer">−</span> <!-- Icon to collapse the expanded card -->
                         </div>
-                        <p class="text-gray-700 mb-2">
-                            <span class="font-medium">Lagkapten:</span> ${team.captainName || 'N/A'}
-                        </p>
-                        <p class="text-gray-700 mb-2">
-                            <span class="font-medium">Samarbetspartner:</span> ${team.sponsor || 'N/A'}
-                        </p>
-                        ${team.teamDescription && team.teamDescription !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Beskrivning:</span> ${team.teamDescription}</p>` : ''}
-                        ${team.teamStyle && team.teamStyle !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Spelstil:</span> ${team.teamStyle}</p>` : ''}
-                        ${team.secretWeapon && team.secretWeapon !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Hemlig Vapen:</span> ${team.secretWeapon}</p>` : ''}
-                        ${team.highlightOps && team.highlightOps !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Highlight Ops:</span> ${team.highlightOps}</p>` : ''}
-                        ${team.groupThreat && team.groupThreat !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Största Hotet (Grupp):</span> ${team.groupThreat}</p>` : ''}
-                        ${team.teamExp && team.teamExp !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Tidigare Erfarenhet:</span> ${team.teamExp}</p>` : ''}
-                        ${team.celebration && team.celebration !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Målfirande:</span> ${team.celebration}</p>` : ''}
-                        ${team.motto && team.motto !== 'N/A' ? `<p class="text-gray-700 mb-2"><span class="font-medium">Motto:</span> ${team.motto}</p>` : ''}
-                        ${team.betStats && team.betStats !== 'N/A' ? `<p class="text-gray-700 mb-4"><span class="font-medium">BetStats:</span> ${team.betStats}</p>` : ''}
-                        
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Spelare:</h4>
-                        <ul class="player-list">
-                            ${playerListHtml || '<li>Inga spelare listade.</li>'}
-                        </ul>
+
+                        <div class="basic-details mt-4">
+                            <p class="detail-item"><strong>Lagkapten:</strong> ${team.captainName || 'N/A'}</p>
+                            <p class="detail-item"><strong>Grupp:</strong> ${team.group || 'N/A'}</p>
+                            <p class="detail-item"><strong>Samarbetspartner:</strong> ${team.sponsor || 'N/A'}</p>
+                            <p class="detail-item"><strong>Motto:</strong> ${team.motto || 'N/A'}</p>
+                        </div>
+
+                        <!-- Collapsible header: More about the team -->
+                        <div class="collapsible-header" data-target="#more-about-team-${team.teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
+                            <span>Mer om laget</span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div id="more-about-team-${team.teamName.replace(/\s+/g, '-')}" class="collapsible-content">
+                            ${team.teamDescription && team.teamDescription !== 'N/A' ? `<p class="detail-item"><strong>Beskrivning:</strong> ${team.teamDescription}</p>` : ''}
+                            ${team.teamStyle && team.teamStyle !== 'N/A' ? `<p class="detail-item"><strong>Spelstil:</strong> ${team.teamStyle}</p>` : ''}
+                            ${team.secretWeapon && team.secretWeapon !== 'N/A' ? `<p class="detail-item"><strong>Hemlig Vapen:</strong> ${team.secretWeapon}</p>` : ''}
+                            ${team.highlightOps && team.highlightOps !== 'N/A' ? `<p class="detail-item"><strong>Highlight Ops:</strong> ${team.highlightOps}</p>` : ''}
+                            ${team.groupThreat && team.groupThreat !== 'N/A' ? `<p class="detail-item"><strong>Största Hotet (Grupp):</strong> ${team.groupThreat}</p>` : ''}
+                            ${team.teamExp && team.teamExp !== 'N/A' ? `<p class="detail-item"><strong>Tidigare Erfarenhet:</strong> ${team.teamExp}</p>` : ''}
+                            ${team.celebration && team.celebration !== 'N/A' ? `<p class="detail-item"><strong>Målfirande:</strong> ${team.celebration}</p>` : ''}
+                            ${team.betStats && team.betStats !== 'N/A' ? `<p class="detail-item"><strong>BetStats:</strong> ${team.betStats}</p>` : ''}
+                        </div>
+
+                        <!-- Collapsible header: Squad -->
+                        <div class="collapsible-header" data-target="#squad-list-${team.teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
+                            <span>Truppen (${playersInTeam.length} spelare)</span>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div id="squad-list-${team.teamName.replace(/\s+/g, '-')}" class="collapsible-content">
+                            <ul class="player-list">
+                                ${playerListHtml || '<li>Inga spelare listade.</li>'}
+                            </ul>
+                        </div>
                     `;
-                    teamListDiv.appendChild(teamCard);
+                    teamListDiv.appendChild(expandedContentDiv);
+                });
+
+                // Event listener for initial team card clicks (to show expanded view)
+                document.querySelectorAll('.team-card-compact').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const teamName = card.dataset.teamName;
+                        const expandedCardId = `team-expanded-${teamName.replace(/\s+/g, '-')}`;
+                        const expandedCard = document.getElementById(expandedCardId);
+
+                        // Collapse previously expanded card if any
+                        if (expandedTeamCard && expandedTeamCard !== expandedCard) {
+                            expandedTeamCard.classList.add('hidden');
+                            // Find and reset the compact card state for the previously expanded team
+                            const prevTeamName = expandedTeamCard.id.replace('team-expanded-', '').replace(/-/g, ' ');
+                            const prevCompactCard = document.querySelector(`.team-card-compact[data-team-name="${prevTeamName}"]`);
+                            if (prevCompactCard) {
+                                prevCompactCard.classList.remove('hidden');
+                            }
+                            // Reset any nested expanded sections in the previously expanded card
+                            expandedTeamCard.querySelectorAll('.collapsible-content.expanded').forEach(content => {
+                                content.classList.remove('expanded');
+                                const header = content.previousElementSibling; // Get the header before this content
+                                if (header) header.querySelector('.toggle-icon').textContent = '+';
+                            });
+                        }
+
+                        // Toggle visibility of the clicked expanded card
+                        if (expandedCard) {
+                            expandedCard.classList.toggle('hidden');
+                            card.classList.toggle('hidden'); // Hide the compact card when expanded
+                            expandedTeamCard = expandedCard.classList.contains('hidden') ? null : expandedCard; // Update tracker
+                        }
+                    });
+                });
+
+                // Event listener for the toggle icon/header of the expanded card (to collapse it)
+                document.querySelectorAll('.team-expanded-header .toggle-icon').forEach(icon => {
+                    icon.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent click from bubbling up to the entire card
+                        const expandedCard = icon.closest('.team-card-expanded');
+                        if (expandedCard) {
+                            expandedCard.classList.add('hidden');
+                            const teamName = expandedCard.id.replace('team-expanded-', '').replace(/-/g, ' ');
+                            const compactCard = document.querySelector(`.team-card-compact[data-team-name="${teamName}"]`);
+                            if (compactCard) {
+                                compactCard.classList.remove('hidden'); // Show the compact card again
+                            }
+                            expandedTeamCard = null; // Reset tracker
+                            // Reset any nested expanded sections
+                            expandedCard.querySelectorAll('.collapsible-content.expanded').forEach(content => {
+                                content.classList.remove('expanded');
+                                const header = content.previousElementSibling;
+                                if (header) header.querySelector('.toggle-icon').textContent = '+';
+                            });
+                        }
+                    });
+                });
+                document.querySelectorAll('.team-expanded-header').forEach(header => {
+                    header.addEventListener('click', (event) => {
+                        // If the click was on the icon, it's already handled.
+                        // This handles clicks on the header text/logo to collapse the card.
+                        if (!event.target.classList.contains('toggle-icon')) {
+                            const expandedCard = header.closest('.team-card-expanded');
+                            if (expandedCard) {
+                                expandedCard.classList.add('hidden');
+                                const teamName = expandedCard.id.replace('team-expanded-', '').replace(/-/g, ' ');
+                                const compactCard = document.querySelector(`.team-card-compact[data-team-name="${teamName}"]`);
+                                if (compactCard) {
+                                    compactCard.classList.remove('hidden');
+                                }
+                                expandedTeamCard = null;
+                                // Reset any nested expanded sections
+                                expandedCard.querySelectorAll('.collapsible-content.expanded').forEach(content => {
+                                    content.classList.remove('expanded');
+                                    const header = content.previousElementSibling;
+                                    if (header) header.querySelector('.toggle-icon').textContent = '+';
+                                });
+                            }
+                        }
+                    });
+                });
+
+
+                // Event listeners for nested collapsible headers ("Mer om laget", "Truppen")
+                document.querySelectorAll('.collapsible-header').forEach(header => {
+                    header.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent this click from collapsing the main team card
+                        const targetId = header.dataset.target;
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.classList.toggle('expanded');
+                            const toggleIcon = header.querySelector('.toggle-icon');
+                            toggleIcon.textContent = targetElement.classList.contains('expanded') ? '−' : '+';
+                        }
+                    });
                 });
             }
 
-            // Initial laddning av data
+            // Initial data load
             async function initializeTeamRegister() {
-                const csvText = await fetchCsvData(teamsCsvUrl);
-                if (csvText) {
-                    allTeams = parseTeamsCsv(csvText);
+                try {
+                    // Load both CSVs concurrently
+                    const [teamsCsvText, playerCsvText] = await Promise.all([
+                        fetchCsvData(teamsCsvUrl),
+                        fetchCsvData(playerCsvUrl)
+                    ]);
+
+                    allTeams = parseTeamsCsv(teamsCsvText);
+                    allPlayers = parsePlayersCsv(playerCsvText); // Parse player data here
+
                     renderTeamRegister();
+                } catch (error) {
+                    console.error("Felsökning: Ett fel uppstod vid initialisering av lagregistret.", error);
+                    // Error message already handled by fetchCsvData
                 }
             }
 
@@ -309,4 +745,5 @@
         });
     </script>
 </body>
+
 </html>
