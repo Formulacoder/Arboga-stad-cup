@@ -27,25 +27,66 @@
         .navbar {
             width: 100%;
             background-color: #1a202c;
-            /* Dark background for navbar */
+            /* Mörk bakgrund för navbar */
             color: white;
             padding: 1rem 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
-            /* Stays at the top on scroll */
+            /* Kvar på toppen vid scroll */
             top: 0;
             z-index: 1000;
-            /* Ensure it's above other content */
+            /* Säkerställ att den ligger över annat innehåll */
+            display: flex;
+            /* Använd flexbox */
+            align-items: center;
+            /* Centrera vertikalt */
+            justify-content: flex-start;
+            /* Starta objekt från vänster */
+            flex-wrap: wrap;
+            /* Tillåt objekt att bryta rad om utrymmet är begränsat */
+        }
+
+        .navbar-home-logo {
+            height: 2.5rem;
+            /* Storlek på logotypen som hemknapp */
+            margin-right: 1.5rem;
+            /* Mer utrymme till höger om logotypen */
+            cursor: pointer;
+            border-radius: 9999px;
+            /* Rundad */
+            transition: transform 0.2s ease-in-out;
+            flex-shrink: 0;
+            /* Förhindra att logotypen krymper */
+        }
+
+        .navbar-home-logo:hover {
+            transform: scale(1.05);
+            /* Lätt förstoring vid hover */
+        }
+
+        .navbar-links-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            /* Tillåt länkar att bryta rad */
+            gap: 0.5rem;
+            /* Litet mellanrum mellan länkar */
+            flex-grow: 1;
+            /* Tillåt länkomslutningen att ta tillgängligt utrymme */
+            justify-content: center;
+            /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.8rem;
+            /* Något minskad padding för kompakthet */
             border-radius: 0.375rem;
             /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
+            white-space: nowrap;
+            /* Förhindra att länkar bryter text */
         }
 
         .navbar a:hover {
@@ -62,20 +103,43 @@
             /* rounded-xl */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             padding: 2rem 1.5rem;
-            /* Justerad padding */
+            /* Adjusted padding */
             margin-top: 2rem;
-            /* Marginal från navbar */
+            /* Margin from navbar */
             margin-bottom: 2rem;
+            flex-grow: 1;
+            /* Låter innehållskontainern växa och pressa ner footern */
         }
 
-        /* Grid container for teams */
+        /* Grid container for teams - now for group sections */
         #team-list {
+            display: flex;
+            /* Changed to flex for stacking group sections */
+            flex-direction: column;
+            gap: 2.5rem;
+            /* Space between group sections */
+        }
+
+        .team-group-section {
+            width: 100%;
+        }
+
+        .team-cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            /* Responsive grid */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* Adjusted for 2 columns on larger screens */
             gap: 1.5rem;
             /* Space between cards */
         }
+
+        /* Adjust grid-template-columns for sm breakpoint (mobile) to be 1 column */
+        @media (min-width: 640px) and (max-width: 767px) {
+            .team-cards-grid {
+                grid-template-columns: 1fr;
+                /* Force 1 column on small tablets/large phones if needed */
+            }
+        }
+
 
         /* Base team card styling (initial collapsed view) */
         .team-card-compact {
@@ -90,10 +154,28 @@
             /* Ensures rounded corners apply correctly */
             display: flex;
             flex-direction: column;
+            /* Standard: column for small screens */
             align-items: center;
+            /* Center items for small screens */
             text-align: center;
+            /* Center text for small screens */
             padding: 1.5rem;
             /* Initial padding */
+        }
+
+        @media (min-width: 768px) {
+
+            /* Adjust for larger screens */
+            .team-card-compact {
+                flex-direction: row;
+                /* Row for larger screens */
+                justify-content: flex-start;
+                /* Align items to start */
+                text-align: left;
+                /* Align text to left */
+                padding: 1rem 1.5rem;
+                /* Slightly less vertical padding */
+            }
         }
 
         .team-card-compact:hover {
@@ -104,27 +186,63 @@
         }
 
         .team-logo-main {
-            width: 6rem;
-            /* Larger logo size for initial view */
-            height: 6rem;
+            width: 4rem;
+            /* Smaller logo in compact view */
+            height: 4rem;
             border-radius: 9999px;
             /* Circular */
             object-fit: cover;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            /* Space below logo on small screens */
+            flex-shrink: 0;
+            /* Prevent shrinking */
+        }
+
+        @media (min-width: 768px) {
+            .team-logo-main {
+                margin-right: 1rem;
+                /* Space to the right of logo on larger screens */
+                margin-bottom: 0;
+                /* No bottom margin on larger screens */
+            }
+        }
+
+        .team-info-compact {
+            flex-grow: 1;
+            /* Allows this block to take available space */
         }
 
         .team-name-compact {
-            font-size: 1.5rem;
-            /* text-xl */
+            font-size: 1.25rem;
+            /* text-xl, slightly smaller */
             font-weight: 700;
             /* font-bold */
             color: #1a202c;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
-        .team-group-compact {
-            font-size: 0.95rem;
+        .team-details-line {
+            font-size: 0.9rem;
+            /* Smaller text for details */
             color: #6b7280;
+            margin-bottom: 0.2rem;
+            display: flex;
+            /* For inline label-value */
+            align-items: center;
+            justify-content: center;
+            /* Center on small screens */
+        }
+
+        @media (min-width: 768px) {
+            .team-details-line {
+                justify-content: flex-start;
+                /* Left align on larger screens */
+            }
+        }
+
+        .team-details-line strong {
+            font-weight: 600;
+            margin-right: 0.3rem;
         }
 
         /* Expanded state styling */
@@ -222,6 +340,8 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding-top: 0;
+            /* Initial padding */
             padding-left: 1.25rem;
             padding-right: 1.25rem;
         }
@@ -276,28 +396,58 @@
             flex-shrink: 0;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-
-            /* Medium screens and smaller */
-            #team-list {
-                grid-template-columns: 1fr;
-                /* Single column layout */
-            }
+        /* Footer styling */
+        .footer {
+            width: 100%;
+            background-color: #1a202c;
+            /* Mörk bakgrund för footer */
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: auto;
+            /* Trycker ner footern till botten */
         }
 
+        .footer-logo {
+            max-width: 100%;
+            /* Anpassa till skärmbredden */
+            height: 6rem;
+            /* FAST HÖJD FÖR FOTLOGOTYPEN, ÖKAD FRÅN 4REM TILL 6REM */
+            object-fit: contain;
+            /* Behåll proportioner, se till att hela bilden syns */
+            display: block;
+            /* Centrera bilden */
+            margin: 0 auto;
+            /* Centrera bilden horisontellt */
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 640px) {
 
             /* For mobile (sm breakpoint) */
-            .navbar-links {
+            .navbar {
                 flex-direction: column;
+                /* Stapla logotyp och länkar vertikalt */
                 align-items: center;
+                /* Centrera allt */
+            }
+
+            .navbar-home-logo {
+                margin-right: 0;
+                /* Ingen marginal till höger om logotypen om den är centrerad */
+                margin-bottom: 1rem;
+                /* Avstånd till länkarna nedanför */
+            }
+
+            .navbar-links-wrapper {
+                width: 100%;
+                /* Ta full bredd under logotypen */
+                justify-content: center;
+                /* Centrera länkar i en rad som bryter */
             }
 
             .navbar a {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 0.5rem;
+                width: auto;
+                /* Låt länkarna bestämma sin egen bredd */
             }
 
             .team-expanded-header {
@@ -339,17 +489,18 @@
 <body class="flex flex-col">
     <!-- Global Navigation Menu -->
     <nav class="navbar">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
-            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
-                <a href="index.html">Startsida</a>
-                <a href="fotbollsschema.html">Spelschema</a>
-                <a href="lagregister.html">Lagregister</a>
-                <a href="spelaregister.html">Spelarregister</a>
-                <a href="tabeller.html">Tabeller</a>
-                <a href="sponsorer.html">Samarbetspartners</a>
-                <a href="aktiviteter.html">Aktiviteter</a>
-            </div>
+        <a href="index.html">
+            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
+        </a>
+        <div class="navbar-links-wrapper">
+            <a href="index.html">Startsida</a>
+            <a href="fotbollsschema.html">Spelschema</a>
+            <a href="lagregister.html">Lagregister</a>
+            <a href="spelaregister.html">Spelarregister</a>
+            <a href="tabeller.html">Tabeller</a>
+            <a href="sponsorer.html">Samarbetspartners</a>
+            <a href="aktiviteter.html">Aktiviteter</a>
+            <a href="efterfesten.html">Efterfesten</a>
         </div>
     </nav>
 
@@ -367,8 +518,14 @@
         </div>
     </div>
 
+    <!-- Global Footer -->
+    <footer class="footer">
+        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
+    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed for lagregister.html');
+
             // !!! IMPORTANT !!!
             // This URL points to your PUB_TEAMINFO Google Sheet.
             // Ensure your Google Sheet is published as "Comma-separated values (.csv)".
@@ -388,18 +545,22 @@
              * @returns {Promise<string>} A promise that resolves with the CSV text.
              */
             async function fetchCsvData(url) {
+                console.log(`Attempting to fetch CSV from: ${url}`);
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error(`HTTP Error! status: ${response.status}`);
+                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}`;
+                        console.error(errorMsg);
+                        throw new Error(errorMsg);
                     }
+                    console.log(`Successfully fetched CSV from: ${url}`);
                     return await response.text();
                 } catch (error) {
                     console.error('Error fetching CSV data from:', url, error);
                     // Display a general error message for CSV loading issues
                     teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
                                                 Fel vid laddning av data. Se till att dina Google Sheets är korrekt publicerade som CSV.
-                                                <br><a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                <br><a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
                                             </div>`;
                     throw error; // Re-throw to propagate error for Promise.all
                 }
@@ -448,6 +609,7 @@
                     values.push(currentField.trim());
                     rows.push(values);
                 }
+                console.log(`Parsed ${rows.length - 1} data rows.`);
                 return rows.slice(1); // Return all rows except the header row
             }
 
@@ -460,7 +622,10 @@
              */
             function parseTeamsCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) return [];
+                if (rawRows.length === 0) {
+                    console.warn("Teams CSV is empty or parsing resulted in no data.");
+                    return [];
+                }
 
                 const teams = [];
                 const headers = [
@@ -505,7 +670,10 @@
              */
             function parsePlayersCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) return [];
+                if (rawRows.length === 0) {
+                    console.warn("Players CSV is empty or parsing resulted in no data.");
+                    return [];
+                }
 
                 const players = [];
                 // Nya headers för PUB_PLAYERINFO
@@ -517,7 +685,7 @@
                     'celebrateFinal', 'statsYellow', 'statsRed', 'statsGoals'
                 ];
 
-                rawRows.forEach((values, index) => {
+                rawRows.forEach((values, index) => { // Börja från index 0 eftersom parseRobustCsv redan hanterat rubrikraden
                     if (values.length >= headers.length) {
                         const player = {};
                         headers.forEach((header, colIndex) => {
@@ -531,7 +699,7 @@
                             player.role.toLowerCase() === 'målvakt';
                         players.push(player);
                     } else {
-                        console.warn(`Hoppar över felaktig spelarrad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}).`);
+                        console.warn(`Skipping invalid player row ${index + 2}: Not enough columns (expected ${headers.length}, found ${values.length}).`);
                     }
                 });
                 return players;
@@ -541,92 +709,126 @@
              * Renders the team register with expand/collapse functionality.
              */
             function renderTeamRegister() {
+                console.log('renderTeamRegister called. Clearing team list.');
                 teamListDiv.innerHTML = ''; // Clear previous team cards
 
                 if (allTeams.length === 0) {
                     teamListDiv.innerHTML = `<div class="text-center text-gray-500 col-span-full p-8">Inga lag hittades i registret.</div>`;
+                    console.warn('No teams to display.');
                     return;
                 }
 
-                allTeams.forEach(team => {
-                    const teamCard = document.createElement('div');
-                    teamCard.className = `team-card-compact`;
-                    teamCard.setAttribute('data-team-name', team.teamName); // Set data attribute for identification
+                // Group by group after initial sorting
+                const groupedByGroup = allTeams.reduce((acc, team) => {
+                    const group = team.group || 'Okänd Grupp'; // Fallback for unknown group
+                    if (!acc[group]) {
+                        acc[group] = [];
+                    }
+                    acc[group].push(team);
+                    return acc;
+                }, {});
 
-                    // Initial compact view content
-                    teamCard.innerHTML = `
-                        <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-main" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
-                        <h2 class="team-name-compact">${team.teamName}</h2>
-                        <p class="team-group-compact">Grupp: ${team.group}</p>
+                // Sort group names alphabetically to ensure consistent display order
+                const sortedGroupNames = Object.keys(groupedByGroup).sort();
+                console.log(`Found ${sortedGroupNames.length} groups.`);
+
+                sortedGroupNames.forEach(groupName => {
+                    const groupSection = document.createElement('div');
+                    groupSection.className = 'team-group-section';
+
+                    groupSection.innerHTML = `
+                        <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-6">${groupName}</h2>
+                        <div class="team-cards-grid">
+                            <!-- Team cards for this group will go here -->
+                        </div>
                     `;
-                    teamListDiv.appendChild(teamCard);
+                    const groupGrid = groupSection.querySelector('.team-cards-grid');
 
-                    // Create the expanded content section (initially hidden)
-                    const expandedContentDiv = document.createElement('div');
-                    expandedContentDiv.className = `team-card-expanded hidden`; // Start hidden
-                    expandedContentDiv.setAttribute('id', `team-expanded-${team.teamName.replace(/\s+/g, '-')}`);
+                    groupedByGroup[groupName].forEach(team => {
+                        const teamCard = document.createElement('div');
+                        teamCard.className = `team-card-compact`;
+                        teamCard.setAttribute('data-team-name', team.teamName);
 
-                    // Filter players for the current team
-                    const playersInTeam = allPlayers.filter(player => player.team === team.teamName);
-                    // Sort players alphabetically for consistent display
-                    playersInTeam.sort((a, b) => a.name.localeCompare(b.name));
-
-                    const playerListHtml = playersInTeam.map(player => `
-                        <li>
-                            ${player.isCaptain ? '<span class="player-role-icon" title="Kapten">👑</span>' : ''}
-                            ${player.isGoalkeeper ? '<span class="player-role-icon" title="Målvakt">🧤</span>' : ''}
-                            <span class="player-name">${player.name}</span>
-                            ${player.number && player.number !== 'N/A' ? `<span class="player-number">Nr: ${player.number}</span>` : ''}
-                        </li>
-                    `).join('');
-
-                    expandedContentDiv.innerHTML = `
-                        <div class="team-expanded-header">
-                            <div class="team-expanded-header-content">
-                                <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-expanded" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
-                                <h2 class="team-name-expanded">${team.teamName}</h2>
+                        teamCard.innerHTML = `
+                            <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-main" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                            <div class="team-info-compact">
+                                <h2 class="team-name-compact">${team.teamName}</h2>
+                                <p class="team-details-line"><strong>Kapten:</strong> ${team.captainName || 'N/A'}</p>
+                                <p class="team-details-line"><strong>Grupp:</strong> ${team.group || 'N/A'}</p>
+                                <p class="team-details-line"><strong>Partner:</strong> ${team.sponsor || 'N/A'}</p>
+                                <p class="team-details-line"><strong>Motto:</strong> ${team.motto || 'N/A'}</p>
                             </div>
-                            <span class="toggle-icon cursor-pointer">−</span> <!-- Icon to collapse the expanded card -->
-                        </div>
+                        `;
+                        groupGrid.appendChild(teamCard);
 
-                        <div class="basic-details mt-4">
-                            <p class="detail-item"><strong>Lagkapten:</strong> ${team.captainName || 'N/A'}</p>
-                            <p class="detail-item"><strong>Grupp:</strong> ${team.group || 'N/A'}</p>
-                            <p class="detail-item"><strong>Samarbetspartner:</strong> ${team.sponsor || 'N/A'}</p>
-                            <p class="detail-item"><strong>Motto:</strong> ${team.motto || 'N/A'}</p>
-                        </div>
+                        // Create the expanded content section (initially hidden)
+                        const expandedContentDiv = document.createElement('div');
+                        expandedContentDiv.className = `team-card-expanded hidden`; // Start hidden
+                        expandedContentDiv.setAttribute('id', `team-expanded-${team.teamName.replace(/\s+/g, '-')}`);
 
-                        <!-- Collapsible header: More about the team -->
-                        <div class="collapsible-header" data-target="#more-about-team-${team.teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
-                            <span>Mer om laget</span>
-                            <span class="toggle-icon">+</span>
-                        </div>
-                        <div id="more-about-team-${team.teamName.replace(/\s+/g, '-')}" class="collapsible-content">
-                            ${team.teamDescription && team.teamDescription !== 'N/A' ? `<p class="detail-item"><strong>Beskrivning:</strong> ${team.teamDescription}</p>` : ''}
-                            ${team.teamStyle && team.teamStyle !== 'N/A' ? `<p class="detail-item"><strong>Spelstil:</strong> ${team.teamStyle}</p>` : ''}
-                            ${team.secretWeapon && team.secretWeapon !== 'N/A' ? `<p class="detail-item"><strong>Hemlig Vapen:</strong> ${team.secretWeapon}</p>` : ''}
-                            ${team.highlightOps && team.highlightOps !== 'N/A' ? `<p class="detail-item"><strong>Highlight Ops:</strong> ${team.highlightOps}</p>` : ''}
-                            ${team.groupThreat && team.groupThreat !== 'N/A' ? `<p class="detail-item"><strong>Största Hotet (Grupp):</strong> ${team.groupThreat}</p>` : ''}
-                            ${team.teamExp && team.teamExp !== 'N/A' ? `<p class="detail-item"><strong>Tidigare Erfarenhet:</strong> ${team.teamExp}</p>` : ''}
-                            ${team.celebration && team.celebration !== 'N/A' ? `<p class="detail-item"><strong>Målfirande:</strong> ${team.celebration}</p>` : ''}
-                            ${team.betStats && team.betStats !== 'N/A' ? `<p class="detail-item"><strong>BetStats:</strong> ${team.betStats}</p>` : ''}
-                        </div>
+                        // Filter players for the current team
+                        const playersInTeam = allPlayers.filter(player => player.team === team.teamName);
+                        playersInTeam.sort((a, b) => a.name.localeCompare(b.name));
 
-                        <!-- Collapsible header: Squad -->
-                        <div class="collapsible-header" data-target="#squad-list-${team.teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
-                            <span>Truppen (${playersInTeam.length} spelare)</span>
-                            <span class="toggle-icon">+</span>
-                        </div>
-                        <div id="squad-list-${team.teamName.replace(/\s+/g, '-')}" class="collapsible-content">
-                            <ul class="player-list">
-                                ${playerListHtml || '<li>Inga spelare listade.</li>'}
-                            </ul>
-                        </div>
-                    `;
-                    teamListDiv.appendChild(expandedContentDiv);
+                        const playerListHtml = playersInTeam.map(player => `
+                            <li>
+                                ${player.isCaptain ? '<span class="player-role-icon" title="Kapten">👑</span>' : ''}
+                                ${player.isGoalkeeper ? '<span class="player-role-icon" title="Målvakt">🧤</span>' : ''}
+                                <span class="player-name">${player.name}</span>
+                                ${player.number && player.number !== 'N/A' ? `<span class="player-number">Nr: ${player.number}</span>` : ''}
+                            </li>
+                        `).join('');
+
+                        expandedContentDiv.innerHTML = `
+                            <div class="team-expanded-header">
+                                <div class="team-expanded-header-content">
+                                    <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-expanded" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                                    <h2 class="team-name-expanded">${team.teamName}</h2>
+                                </div>
+                                <span class="toggle-icon cursor-pointer">−</span>
+                            </div>
+
+                            <div class="basic-details mt-4">
+                                <p class="detail-item"><strong>Lagkapten:</strong> ${team.captainName || 'N/A'}</p>
+                                <p class="detail-item"><strong>Grupp:</strong> ${team.group || 'N/A'}</p>
+                                <p class="detail-item"><strong>Samarbetspartner:</strong> ${team.sponsor || 'N/A'}</p>
+                                <p class="detail-item"><strong>Motto:</strong> ${team.motto || 'N/A'}</p>
+                            </div>
+
+                            <div class="collapsible-header" data-target="#more-about-team-${team.teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
+                                <span>Mer om laget</span>
+                                <span class="toggle-icon">+</span>
+                            </div>
+                            <div id="more-about-team-${team.teamName.replace(/\s+/g, '-')}" class="collapsible-content">
+                                ${team.teamDescription && team.teamDescription !== 'N/A' ? `<p class="detail-item"><strong>Beskrivning:</strong> ${team.teamDescription}</p>` : ''}
+                                ${team.teamStyle && team.teamStyle !== 'N/A' ? `<p class="detail-item"><strong>Spelstil:</strong> ${team.teamStyle}</p>` : ''}
+                                ${team.secretWeapon && team.secretWeapon !== 'N/A' ? `<p class="detail-item"><strong>Hemlig Vapen:</strong> ${team.secretWeapon}</p>` : ''}
+                                ${team.highlightOps && team.highlightOps !== 'N/A' ? `<p class="detail-item"><strong>Highlight Ops:</strong> ${team.highlightOps}</p>` : ''}
+                                ${team.groupThreat && team.groupThreat !== 'N/A' ? `<p class="detail-item"><strong>Största Hotet (Grupp):</strong> ${team.groupThreat}</p>` : ''}
+                                ${team.teamExp && team.teamExp !== 'N/A' ? `<p class="detail-item"><strong>Tidigare Erfarenhet:</strong> ${team.teamExp}</p>` : ''}
+                                ${team.celebration && team.celebration !== 'N/A' ? `<p class="detail-item"><strong>Målfirande:</strong> ${team.celebration}</p>` : ''}
+                                ${team.betStats && team.betStats !== 'N/A' ? `<p class="detail-item"><strong>BetStats:</strong> ${team.betStats}</p>` : ''}
+                            </div>
+
+                            <div class="collapsible-header" data-target="#squad-list-${team.teamName.replace(/\s+/g, '-')}" role="button" tabindex="0">
+                                <span>Truppen (${playersInTeam.length} spelare)</span>
+                                <span class="toggle-icon">+</span>
+                            </div>
+                            <div id="squad-list-${team.teamName.replace(/\s+/g, '-')}" class="collapsible-content">
+                                <ul class="player-list">
+                                    ${playerListHtml || '<li>Inga spelare listade.</li>'}
+                                </ul>
+                            </div>
+                        `;
+                        // Expanded cards are appended directly to teamListDiv, not the groupGrid,
+                        // as they take full width and are rendered in place of the compact card.
+                        teamListDiv.appendChild(expandedContentDiv);
+                    });
+                    teamListDiv.appendChild(groupSection); // Append the whole group section
                 });
+                console.log(`Rendered teams, grouped by group.`);
 
-                // Event listener for initial team card clicks (to show expanded view)
+                // Event listeners for initial team card clicks (to show expanded view)
                 document.querySelectorAll('.team-card-compact').forEach(card => {
                     card.addEventListener('click', () => {
                         const teamName = card.dataset.teamName;
@@ -636,25 +838,23 @@
                         // Collapse previously expanded card if any
                         if (expandedTeamCard && expandedTeamCard !== expandedCard) {
                             expandedTeamCard.classList.add('hidden');
-                            // Find and reset the compact card state for the previously expanded team
                             const prevTeamName = expandedTeamCard.id.replace('team-expanded-', '').replace(/-/g, ' ');
                             const prevCompactCard = document.querySelector(`.team-card-compact[data-team-name="${prevTeamName}"]`);
                             if (prevCompactCard) {
                                 prevCompactCard.classList.remove('hidden');
                             }
-                            // Reset any nested expanded sections in the previously expanded card
                             expandedTeamCard.querySelectorAll('.collapsible-content.expanded').forEach(content => {
                                 content.classList.remove('expanded');
-                                const header = content.previousElementSibling; // Get the header before this content
+                                const header = content.previousElementSibling;
                                 if (header) header.querySelector('.toggle-icon').textContent = '+';
                             });
                         }
 
-                        // Toggle visibility of the clicked expanded card
                         if (expandedCard) {
                             expandedCard.classList.toggle('hidden');
-                            card.classList.toggle('hidden'); // Hide the compact card when expanded
-                            expandedTeamCard = expandedCard.classList.contains('hidden') ? null : expandedCard; // Update tracker
+                            card.classList.toggle('hidden');
+                            expandedTeamCard = expandedCard.classList.contains('hidden') ? null : expandedCard;
+                            console.log(`Team "${teamName}" card toggled. Expanded: ${!expandedCard.classList.contains('hidden')}`);
                         }
                     });
                 });
@@ -662,29 +862,27 @@
                 // Event listener for the toggle icon/header of the expanded card (to collapse it)
                 document.querySelectorAll('.team-expanded-header .toggle-icon').forEach(icon => {
                     icon.addEventListener('click', (event) => {
-                        event.stopPropagation(); // Prevent click from bubbling up to the entire card
+                        event.stopPropagation();
                         const expandedCard = icon.closest('.team-card-expanded');
                         if (expandedCard) {
                             expandedCard.classList.add('hidden');
                             const teamName = expandedCard.id.replace('team-expanded-', '').replace(/-/g, ' ');
                             const compactCard = document.querySelector(`.team-card-compact[data-team-name="${teamName}"]`);
                             if (compactCard) {
-                                compactCard.classList.remove('hidden'); // Show the compact card again
+                                compactCard.classList.remove('hidden');
                             }
-                            expandedTeamCard = null; // Reset tracker
-                            // Reset any nested expanded sections
+                            expandedTeamCard = null;
                             expandedCard.querySelectorAll('.collapsible-content.expanded').forEach(content => {
                                 content.classList.remove('expanded');
                                 const header = content.previousElementSibling;
                                 if (header) header.querySelector('.toggle-icon').textContent = '+';
                             });
+                            console.log(`Team "${teamName}" expanded card collapsed via icon.`);
                         }
                     });
                 });
                 document.querySelectorAll('.team-expanded-header').forEach(header => {
                     header.addEventListener('click', (event) => {
-                        // If the click was on the icon, it's already handled.
-                        // This handles clicks on the header text/logo to collapse the card.
                         if (!event.target.classList.contains('toggle-icon')) {
                             const expandedCard = header.closest('.team-card-expanded');
                             if (expandedCard) {
@@ -695,28 +893,28 @@
                                     compactCard.classList.remove('hidden');
                                 }
                                 expandedTeamCard = null;
-                                // Reset any nested expanded sections
                                 expandedCard.querySelectorAll('.collapsible-content.expanded').forEach(content => {
                                     content.classList.remove('expanded');
                                     const header = content.previousElementSibling;
                                     if (header) header.querySelector('.toggle-icon').textContent = '+';
                                 });
+                                console.log(`Team "${teamName}" expanded card collapsed via header click.`);
                             }
                         }
                     });
                 });
 
-
                 // Event listeners for nested collapsible headers ("Mer om laget", "Truppen")
                 document.querySelectorAll('.collapsible-header').forEach(header => {
                     header.addEventListener('click', (event) => {
-                        event.stopPropagation(); // Prevent this click from collapsing the main team card
+                        event.stopPropagation();
                         const targetId = header.dataset.target;
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
                             targetElement.classList.toggle('expanded');
                             const toggleIcon = header.querySelector('.toggle-icon');
                             toggleIcon.textContent = targetElement.classList.contains('expanded') ? '−' : '+';
+                            console.log(`Collapsible section "${targetId}" toggled. Expanded: ${targetElement.classList.contains('expanded')}`);
                         }
                     });
                 });
@@ -724,20 +922,43 @@
 
             // Initial data load
             async function initializeTeamRegister() {
+                console.log('initializeTeamRegister called.');
+                teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar lagregister och spelardata...</div>`;
                 try {
-                    // Load both CSVs concurrently
-                    const [teamsCsvText, playerCsvText] = await Promise.all([
-                        fetchCsvData(teamsCsvUrl),
-                        fetchCsvData(playerCsvUrl)
-                    ]);
-
+                    console.time('Fetch Teams CSV');
+                    const teamsCsvText = await fetchCsvData(teamsCsvUrl);
                     allTeams = parseTeamsCsv(teamsCsvText);
-                    allPlayers = parsePlayersCsv(playerCsvText); // Parse player data here
+                    console.timeEnd('Fetch Teams CSV');
+                    console.log('allTeams loaded:', allTeams.length, 'teams');
+
+                    console.time('Fetch Players CSV');
+                    const playerCsvText = await fetchCsvData(playerCsvUrl);
+                    allPlayers = parsePlayersCsv(playerCsvText);
+                    console.timeEnd('Fetch Players CSV');
+                    console.log('allPlayers loaded:', allPlayers.length, 'players');
+
+                    // Enrich teams with player count and info presence for sorting
+                    allTeams.forEach(team => {
+                        team.playerCount = allPlayers.filter(p => p.team === team.teamName).length;
+                        team.hasDetailedInfo = (team.teamDescription && team.teamDescription !== 'N/A') || team.playerCount > 0;
+                    });
+
+                    // Sort teams: priority to those with detailed info (true first), then by group name, then by team name
+                    allTeams.sort((a, b) => {
+                        if (a.hasDetailedInfo !== b.hasDetailedInfo) {
+                            return b.hasDetailedInfo - a.hasDetailedInfo; // true (1) comes before false (0)
+                        }
+                        if (a.group !== b.group) {
+                            return a.group.localeCompare(b.group);
+                        }
+                        return a.teamName.localeCompare(b.teamName);
+                    });
+                    console.log('Teams sorted.');
 
                     renderTeamRegister();
+                    console.log('Team register initialized and rendered successfully.');
                 } catch (error) {
                     console.error("Felsökning: Ett fel uppstod vid initialisering av lagregistret.", error);
-                    // Error message already handled by fetchCsvData
                 }
             }
 

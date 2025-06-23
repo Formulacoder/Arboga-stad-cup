@@ -36,16 +36,57 @@
             top: 0;
             z-index: 1000;
             /* Säkerställ att den ligger över annat innehåll */
+            display: flex;
+            /* Använd flexbox */
+            align-items: center;
+            /* Centrera vertikalt */
+            justify-content: flex-start;
+            /* Starta objekt från vänster */
+            flex-wrap: wrap;
+            /* Tillåt objekt att bryta rad om utrymmet är begränsat */
+        }
+
+        .navbar-home-logo {
+            height: 2.5rem;
+            /* Storlek på logotypen som hemknapp */
+            margin-right: 1.5rem;
+            /* Mer utrymme till höger om logotypen */
+            cursor: pointer;
+            border-radius: 9999px;
+            /* Rundad */
+            transition: transform 0.2s ease-in-out;
+            flex-shrink: 0;
+            /* Förhindra att logotypen krymper */
+        }
+
+        .navbar-home-logo:hover {
+            transform: scale(1.05);
+            /* Lätt förstoring vid hover */
+        }
+
+        .navbar-links-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            /* Tillåt länkar att bryta rad */
+            gap: 0.5rem;
+            /* Litet mellanrum mellan länkar */
+            flex-grow: 1;
+            /* Tillåt länkomslutningen att ta tillgängligt utrymme */
+            justify-content: center;
+            /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.8rem;
+            /* Något minskad padding för kompakthet */
             border-radius: 0.375rem;
             /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
+            white-space: nowrap;
+            /* Förhindra att länkar bryter text */
         }
 
         .navbar a:hover {
@@ -66,6 +107,8 @@
             margin-top: 2rem;
             /* Marginal från navbar */
             margin-bottom: 2rem;
+            flex-grow: 1;
+            /* Låter innehållskontainern växa och pressa ner footern */
         }
 
         /* Anpassade stilar för matchraderna */
@@ -186,18 +229,57 @@
             margin-top: 0.5rem;
         }
 
+        /* Footer styling */
+        .footer {
+            width: 100%;
+            background-color: #1a202c;
+            /* Mörk bakgrund för footer */
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: auto;
+            /* Trycker ner footern till botten */
+        }
+
+        .footer-logo {
+            max-width: 100%;
+            /* Anpassa till skärmbredden */
+            height: 6rem;
+            /* FAST HÖJD FÖR FOTLOGOTYPEN, ÖKAD FRÅN 4REM TILL 6REM */
+            object-fit: contain;
+            /* Behåll proportioner, se till att hela bilden syns */
+            display: block;
+            /* Centrera bilden */
+            margin: 0 auto;
+            /* Centrera bilden horisontellt */
+        }
+
         @media (max-width: 640px) {
 
             /* För mobil (sm breakpoint) */
-            .navbar-links {
+            .navbar {
                 flex-direction: column;
+                /* Stapla logotyp och länkar vertikalt */
                 align-items: center;
+                /* Centrera allt */
+            }
+
+            .navbar-home-logo {
+                margin-right: 0;
+                /* Ingen marginal till höger om logotypen om den är centrerad */
+                margin-bottom: 1rem;
+                /* Avstånd till länkarna nedanför */
+            }
+
+            .navbar-links-wrapper {
+                width: 100%;
+                /* Ta full bredd under logotypen */
+                justify-content: center;
+                /* Centrera länkar i en rad som bryter */
             }
 
             .navbar a {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 0.5rem;
+                width: auto;
+                /* Låt länkarna bestämma sin egen bredd */
             }
         }
     </style>
@@ -206,17 +288,18 @@
 <body class="flex flex-col">
     <!-- Global Navigationsmeny -->
     <nav class="navbar">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
-            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
-                <a href="index.html">Startsida</a>
-                <a href="fotbollsschema.html">Spelschema</a>
-                <a href="lagregister.html">Lagregister</a>
-                <a href="spelaregister.html">Spelarregister</a>
-                <a href="tabeller.html">Tabeller</a>
-                <a href="sponsorer.html">Samarbetspartners</a>
-                <a href="aktiviteter.html">Aktiviteter</a>
-            </div>
+        <a href="index.html">
+            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
+        </a>
+        <div class="navbar-links-wrapper">
+            <a href="index.html">Startsida</a>
+            <a href="fotbollsschema.html">Spelschema</a>
+            <a href="lagregister.html">Lagregister</a>
+            <a href="spelaregister.html">Spelarregister</a>
+            <a href="tabeller.html">Tabeller</a>
+            <a href="sponsorer.html">Samarbetspartners</a>
+            <a href="aktiviteter.html">Aktiviteter</a>
+            <a href="efterfesten.html">Efterfesten</a>
         </div>
     </nav>
 
@@ -261,8 +344,14 @@
         </div>
     </div>
 
+    <!-- Global Footer -->
+    <footer class="footer">
+        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
+    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed for fotbollsschema.html');
+
             // !!! VIKTIGT !!!
             // Denna URL pekar nu på din dedikerade PUB_GROUP_SCHEDULE Google Sheet.
             // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
@@ -291,14 +380,18 @@
              * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
              */
             async function fetchCsvData(url) {
+                console.log(`Attempting to fetch CSV from: ${url}`);
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error(`HTTP Error! status: ${response.status}`);
+                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}`;
+                        console.error(errorMsg);
+                        throw new Error(errorMsg);
                     }
+                    console.log(`Successfully fetched CSV from: ${url}`);
                     return await response.text();
                 } catch (error) {
-                    console.error('Fel vid hämtning av CSV-data från:', url, error);
+                    console.error(`Error fetching CSV data from: ${url}`, error);
                     // Denna felmeddelandedel hanteras i initializeSchedule för att vara mer specifik
                     throw error; // Propagera felet uppåt
                 }
@@ -347,6 +440,7 @@
                     values.push(currentField.trim()); // Lägg till det sista fältet på raden
                     rows.push(values);
                 }
+                console.log(`Parsed ${rows.length - 1} data rows.`); // Log how many data rows were parsed
                 return rows.slice(1); // Returnera alla rader utom rubrikraden
             }
 
@@ -361,6 +455,7 @@
             function parseScheduleCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText); // Använd den robusta parsern
                 if (rawRows.length === 0) {
+                    console.warn("Schedule CSV is empty or parsing resulted in no data.");
                     return [];
                 }
 
@@ -399,7 +494,10 @@
              */
             function parseTeamsCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) return [];
+                if (rawRows.length === 0) {
+                    console.warn("Teams CSV is empty or parsing resulted in no data.");
+                    return [];
+                }
 
                 const teams = [];
                 // Kolumnmappning baserad på din angivna ordning
@@ -479,12 +577,14 @@
                     option.textContent = team;
                     teamSelect.appendChild(option);
                 });
+                console.log('Team dropdown populated.');
             }
 
             /**
              * Renderar spelschemat baserat på aktuella filter.
              */
             function renderSchedule() {
+                console.log('renderSchedule called. Clearing game list. Current filter team:', currentFilterTeam, 'Show my games only:', showMyGamesOnly);
                 gameListDiv.innerHTML = ''; // Rensa tidigare spel
 
                 let gamesToDisplay = allGames;
@@ -505,6 +605,7 @@
 
                 if (gamesToDisplay.length === 0) {
                     gameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga matcher hittades som matchar dina kriterier.</div>`;
+                    console.warn('No games to display based on current filters.');
                     return;
                 }
 
@@ -538,7 +639,7 @@
                             <p class="game-time-venue">
                                 ${game.time || 'N/A'} @ ${game.venue || 'N/A'}
                             </p>
-                            ${game.result && game.result !== 'N/A' ? `<p class="game-result">${game.result}</p>` : ''}
+                            <!-- Matchresultat visas inte längre på spelschemat -->
                             <p class="game-group-note">
                                 Grupp: ${game.group || 'N/A'} ${game.note && game.note !== 'N/A' ? ` | Anm: ${game.note}` : ''}
                             </p>
@@ -546,6 +647,7 @@
                     `;
                     gameListDiv.appendChild(gameRow);
                 });
+                console.log(`Rendered ${gamesToDisplay.length} games.`);
             }
 
             /**
@@ -563,27 +665,33 @@
                     myGamesBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700');
                     myGamesBtn.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
                 }
+                console.log('Filter buttons updated.');
             }
 
             // Händelselyssnare
             teamSelect.addEventListener('change', (event) => {
                 currentFilterTeam = event.target.value;
+                console.log('Team selected:', currentFilterTeam);
                 if (showMyGamesOnly && currentFilterTeam === 'All Teams') {
                     showMyGamesOnly = false;
+                    console.log('Switched to show all games because "All Teams" was selected while "My Games" was active.');
                 }
                 updateFilterButtons();
                 renderSchedule();
             });
 
             viewAllBtn.addEventListener('click', () => {
+                console.log('View All Games button clicked.');
                 showMyGamesOnly = false;
                 updateFilterButtons();
                 renderSchedule();
             });
 
             myGamesBtn.addEventListener('click', () => {
+                console.log('My Games button clicked.');
                 if (currentFilterTeam === 'All Teams') {
                     infoMessage.textContent = 'Välj ett lag från rullgardinsmenyn först för att använda filtret "Mina matcher".';
+                    console.warn('Cannot filter "My Games" without a selected team.');
                 } else {
                     showMyGamesOnly = true;
                     updateFilterButtons();
@@ -593,23 +701,32 @@
 
             // Initial laddning av data
             async function initializeSchedule() {
+                console.log('initializeSchedule called.');
+                gameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar schema och lagdata...</div>`;
                 try {
-                    // Ladda lagdata först för att ha logotyper tillgängliga
+                    console.time('Fetch Teams CSV');
                     const teamsCsvText = await fetchCsvData(teamsCsvUrl);
                     allTeamsData = parseTeamsCsv(teamsCsvText);
+                    console.timeEnd('Fetch Teams CSV');
+                    console.log('allTeamsData loaded:', allTeamsData.length, 'teams');
 
-                    // Ladda sedan schemadata
+                    console.time('Fetch Schedule CSV');
                     const scheduleCsvText = await fetchCsvData(csvUrl);
                     allGames = parseScheduleCsv(scheduleCsvText);
+                    console.timeEnd('Fetch Schedule CSV');
+                    console.log('allGames loaded:', allGames.length, 'games');
 
                     populateTeamDropdown();
                     renderSchedule();
                     updateFilterButtons();
+                    console.log('Schedule initialized and rendered successfully.');
                 } catch (error) {
                     console.error("Felsökning: Ett fel uppstod vid initialisering av schemat.", error);
                     gameListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
                                                 Kunde inte ladda schema eller lagdata. Se konsolen för detaljer. <br>
                                                 Kontrollera att båda dina Google Sheets är korrekt publicerade som CSV.
+                                                <br>
+                                                <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
                                             </div>`;
                 }
             }

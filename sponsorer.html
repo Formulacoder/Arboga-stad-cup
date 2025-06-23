@@ -36,16 +36,57 @@
             top: 0;
             z-index: 1000;
             /* Säkerställ att den ligger över annat innehåll */
+            display: flex;
+            /* Använd flexbox */
+            align-items: center;
+            /* Centrera vertikalt */
+            justify-content: flex-start;
+            /* Starta objekt från vänster */
+            flex-wrap: wrap;
+            /* Tillåt objekt att bryta rad om utrymmet är begränsat */
+        }
+
+        .navbar-home-logo {
+            height: 2.5rem;
+            /* Storlek på logotypen som hemknapp */
+            margin-right: 1.5rem;
+            /* Mer utrymme till höger om logotypen */
+            cursor: pointer;
+            border-radius: 9999px;
+            /* Rundad */
+            transition: transform 0.2s ease-in-out;
+            flex-shrink: 0;
+            /* Förhindra att logotypen krymper */
+        }
+
+        .navbar-home-logo:hover {
+            transform: scale(1.05);
+            /* Lätt förstoring vid hover */
+        }
+
+        .navbar-links-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            /* Tillåt länkar att bryta rad */
+            gap: 0.5rem;
+            /* Litet mellanrum mellan länkar */
+            flex-grow: 1;
+            /* Tillåt länkomslutningen att ta tillgängligt utrymme */
+            justify-content: center;
+            /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.8rem;
+            /* Något minskad padding för kompakthet */
             border-radius: 0.375rem;
             /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
+            white-space: nowrap;
+            /* Förhindra att länkar bryter text */
         }
 
         .navbar a:hover {
@@ -66,6 +107,19 @@
             margin-top: 2rem;
             /* Marginal från navbar */
             margin-bottom: 2rem;
+            flex-grow: 1;
+            /* Låter innehållskontainern växa och pressa ner footern */
+        }
+
+        /* Flexbox för att centrera hela sponsorkortlistan */
+        #sponsor-list {
+            display: flex;
+            flex-wrap: wrap;
+            /* Tillåt kort att bryta rad */
+            justify-content: center;
+            /* Centrera korten horisontellt */
+            gap: 1.5rem;
+            /* Mellanrum mellan korten */
         }
 
         .sponsor-card {
@@ -77,11 +131,45 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Centrera objekt i kortet */
             text-align: center;
+            /* Centrera text i kortet */
+            width: calc(33.333% - 1rem);
+            /* Standard 3 kolumner, justerat för gap */
+            min-width: 280px;
+            /* Minsta bredd */
+            max-width: 320px;
+            /* Maxbredd för att undvika för breda kort på större skärmar */
+        }
+
+        .sponsor-card.single-sponsor-total {
+            /* Stil för ensam sponsor på HELA sidan */
+            width: 80%;
+            /* Ta mer bredd */
+            max-width: 500px;
+            /* Maxbredd för ensam sponsor */
+            padding: 2.5rem;
+            /* Mer padding */
+        }
+
+        .sponsor-card.single-sponsor-total .sponsor-logo {
+            max-width: 15rem;
+            /* Större logotyp */
+            max-height: 12rem;
+            /* Större logotyp */
+        }
+
+        .sponsor-card.single-sponsor-total .text-xl {
+            font-size: 2.5rem;
+            /* Större text */
+        }
+
+        .sponsor-card.single-sponsor-total .text-sm {
+            font-size: 1.25rem;
+            /* Större text */
         }
 
         .sponsor-logo {
-            /* Updated styling for logo to allow flexible aspect ratio */
             max-width: 10rem;
             /* Maximal bredd */
             max-height: 8rem;
@@ -126,18 +214,78 @@
             /* Lätt grå linje under rubrik */
         }
 
+        /* Footer styling */
+        .footer {
+            width: 100%;
+            background-color: #1a202c;
+            /* Mörk bakgrund för footer */
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: auto;
+            /* Trycker ner footern till botten */
+        }
+
+        .footer-logo {
+            max-width: 100%;
+            /* Anpassa till skärmbredden */
+            height: 6rem;
+            /* FAST HÖJD FÖR FOTLOGOTYPEN, ÖKAD FRÅN 4REM TILL 6REM */
+            object-fit: contain;
+            /* Behåll proportioner, se till att hela bilden syns */
+            display: block;
+            /* Centrera bilden */
+            margin: 0 auto;
+            /* Centrera bilden horisontellt */
+        }
+
         @media (max-width: 640px) {
 
             /* För mobil (sm breakpoint) */
-            .navbar-links {
+            .navbar {
                 flex-direction: column;
+                /* Stapla logotyp och länkar vertikalt */
                 align-items: center;
+                /* Centrera allt */
+            }
+
+            .navbar-home-logo {
+                margin-right: 0;
+                /* Ingen marginal till höger om logotypen om den är centrerad */
+                margin-bottom: 1rem;
+                /* Avstånd till länkarna nedanför */
+            }
+
+            .navbar-links-wrapper {
+                width: 100%;
+                /* Ta full bredd under logotypen */
+                justify-content: center;
+                /* Centrera länkar i en rad som bryter */
             }
 
             .navbar a {
+                width: auto;
+                /* Låt länkarna bestämma sin egen bredd */
+            }
+
+            .sponsor-card {
+                width: calc(50% - 0.75rem);
+                /* 2 kolumner på smala skärmar */
+            }
+
+            .sponsor-card.single-sponsor-total {
+                width: 90%;
+                /* Mer plats på små skärmar */
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            /* Extra liten skärm, en kolumn */
+            .sponsor-card {
                 width: 100%;
-                text-align: center;
-                margin-bottom: 0.5rem;
+                /* En kolumn på mycket små skärmar */
+                min-width: unset;
+                /* Ta bort minsta bredd */
             }
         }
     </style>
@@ -146,17 +294,18 @@
 <body class="flex flex-col">
     <!-- Global Navigationsmeny -->
     <nav class="navbar">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-            <div class="font-bold text-xl mb-2 sm:mb-0">Arboga Stad Cup</div>
-            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 navbar-links">
-                <a href="index.html">Startsida</a>
-                <a href="fotbollsschema.html">Spelschema</a>
-                <a href="lagregister.html">Lagregister</a>
-                <a href="spelaregister.html">Spelarregister</a>
-                <a href="tabeller.html">Tabeller</a>
-                <a href="sponsorer.html">Samarbetspartners</a>
-                <a href="aktiviteter.html">Aktiviteter</a>
-            </div>
+        <a href="index.html">
+            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
+        </a>
+        <div class="navbar-links-wrapper">
+            <a href="index.html">Startsida</a>
+            <a href="fotbollsschema.html">Spelschema</a>
+            <a href="lagregister.html">Lagregister</a>
+            <a href="spelaregister.html">Spelarregister</a>
+            <a href="tabeller.html">Tabeller</a>
+            <a href="sponsorer.html">Samarbetspartners</a>
+            <a href="aktiviteter.html">Aktiviteter</a>
+            <a href="efterfesten.html">Efterfesten</a>
         </div>
     </nav>
 
@@ -168,14 +317,20 @@
         </header>
 
         <!-- Sponsorslistningssektion -->
-        <div id="sponsor-list" class="flex flex-col gap-6">
+        <div id="sponsor-list">
             <!-- Sponsor kort kommer att renderas här av JavaScript -->
             <div class="text-center text-gray-500 p-8 col-span-full">Laddar samarbetspartners...</div>
         </div>
     </div>
 
+    <!-- Global Footer -->
+    <footer class="footer">
+        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
+    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed for sponsorer.html');
+
             // !!! VIKTIGT !!!
             // Denna URL pekar nu på din dedikerade PUB_PARTNERS Google Sheet.
             // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
@@ -191,11 +346,15 @@
              * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
              */
             async function fetchCsvData(url) {
+                console.log(`Attempting to fetch CSV from: ${url}`);
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        throw new Error(`HTTP Error! status: ${response.status}`);
+                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}`;
+                        console.error(errorMsg);
+                        throw new Error(errorMsg);
                     }
+                    console.log(`Successfully fetched CSV from: ${url}`);
                     return await response.text();
                 } catch (error) {
                     console.error('Fel vid hämtning av CSV-data från:', url, error);
@@ -204,7 +363,7 @@
                                                     Se till att du har publicerat ditt Google Sheet med partnerdata till webben som CSV
                                                     och att 'partnersCsvUrl' i koden är korrekt.
                                                     <br>
-                                                    <a href="https://support.google.com/docs/answer/183950?hl=en" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
+                                                    <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
                                                     <p class="mt-2 text-sm text-gray-700">Kontrollera att kolumnerna stämmer och att logotyp-URL:erna är DIREKTA bildlänkar.</p>
                                                 </div>`;
                     throw error;
@@ -254,6 +413,7 @@
                     values.push(currentField.trim()); // Lägg till det sista fältet på raden
                     rows.push(values);
                 }
+                console.log(`Parsed ${rows.length - 1} data rows.`);
                 return rows.slice(1); // Returnera alla rader utom rubrikraden
             }
 
@@ -267,7 +427,10 @@
              */
             function parsePartnersCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) return [];
+                if (rawRows.length === 0) {
+                    console.warn("Partners CSV is empty or parsing resulted in no data.");
+                    return [];
+                }
 
                 const partners = [];
                 // Kolumnmappning baserat på din NYA angivna ordning för PUB_PARTNERS
@@ -311,10 +474,12 @@
              * Renderar listan över samarbetspartners, grupperade efter roll.
              */
             function renderSponsors() {
+                console.log('renderSponsors called. Clearing sponsor list.');
                 sponsorListDiv.innerHTML = ''; // Rensa tidigare innehåll
 
                 if (allPartnersData.length === 0) {
                     sponsorListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga samarbetspartners hittades.</div>`;
+                    console.warn('No partners to display.');
                     return;
                 }
 
@@ -344,22 +509,33 @@
                 // Lägg till eventuella "egna" roller sist, sorterade alfabetiskt
                 const finalCategoryOrder = [...categoryOrder.filter(role => existingRoles.includes(role)), ...customRoles.sort()];
 
+                // Kontrollera om det bara finns EN sponsor totalt
+                const totalSponsors = allPartnersData.length;
+                const isSingleTotalSponsor = totalSponsors === 1;
+                console.log('Total sponsors:', totalSponsors, 'Is single sponsor total:', isSingleTotalSponsor);
+
+
                 // Renderar varje kategori och dess partners
                 finalCategoryOrder.forEach(category => {
                     const partnersInCategory = groupedPartners[category];
                     if (partnersInCategory && partnersInCategory.length > 0) {
                         const categorySection = document.createElement('div');
                         categorySection.className = 'w-full';
-                        categorySection.innerHTML = `<h2 class="category-heading">${category}</h2>`;
+                        // Visa inte rubriken om det bara är en sponsor totalt, då blir den större och mer prominent
+                        if (!isSingleTotalSponsor) {
+                            categorySection.innerHTML = `<h2 class="category-heading">${category}</h2>`;
+                        }
                         sponsorListDiv.appendChild(categorySection);
 
                         const categoryGrid = document.createElement('div');
-                        categoryGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'; // Grid för korten
+                        // Om det bara är en sponsor totalt, centrera den och ge den mer utrymme
+                        categoryGrid.className = `flex flex-wrap justify-center gap-6 mb-8`; // Använd flexbox för att centrera
 
                         // Sortera partners inom varje kategori alfabetiskt efter namn
                         partnersInCategory.sort((a, b) => a.name.localeCompare(b.name)).forEach(partner => {
                             const sponsorCard = document.createElement('div');
-                            sponsorCard.className = 'sponsor-card';
+                            // Använd 'single-sponsor-total' klassen om det bara finns en sponsor totalt
+                            sponsorCard.className = `sponsor-card ${isSingleTotalSponsor ? 'single-sponsor-total' : ''}`;
 
                             const imageUrl = isValidImageUrl(partner.logo) ? partner.logo : 'https://placehold.co/128x128/eeeeee/333333?text=Sponsor+Logo';
 
@@ -375,14 +551,21 @@
                         sponsorListDiv.appendChild(categoryGrid);
                     }
                 });
+                console.log(`Rendered sponsors across ${finalCategoryOrder.length} categories.`);
             }
 
             // Initial laddning av data
             async function initializeSponsors() {
+                console.log('initializeSponsors called.');
+                sponsorListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar samarbetspartners...</div>`;
                 try {
+                    console.time('Fetch Partners CSV');
                     const csvText = await fetchCsvData(partnersCsvUrl);
                     allPartnersData = parsePartnersCsv(csvText);
+                    console.timeEnd('Fetch Partners CSV');
+                    console.log('allPartnersData loaded:', allPartnersData.length, 'partners');
                     renderSponsors();
+                    console.log('Sponsors page initialized and rendered successfully.');
                 } catch (error) {
                     console.error("Felsökning: Ett fel uppstod vid initialisering av sponsorsidan.", error);
                     // Felmeddelande visas redan av fetchCsvData

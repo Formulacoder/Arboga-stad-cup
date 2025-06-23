@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arboga Stad Cup</title>
+    <title>Efterfesten – Sommarfesten x Arboga Stad</title>
     <!-- Tailwind CSS CDN för styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -111,12 +111,6 @@
             /* Låter innehållskontainern växa och pressa ner footern */
         }
 
-        /* Grundläggande stil för sections (t.ex. Welcome, About) */
-        .section {
-            padding: 2rem 0;
-            text-align: center;
-        }
-
         .section-title {
             font-size: 2.5rem;
             /* text-4xl */
@@ -124,6 +118,17 @@
             /* font-extrabold */
             color: #1a202c;
             margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.5rem;
+            /* text-2xl */
+            font-weight: 600;
+            /* semi-bold */
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .section-text {
@@ -132,80 +137,37 @@
             color: #4a5568;
             line-height: 1.6;
             margin-bottom: 1.5rem;
-        }
-
-        .btn-primary {
-            background-color: #3b82f6;
-            /* Blå knapp */
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        .btn-primary:hover {
-            background-color: #2563eb;
-            /* Mörkare blå vid hover */
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background-color: #f7fafc;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
         }
 
-        .feature-icon {
-            font-size: 3rem;
-            color: #3b82f6;
-            margin-bottom: 1rem;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-description {
-            color: #4a5568;
-            font-size: 0.95rem;
-        }
-
-        /* Video container styling for responsiveness */
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            /* 16:9 Aspect Ratio (9 / 16 * 100%) */
-            height: 0;
-            overflow: hidden;
+        .afterparty-image {
+            max-width: 100%;
+            height: auto;
             border-radius: 0.75rem;
             /* rounded-xl */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             margin: 2rem auto;
-            /* Center the video container */
-            max-width: 800px;
-            /* Optional: limit max width of the video */
+            /* Center the image */
+            display: block;
+            /* Ensure it's treated as a block element for centering */
         }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+        .info-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            color: #4a5568;
+            text-align: left;
+            /* Align text to left for list items */
+        }
+
+        .info-point-icon {
+            font-size: 1.5rem;
+            color: #3b82f6;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+            /* Prevent icon from shrinking */
         }
 
         /* Footer styling */
@@ -261,6 +223,26 @@
                 width: auto;
                 /* Låt länkarna bestämma sin egen bredd */
             }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.25rem;
+            }
+
+            .info-point {
+                flex-direction: column;
+                /* Stack icon and text vertically */
+                align-items: center;
+                text-align: center;
+            }
+
+            .info-point-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -279,64 +261,61 @@
             <a href="tabeller.html">Tabeller</a>
             <a href="sponsorer.html">Samarbetspartners</a>
             <a href="aktiviteter.html">Aktiviteter</a>
-            <a href="efterfesten.html">Efterfesten</a>
+            <a href="efterfesten.html">Efterfesten</a> <!-- Ny länk till Efterfesten -->
         </div>
     </nav>
 
     <div class="content-container">
-        <!-- Välkomstsektion -->
-        <section class="section">
-            <h1 class="section-title">Välkommen till Arboga Stad Cup!</h1>
-            <p class="section-text">Följ alla matcher, lag och spelare under årets mest spännande fotbollscup!</p>
-            <a href="fotbollsschema.html" class="btn-primary">Se spelschemat</a>
-        </section>
-
-        <hr class="border-gray-200 my-8">
-
-        <!-- Video Sektion -->
-        <section class="section">
-            <h2 class="section-title">Se Vår Kampanjvideo!</h2>
+        <header class="text-center mb-8">
+            <h1 class="section-title">Efterfesten – Sommarfesten x Arboga Stad</h1>
             <p class="section-text">
-                Få en inblick i atmosfären och spänningen på Arboga Stad Cup med vår officiella kampanjvideo.
+                När matcherna är spelade, känslorna på topp och benen kanske lite trötta är det dags för den riktiga
+                höjdpunkten – efterfesten på Stadskällaren! Här samlas spelare, funktionärer, supportrar och alla som
+                älskar gemenskap och glädje för att fira tillsammans.
             </p>
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/qHDWecT_K0w?controls=1&modestbranding=1&rel=0"
-                    title="Arboga Stad Cup Promotion Video" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+        </header>
+
+        <img src="https://i.imgur.com/rEjVWBv.jpeg" alt="Efterfesten på Stadskällaren" class="afterparty-image">
+
+        <section class="mt-8">
+            <h2 class="section-subtitle">Vad väntar dig?</h2>
+            <div class="space-y-4">
+                <div class="info-point">
+                    <span class="info-point-icon">🎶</span>
+                    <p>
+                        <span class="font-bold">En het DJ från Stockholm</span> som vrider upp volymen med en mix av
+                        Latin och Club-hits
+                    </p>
+                </div>
+                <div class="info-point">
+                    <span class="info-point-icon">☀️</span>
+                    <p>
+                        <span class="font-bold">Magisk terrass</span> som förvandlas till en sommarklubb under bar
+                        himmel (vid fint väder)
+                    </p>
+                </div>
+                <div class="info-point">
+                    <span class="info-point-icon">🍹</span>
+                    <p>
+                        <span class="font-bold">God stämning,</span> härliga möten och massor av nya ansikten att lära
+                        känna
+                    </p>
+                </div>
+                <div class="info-point">
+                    <span class="info-point-icon">🎉</span>
+                    <p>
+                        <span class="font-bold">Fri entré innan 22.00</span> – kom i tid och ta plats i kvällens bästa
+                        lounge
+                    </p>
+                </div>
             </div>
         </section>
 
-        <hr class="border-gray-200 my-8">
-
-        <!-- Om Cupen Sektion -->
-        <section class="section">
-            <h2 class="section-title">Om Cupen</h2>
-            <p class="section-text">
-                Arboga Stad Cup är en årlig fotbollscup som samlar lag från hela regionen för en dag fylld med spänning,
-                gemenskap och fantastisk fotboll. Vårt mål är att erbjuda en minnesvärd upplevelse för både spelare och
-                åskådare.
-            </p>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">⚽</span>
-                    <h3 class="feature-title">Spännande matcher</h3>
-                    <p class="feature-description">Följ de hetaste derbymatcherna och avgörande gruppspelsfighterna.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🏆</span>
-                    <h3 class="feature-title">Vinnarmentalitet</h3>
-                    <p class="feature-description">Se vilka lag som har det som krävs för att ta sig hela vägen till
-                        final.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">✨</span>
-                    <h3 class="feature-title">Oförglömliga ögonblick</h3>
-                    <p class="feature-description">Upplev gemenskapen och glädjen på och utanför planen.</p>
-                </div>
-            </div>
-        </section>
+        <p class="section-text mt-8">
+            Efterfesten är mer än bara musik och dans – det är en plats där Arbogas fotbollspuls fortsätter slå, där nya
+            vänskaper föds och sommarminnen skapas. Oavsett om du är spelare, supporter eller bara sugen på att hänga
+            med laget – här hör du hemma.
+        </p>
     </div>
 
     <!-- Global Footer -->
