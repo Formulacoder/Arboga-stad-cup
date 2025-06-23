@@ -259,7 +259,7 @@
                 width: 100%;
                 /* Ta full bredd under logotypen */
                 justify-content: center;
-                /* Centrera länkar i en rad som bryter */
+                /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
             }
 
             .navbar a {
@@ -496,9 +496,9 @@
                 // Definiera önskad ordning för kategorierna
                 const categoryOrder = [
                     'Huvudpartner',
-                    'Officiell partner',
+                    'Officiell partner', // Flyttad upp
+                    'Lagsponsor', // Flyttad ner
                     'Vän till Vallen',
-                    'Lagsponsor',
                     'Övriga partners' // Fallback för de som inte matchar eller saknar roll
                 ];
 
@@ -543,7 +543,6 @@
                                 <img src="${imageUrl}" alt="${partner.name} Logo" class="sponsor-logo" onerror="this.onerror=null; this.src='https://placehold.co/128x128/eeeeee/333333?text=Sponsor+Logo';">
                                 <h3 class="text-xl font-bold text-gray-800">${partner.name || 'N/A'}</h3>
                                 ${partner.website && partner.website !== 'N/A' ? `<a href="${partner.website}" target="_blank" rel="noopener noreferrer" class="sponsor-website">Besök webbsida</a>` : ''}
-                                ${partner.role && partner.role !== 'N/A' && partner.role !== category ? `<p class="text-gray-600 text-sm">Roll: ${partner.role}</p>` : ''}
                                 ${partner.description && partner.description !== 'N/A' ? `<p class="text-gray-600 text-sm mt-1">${partner.description}</p>` : ''}
                             `;
                             categoryGrid.appendChild(sponsorCard);
