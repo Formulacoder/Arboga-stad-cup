@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lagregister</title>
-    <!-- Tailwind CSS CDN for styling -->
+    <!-- Tailwind CSS CDN för styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -91,21 +91,21 @@
 
         .navbar a:hover {
             background-color: #4a5568;
-            /* Darker grey on hover */
+            /* Mörkare grå vid hover */
         }
 
         .content-container {
             max-width: 960px;
-            /* max-w-4xl is approx 960px */
+            /* max-w-4xl är ca 960px */
             width: 100%;
             background-color: #ffffff;
             border-radius: 0.75rem;
             /* rounded-xl */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             padding: 2rem 1.5rem;
-            /* Adjusted padding */
+            /* Justerad padding */
             margin-top: 2rem;
-            /* Margin from navbar */
+            /* Marginal från navbar */
             margin-bottom: 2rem;
             flex-grow: 1;
             /* Låter innehållskontainern växa och pressa ner footern */
@@ -134,7 +134,7 @@
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out;
             flex-grow: 1;
-            /* Allow buttons to grow and fill space */
+            /* Allows buttons to grow and fill space */
             text-align: center;
             min-width: 80px;
             white-space: nowrap;
@@ -151,339 +151,137 @@
             background-color: #cbd5e0;
         }
 
-
+        /* Team List Layout */
         #team-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            /* Smaller gap between list items */
-            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
         .team-list-item {
             background-color: #f7fafc;
-            /* Light background for team row */
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
-            /* Stack summary and details vertically */
-            align-items: flex-start;
-            transition: background-color 0.2s ease-in-out;
-            min-height: 60px;
-            /* Ensure a minimum height */
-            cursor: pointer;
-            /* Indicate clickability */
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
         .team-list-item:hover {
-            background-color: #edf2f7;
-            /* Slightly darker on hover */
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Styles for the always-visible summary row */
         .team-summary {
-            /* Default to flex for mobile, grid will be applied for md and up */
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
             width: 100%;
-            /* Take full width of the list item */
-        }
-
-        @media (min-width: 641px) {
-
-            /* Apply grid for desktop (md and up) */
-            .team-summary {
-                display: grid;
-                /* Changed to grid */
-                /* Define explicit column widths */
-                grid-template-columns: 2fr 0.5fr 3fr;
-                /* Lag, Grupp, (Sponsor/Motto/Beskrivning) */
-                gap: 0.5rem;
-                /* Small gap between grid columns */
-            }
+            /* Ta full bredd för mobil */
+            justify-content: center;
+            /* Centrera horisontellt */
         }
 
         .team-main-info {
-            /* Combines logo and name */
             display: flex;
+            flex-direction: column;
             align-items: center;
-            flex-shrink: 0;
+            flex-grow: 1;
             min-width: 150px;
-            /* Give team name enough space */
-            /* max-width is not needed with grid-template-columns */
+            /* Låter lagnamn svepa */
         }
 
-        .team-list-logo {
-            /* Team logo within the list item */
-            width: 2.5rem;
-            /* Slightly larger logo for teams */
-            height: 2.5rem;
+        .team-logo {
+            width: 3.5rem;
+            /* Större logotyp */
+            height: 3.5rem;
             border-radius: 9999px;
             object-fit: cover;
-            margin-right: 0.75rem;
+            border: 2px solid #e2e8f0;
+            flex-shrink: 0;
         }
 
-        .team-list-name {
-            /* Team name within the list item */
-            font-size: 1.1rem;
-            /* Slightly larger font size */
+        .team-name {
+            font-size: 1.5rem;
             font-weight: 700;
             color: #1a202c;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-top: 0.5rem;
         }
 
         .team-list-group {
-            /* Group name within the list item */
-            font-size: 0.9rem;
-            color: #4a5568;
-            flex-shrink: 0;
-            /* Prevent shrinking on mobile */
-            min-width: 60px;
-            /* Ensure group has space on mobile */
-            text-align: center;
-            /* Center group name */
-            margin-left: 0.5rem;
-            /* Adjusted for mobile flex layout */
+            background-color: #e0f2fe;
+            color: #2b6cb0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
         }
 
         .team-list-details-summary {
-            /* New container for Motto, Sponsor, Description */
             display: flex;
-            flex-direction: column;
-            /* Stack vertically */
-            flex-grow: 1;
-            /* Allow to take remaining space on mobile */
-            margin-left: 1rem;
-            /* Space from group on mobile */
-            text-align: right;
-            /* Align text to the right by default */
-        }
-
-        .team-list-details-summary p {
-            margin-bottom: 0.1rem;
-            /* Small space between lines */
-        }
-
-        .team-list-details-summary .sponsor-display {
-            /* Container for sponsor logo/name */
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            /* Align right */
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #2d3748;
-        }
-
-        /* NOTE: sponsor-logo-small is still defined here but will only be used if we revert primarySponsorDisplayHtml logic.
-           The partner-logo-large will be used in expanded view. */
-        .team-list-details-summary .sponsor-logo-small {
-            height: 1.5rem;
-            /* Smaller height for sponsor logo */
-            width: auto;
-            /* Maintain aspect ratio */
-            max-width: 80px;
-            /* Max width for sponsor logo */
-            margin-left: 0.5rem;
-            object-fit: contain;
-        }
-
-        .team-list-details-summary .motto-display {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #2d3748;
-        }
-
-        .team-list-details-summary .description-snippet {
-            font-size: 0.8rem;
-            color: #6b7280;
-        }
-
-        .team-list-details-summary .read-more {
-            color: #3b82f6;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: underline;
-            white-space: nowrap;
-            /* Prevent "Läs mer" from wrapping */
-            margin-left: 0.25rem;
-        }
-
-
-        /* Styles for the expandable details section */
-        .team-extra-details {
-            display: none;
-            /* Hidden by default */
+            flex-wrap: wrap;
+            justify-content: center;
+            /* Centrera detaljer på mindre skärmar */
+            gap: 0.75rem 1.5rem;
+            /* Vertikalt och horisontellt mellanrum */
             width: 100%;
-            margin-top: 0.75rem;
+            margin-bottom: 1rem;
             padding-top: 0.75rem;
             border-top: 1px solid #e2e8f0;
-            /* Separator */
-            text-align: left;
+        }
+
+        .team-list-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #4a5568;
             font-size: 0.85rem;
-            color: #6b7280;
-            line-height: 1.4;
         }
 
-        .team-extra-details p {
-            margin-bottom: 0.25rem;
+        .team-list-stat-item strong {
+            font-size: 1rem;
+            color: #2d3748;
+            margin-top: 0.2rem;
         }
 
-        .team-extra-details .partner-logo-large {
-            /* NEW STYLE FOR LARGER LOGO IN EXPANDED VIEW */
-            height: 3rem;
-            /* A bit larger than the small one, adjust as needed */
-            width: auto;
-            max-width: 150px;
-            /* Prevent it from becoming too wide */
-            object-fit: contain;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-            /* Spacing below the logo */
-        }
-
-        .team-list-item.expanded .team-extra-details {
-            display: block;
-            /* Show when expanded */
-        }
-
-        /* Header row for list on larger screens */
-        .team-list-item.header-row {
-            background-color: #e2e8f0;
-            color: #4a5568;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-            box-shadow: none;
-            cursor: default;
-            min-height: unset;
-            padding: 0.75rem 1.25rem;
-        }
-
-        .team-list-item.header-row:hover {
-            background-color: #e2e8f0;
-            transform: none;
-        }
-
-        .team-list-item.header-row .team-summary {
-            /* Match the grid columns of regular items */
-            display: grid;
-            grid-template-columns: 2fr 0.5fr 3fr;
-            /* Must match .team-summary grid */
+        .sponsor-display {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
-            /* Must match .team-summary grid */
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .team-list-item.header-row .team-extra-details {
-            display: none !important;
-        }
-
-        .team-list-item.header-row .team-main-info {
-            /* Lag header */
-            /* Removed flex-grow and min/max width as grid handles this now */
-            justify-content: flex-start;
-        }
-
-        .team-list-item.header-row .team-list-group {
-            /* Grupp header */
-            /* Removed flex-grow and min/max width as grid handles this now */
-            justify-content: center;
-            /* Center group header */
-            text-align: center;
-            margin-left: 0;
-            /* Remove margin from mobile flex */
-        }
-
-        .team-list-item.header-row .team-list-details-summary {
-            /* Sponsor/Motto/Beskrivning header */
-            /* Removed flex-grow and min/max width as grid handles this now */
-            justify-content: flex-end;
-            /* Align right */
-            text-align: right;
-            margin-left: 0;
-            /* Remove margin from mobile flex */
-        }
-
-        /* Hide text labels in header for non-mobile */
-        .team-list-item.header-row .sponsor-motto span,
-        .team-list-item.header-row .motto-display span,
-        .team-list-item.header-row .description-snippet span {
-            display: none;
-        }
-
-        .team-list-item.header-row .sponsor-motto,
-        .team-list-item.header-row .motto-display,
-        .team-list-item.header-row .description-snippet {
-            display: block;
-            /* Ensure the span for text itself is block */
+            margin-top: 0.5rem;
             font-size: 0.8rem;
-            /* Smaller font for header */
-            font-weight: 700;
-            color: #4a5568;
-            line-height: normal;
-            /* Reset line height */
+            color: #718096;
+        }
+
+        .sponsor-logo-small {
+            height: 1.25rem;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .team-hub-link {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: auto;
+            /* Trycker länken till botten */
+        }
+
+        .team-hub-link:hover {
+            background-color: #2563eb;
         }
 
         /* --- END OF NEW/MODIFIED STYLES FOR TEAM LIST --- */
 
-        /* Filter and sort controls (these are removed in HTML, but kept for reference if needed elsewhere) */
-        /*
-        .controls-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background-color: #f7fafc;
-            border-radius: 0.75rem;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-        }
-        .controls-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        @media (min-width: 640px) {
-            .controls-group {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
-        .controls-group label {
-            white-space: nowrap;
-            margin-right: 0.5rem;
-            font-weight: 500;
-            color: #2d3748;
-        }
-        .controls-group select {
-            flex-grow: 1;
-            padding: 0.5rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 0.375rem;
-            background-color: white;
-            color: #2d3748;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.5em 1.5em;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .controls-group select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-            outline: none;
-        }
-        */
         /* Footer styling */
         .footer {
             width: 100%;
@@ -508,9 +306,10 @@
             /* Centrera bilden horisontellt */
         }
 
+        /* Responsive adjustments */
         @media (max-width: 640px) {
 
-            /* For mobile (sm breakpoint) */
+            /* Små skärmar (sm breakpoint och nedåt) */
             .navbar {
                 flex-direction: column;
                 align-items: center;
@@ -530,16 +329,22 @@
                 width: auto;
             }
 
+            /* Team List adjustments for mobile */
+            #team-list {
+                grid-template-columns: 1fr;
+                /* Enkel kolumn för mobil */
+            }
+
             .team-list-item {
-                /* Adjust for mobile list items */
+                /* Ytterligare justeringar för mobila listobjekt */
                 flex-direction: column;
-                /* Stack details vertically on mobile */
+                /* Stapla detaljer vertikalt på mobil */
                 align-items: flex-start;
                 padding: 0.75rem 1rem;
             }
 
             .team-summary {
-                /* Ensure summary part stacks vertically on mobile */
+                /* Säkerställ att sammanfattningsdelen staplas vertikalt på mobil */
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.5rem;
@@ -560,20 +365,22 @@
             }
 
             .team-list-details-summary {
-                /* Full width on mobile */
+                /* Full bredd på mobil */
                 width: 100%;
                 margin-left: 0;
                 text-align: left;
-                /* Align to left on mobile */
+                /* Justera till vänster på mobil */
                 margin-top: 0.5rem;
+                justify-content: flex-start;
+                /* Justera detaljer till vänster */
             }
 
             .team-list-details-summary .sponsor-display {
                 justify-content: flex-start;
-                /* Align left on mobile */
+                /* Justera vänster på mobil */
             }
 
-            /* Ensure text labels are visible on mobile */
+            /* Säkerställ att textetiketter är synliga på mobil */
             .team-list-stat-item span.md\:hidden {
                 display: inline;
             }
@@ -581,23 +388,20 @@
 
         @media (min-width: 641px) {
 
-            /* Adjust md:hidden behavior for desktop */
+            /* Justera md:hidden beteende för desktop */
             .team-list-stat-item span.md\:hidden {
                 display: none;
-            }
-
-            .team-list-group {
-                text-align: center;
             }
         }
     </style>
 </head>
 
-<body class="flex flex-col">
-    <!-- Global Navigation Menu -->
+<body>
+    <!-- Global Navigationsmeny -->
     <nav class="navbar">
         <a href="index.html">
-            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
+            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo"
+                onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Hem+Logo';">
         </a>
         <div class="navbar-links-wrapper">
             <a href="index.html">Startsida</a>
@@ -612,19 +416,19 @@
     </nav>
 
     <div class="content-container">
-        <!-- Header Section -->
+        <!-- Rubriksektion -->
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Lagregister</h1>
             <p class="text-lg text-gray-600">En översikt över alla deltagande lag i cupen.</p>
         </header>
 
-        <!-- Group Filter Buttons Section -->
+        <!-- Gruppfilterknappar sektion -->
         <div id="group-filter-buttons" class="group-filter-buttons-container">
-            <!-- Buttons will be populated by JS -->
+            <!-- Knappar kommer att fyllas i av JS -->
             <div class="text-center text-gray-500 p-2">Laddar filterknappar...</div>
         </div>
 
-        <!-- Team List Section -->
+        <!-- Laglistningssektion -->
         <div id="team-list">
             <div class="text-center text-gray-500 p-8 col-span-full">Laddar lagdata...</div>
         </div>
@@ -641,59 +445,57 @@
             // !!! VIKTIGT: DATAKÄLLOR !!!
             // teamsCsvUrl: Denna URL pekar på ditt Google Sheet för laginformation (PUB_TEAMINFO).
             // Se till att ditt Google Sheet är publicerat som "Comma-separated values (.csv)".
-            // Guide: https://support.google.com/docs/answer/183950?hl=sv (Välj "Kommaavgränsade värden (.csv)")
+            // Guide: https://support.google.com/docs/answer/183950?hl=en (Välj "Kommaavgränsade värden (.csv)")
             const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
 
             const teamListDiv = document.getElementById('team-list');
-            const groupFilterButtonsContainer = document.getElementById('group-filter-buttons'); // New reference
+            const groupFilterButtonsContainer = document.getElementById('group-filter-buttons');
 
-            let allTeams = []; // Stores raw data for teams
-            let currentGroupFilter = 'All'; // New state variable for current filter
+            let allTeams = []; // Lagrar rådata för lag
+            let currentGroupFilter = 'All'; // Tillståndsvariabel för aktuellt filter
 
             /**
-             * Fetches CSV data from the given URL.
-             * Displays an error message on the page if fetching fails.
-             * @param {string} url The URL to the CSV file.
-             * @returns {Promise<string>} A promise that resolves with the CSV text.
+             * Hämtar CSV-data från den angivna URL:en.
+             * Visar ett felmeddelande på sidan om hämtningen misslyckas.
+             * @param {string} url URL:en till CSV-filen.
+             * @returns {Promise<string>} Ett löfte som löser med den avkodade CSV-texten.
              */
             async function fetchCsvData(url) {
                 console.log(`Attempting to fetch CSV from: ${url}`);
                 try {
                     const response = await fetch(url);
                     if (!response.ok) {
-                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}`;
+                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}. Kontrollera att Google Sheet är publicerat korrekt som CSV.`;
                         console.error(errorMsg);
+                        teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8 col-span-full">${errorMsg}</div>`;
                         throw new Error(errorMsg);
                     }
                     console.log(`Successfully fetched CSV from: ${url}`);
                     return await response.text();
                 } catch (error) {
-                    console.error('Error fetching CSV data from:', url, error);
-                    teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
-                                                Fel vid laddning av data. Se till att ditt Google Sheet är korrekt publicerat som CSV.
-                                                <br><a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">How to publish a Google Sheet to the web (Google Support)</a>
-                                            </div>`;
-                    throw error; // Rethrow the error for Promise.all to catch
+                    console.error('Fel vid hämtning av CSV-data från:', url, error);
+                    teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8 col-span-full">Nätverksfel eller fel vid laddning av lagdata. Kontrollera din internetanslutning och Google Sheet URL.</div>`;
+                    throw error;
                 }
             }
 
             /**
-             * A robust CSV parsing function that handles fields with commas and quotes.
-             * Assumes that fields containing commas are enclosed in double quotes.
-             * Also handles double quotes within quoted fields (by doubling them, e.g., "He said ""Hello""").
-             * @param {string} csvText The CSV content as a string.
-             * @returns {Array<Array<string>>} An array of rows, where each row is an array of string values.
+             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
+             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
+             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
              */
             function parseRobustCsv(csvText) {
                 const rows = [];
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
 
-                if (lines.length <= 1) { // Only header row or empty (excluding header)
+                if (lines.length === 0) { // Tom CSV eller endast rader med mellanslag
                     return [];
                 }
 
-                // Process data rows
-                for (let i = 1; i < lines.length; i++) {
+                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
+                for (let i = 0; i < lines.length; i++) { // Loopar över alla rader, inklusive den första raden som rubriker
                     const line = lines[i];
                     const values = [];
                     let inQuote = false;
@@ -704,11 +506,11 @@
                         const nextChar = line[j + 1];
 
                         if (char === '"') {
-                            if (inQuote && nextChar === '"') { // Handle double quotes inside a quoted field ("" becomes ")
+                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
                                 currentField += char;
-                                j++; // Skip the next quote
+                                j++; // Hoppa över nästa citationstecken
                             } else {
-                                inQuote = !inQuote; // Toggle in/out of quoted mode
+                                inQuote = !inQuote; // Växla in/ut ur citerat läge
                             }
                         } else if (char === ',' && !inQuote) {
                             values.push(currentField.trim());
@@ -717,271 +519,213 @@
                             currentField += char;
                         }
                     }
-                    values.push(currentField.trim()); // Add the last field in the line
+                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
                     rows.push(values);
                 }
-                console.log(`Parsed ${rows.length} data rows.`);
-                return rows;
+                console.log(`Parsed ${rows.length - 1} data rows.`);
+                return rows.slice(1); // Returnera alla rader utom rubrikraden
             }
 
             /**
-             * Parsar team data from PUB_TEAMINFO CSV.
-             * Expected columns: Lagnamn|Logo|Lagkapten|Grupp|TEAM_DESCRIPTION|TEAM_STYLE|SECRET_WEAPON|HIGHLIGHT_OPS|GROUP_THREAT|TEAM_EXP|CELEBRATION|MOTTO|Spelare (K=Kapten, MV=Keeper)|Samarbetspartner;DerasLogotyp|Partner_Logotyp
-             * @param {string} csvText
-             * @returns {Array<Object>}
+             * Parsar CSV-text till en array av lagobjekt.
+             * Förutsatt kolumnordning (viktigt!):
+             * teamName|logo|captainName|group|teamDescription|teamStyle|secretWeapon|highlightOps|groupThreat|teamExp|celebration|motto|playersRaw|sponsor|sponsorLogo
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Object>} En array av lagobjekt.
              */
             function parseTeamsCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText);
                 if (rawRows.length === 0) {
-                    console.warn("Teams CSV is empty or parsing resulted in no data.");
+                    console.warn("Teams CSV är tom eller parsning resulterade i ingen data.");
                     return [];
                 }
 
                 const teams = [];
-                // Updated headers to reflect logical fields after parsing combined column
-                // const expectedLogicalHeadersCount = 16; // 15 physical columns, but `Samarbetspartner;DerasLogotyp` becomes two logical fields.
+                // Kolumnordning baserad på senaste specifikationen:
+                // teamName (0), logo (1), captainName (2), group (3), teamDescription (4),
+                // teamStyle (5), secretWeapon (6), highlightOps (7), groupThreat (8),
+                // teamExp (9), celebration (10), motto (11), playersRaw (12),
+                // sponsor (13), sponsorLogo (14)
+                const expectedHeadersCount = 15; // Totalt antal förväntade kolumner
 
-                rawRows.forEach(values => {
-                    // Ensure enough raw columns are present for the deepest index used (14 for Partner_Logotyp)
-                    if (values.length >= 15) {
+                rawRows.forEach((values, index) => {
+                    if (values.length > 0) { // Säkerställ att det inte är en helt tom rad
                         const team = {
-                            teamName: values[0] ? values[0].trim() : 'N/A',
-                            logo: (values[1] && isValidImageUrl(values[1])) ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
-                            captainName: values[2] ? values[2].trim() : 'N/A',
-                            group: values[3] ? values[3].trim() : 'N/A', // Position changed
-                            teamDescription: values[4] ? values[4].trim() : 'N/A', // Position changed
-                            teamStyle: values[5] ? values[5].trim() : 'N/A',
-                            secretWeapon: values[6] ? values[6].trim() : 'N/A',
-                            highlightOps: values[7] ? values[7].trim() : 'N/A',
-                            groupThreat: values[8] ? values[8].trim() : 'N/A',
-                            teamExp: values[9] ? values[9].trim() : 'N/A',
-                            celebration: values[10] ? values[10].trim() : 'N/A',
-                            motto: values[11] ? values[11].trim() : 'N/A',
-                            playersRaw: values[12] ? values[12].trim() : '', // Position changed
-
-                            // Handle combined sponsor info from column at index 13
-                            sponsorName: 'N/A',
-                            sponsorLogoUrl: 'N/A', // Default to N/A, will be set if valid
-                            partnerLogoUrl: (values[14] && isValidImageUrl(values[14])) ? values[14].trim() : 'https://placehold.co/100x100/dddddd/555555?text=Partner' // Use Partner_Logotyp directly and validate with fallback
+                            teamName: values[0] !== undefined ? values[0].trim() : 'N/A',
+                            logo: (values[1] !== undefined && isValidImageUrl(values[1])) ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
+                            captainName: values[2] !== undefined ? values[2].trim() : 'N/A',
+                            group: values[3] !== undefined ? values[3].trim() : 'N/A',
+                            teamDescription: values[4] !== undefined ? values[4].trim() : 'N/A',
+                            teamStyle: values[5] !== undefined ? values[5].trim() : 'N/A',
+                            secretWeapon: values[6] !== undefined ? values[6].trim() : 'N/A',
+                            highlightOps: values[7] !== undefined ? values[7].trim() : 'N/A',
+                            groupThreat: values[8] !== undefined ? values[8].trim() : 'N/A',
+                            teamExp: values[9] !== undefined ? values[9].trim() : 'N/A',
+                            celebration: values[10] !== undefined ? values[10].trim() : 'N/A',
+                            motto: values[11] !== undefined ? values[11].trim() : 'N/A',
+                            playersRaw: values[12] !== undefined ? values[12].trim() : '',
+                            sponsor: values[13] !== undefined ? values[13].trim() : 'N/A',
+                            sponsorLogo: (values[14] !== undefined && isValidImageUrl(values[14])) ? values[14].trim() : 'N/A'
                         };
-
-                        const sponsorInfoRaw = values[13] ? values[13].trim() : '';
-                        if (sponsorInfoRaw && sponsorInfoRaw !== 'N/A') {
-                            const parts = sponsorInfoRaw.split(';');
-                            team.sponsorName = parts[0] ? parts[0].trim() : 'N/A';
-                            if (parts.length > 1) {
-                                const logoUrlCandidate = parts[1] ? parts[1].trim() : '';
-                                if (isValidImageUrl(logoUrlCandidate)) {
-                                    team.sponsorLogoUrl = logoUrlCandidate;
-                                }
-                            }
-                        }
-                        // Fallback for partnerLogoUrl if it was 'N/A' or not a valid URL (already handled above now, simplified here)
-                        // This specific check can be removed as the default in object creation handles it
-                        // if (team.partnerLogoUrl === 'N/A' && values[14] && values[14].trim() !== 'N/A') {
-                        //     team.partnerLogoUrl = 'https://placehold.co/100x100/dddddd/555555?text=Partner';
-                        // }
-
-
                         teams.push(team);
                     } else {
-                        console.warn(`Skipping invalid team row: Not enough columns (expected at least 15, found ${values.length}). Row content: "${values.join(',')}"`);
+                        console.warn(`[TEAMS CSV PARSE WARNING] Rad ${index + 2}: Tom rad hittades. Hoppar över.`);
+                    }
+
+                    if (values.length !== expectedHeadersCount && values.length > 0) {
+                        console.warn(`[TEAMS CSV PARSE WARNING] Rad ${index + 2}: Förväntade ${expectedHeadersCount} kolumner, men hittade ${values.length}. ` +
+                            `Raden från parsern: "${values.join(' | ')}". ` +
+                            `Möjlig orsak: Ett fält med kommatecken har inte citerats korrekt i Google Sheet, eller inkonsekvent kolumnordning. ` +
+                            `Saknade kolumner kommer att tilldelas 'N/A'.`);
                     }
                 });
                 return teams;
             }
 
+
             /**
-             * Checks if a URL looks like a valid image URL.
+             * Kontrollerar om en URL ser ut som en giltig bild-URL.
              * @param {string} url
              * @returns {boolean}
              */
             function isValidImageUrl(url) {
-                return (url.startsWith('http://') || url.startsWith('https://')) &&
-                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
+                return (url && (url.startsWith('http://') || url.startsWith('https://')) &&
+                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url)));
             }
 
             /**
-             * Populates the group filter buttons.
+             * Fyller gruppfilterknapparna baserat på unika grupper från lagdatan.
              */
             function populateGroupFilterButtons() {
-                const uniqueGroups = new Set();
-                allTeams.forEach(team => {
-                    if (team.group && team.group !== 'N/A') uniqueGroups.add(team.group);
-                });
+                const uniqueGroups = new Set(allTeams.map(team => team.group).filter(g => g && g !== 'N/A'));
+                const sortedGroups = Array.from(uniqueGroups).sort();
 
-                groupFilterButtonsContainer.innerHTML = ''; // Clear existing buttons
+                groupFilterButtonsContainer.innerHTML = ''; // Rensa laddningsmeddelandet
 
-                // Add "All Groups" button
+                // Lägg till "Alla" -knapp
                 const allButton = document.createElement('button');
-                allButton.className = `group-filter-button ${currentGroupFilter === 'All' ? 'active' : ''}`;
+                allButton.className = 'group-filter-button active'; // Standard aktiv
                 allButton.textContent = 'Alla Grupper';
                 allButton.addEventListener('click', () => {
                     currentGroupFilter = 'All';
                     renderTeams();
-                    updateGroupButtonActiveState();
+                    activateButton(allButton);
                 });
                 groupFilterButtonsContainer.appendChild(allButton);
 
-                // Add buttons for each unique group
-                Array.from(uniqueGroups).sort().forEach(group => {
+                // Lägg till knappar för varje unik grupp
+                sortedGroups.forEach(group => {
                     const button = document.createElement('button');
-                    button.className = `group-filter-button ${currentGroupFilter === group ? 'active' : ''}`;
-                    button.textContent = group;
+                    button.className = 'group-filter-button';
+                    button.textContent = `Grupp ${group}`;
                     button.addEventListener('click', () => {
                         currentGroupFilter = group;
                         renderTeams();
-                        updateGroupButtonActiveState();
+                        activateButton(button);
                     });
                     groupFilterButtonsContainer.appendChild(button);
                 });
-                console.log('Group filter buttons populated.');
+                console.log('Gruppfilterknappar har fyllts i.');
             }
 
             /**
-             * Updates the active state of group filter buttons.
+             * Aktiverar den klickade knappen och avaktiverar andra.
+             * @param {HTMLElement} activeButton Knappen som ska aktiveras.
              */
-            function updateGroupButtonActiveState() {
+            function activateButton(activeButton) {
                 document.querySelectorAll('.group-filter-button').forEach(button => {
-                    if (button.textContent === currentGroupFilter || (currentGroupFilter === 'All' && button.textContent === 'Alla Grupper')) {
-                        button.classList.add('active');
-                    } else {
-                        button.classList.remove('active');
-                    }
+                    button.classList.remove('active');
                 });
+                activeButton.classList.add('active');
             }
 
             /**
-             * Renders the team list based on current filters and sort order.
+             * Rendrar laglistan baserat på aktuellt filter.
              */
             function renderTeams() {
-                console.log('renderTeams called. Applying filters and sorting.');
-                teamListDiv.innerHTML = ''; // Clear previous team cards
+                console.log('renderTeams kallad med filter:', currentGroupFilter);
+                teamListDiv.innerHTML = ''; // Rensa befintlig laglista
 
-                let filteredTeams = allTeams;
-
-                // Apply Group filter
-                if (currentGroupFilter !== 'All') {
-                    filteredTeams = filteredTeams.filter(team => team.group === currentGroupFilter);
-                }
-
-                // Apply Sort order (using a default sort here since sort menu is removed)
-                // Defaulting to sort by teamName alphabetically
-                filteredTeams.sort((a, b) => a.teamName.localeCompare(b.teamName));
+                const filteredTeams = currentGroupFilter === 'All'
+                    ? allTeams
+                    : allTeams.filter(team => team.group === currentGroupFilter);
 
                 if (filteredTeams.length === 0) {
-                    teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga lag hittades som matchar dina filter.</div>`;
-                    console.warn('No teams to display based on filters.');
+                    teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga lag att visa för ${currentGroupFilter === 'All' ? 'alla grupper' : 'Grupp ' + currentGroupFilter}.</div>`;
+                    console.warn(`Inga lag hittades för filter: ${currentGroupFilter}`);
                     return;
                 }
 
-                // Add header row for larger screens
-                teamListDiv.innerHTML = `
-                    <div class="team-list-item header-row hidden md:flex">
-                        <div class="team-summary">
-                            <span class="team-main-info">Lag</span>
-                            <span class="team-list-group">Grupp</span>
-                            <div class="team-list-details-summary">
-                                <span class="sponsor-motto">Sponsor</span>
-                                <span class="motto-display">Motto</span>
-                                <span class="description-snippet">Beskrivning</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                // Sortera lag alfabetiskt efter namn
+                filteredTeams.sort((a, b) => a.teamName.localeCompare(b.teamName));
 
                 filteredTeams.forEach(team => {
                     const teamListItem = document.createElement('div');
                     teamListItem.className = 'team-list-item';
-                    teamListItem.setAttribute('data-team-name', team.teamName); // Add team name for identification
+                    // Fallback för saknad sponsorLogo eller ogiltig URL
+                    const sponsorLogoSrc = (team.sponsorLogo && isValidImageUrl(team.sponsorLogo)) ? team.sponsorLogo : ''; // Visa endast om giltig
+                    const sponsorDisplayHtml = (team.sponsor && team.sponsor !== 'N/A') ? `
+                        <div class="sponsor-display">
+                            ${sponsorLogoSrc ? `<img src="${sponsorLogoSrc}" alt="${team.sponsor} Logo" class="sponsor-logo-small" onerror="this.onerror=null; this.src='https://placehold.co/20x20/ffffff/ffffff?text=';">` : ''}
+                            <span>Sponsor: ${team.sponsor}</span>
+                        </div>
+                    ` : '';
 
-                    // Logic for truncating description
-                    const description = team.teamDescription || '';
-                    const maxLength = 120; // Max characters for summary description
-                    let truncatedDescriptionHtml = description;
-                    let needsMore = false;
-                    if (description.length > maxLength) {
-                        truncatedDescriptionHtml = description.substring(0, maxLength).trim();
-                        // Ensure we don't cut in the middle of a word unless it's very long
-                        const lastSpace = truncatedDescriptionHtml.lastIndexOf(' ');
-                        if (lastSpace > 0 && lastSpace > maxLength - 20) { // If space is reasonably close to end
-                            truncatedDescriptionHtml = truncatedDescriptionHtml.substring(0, lastSpace);
-                        }
-                        truncatedDescriptionHtml += '...';
-                        needsMore = true;
-                    }
-
-                    // Add click event listener to toggle expansion
-                    teamListItem.addEventListener('click', (event) => {
-                        // Prevent click on "Läs mer" span from toggling the main item
-                        if (!event.target.classList.contains('read-more')) {
-                            teamListItem.classList.toggle('expanded');
-                        }
-                    });
-
-                    // Always show sponsor name in summary, as requested
-                    let sponsorContentHtml = team.sponsorName && team.sponsorName !== 'N/A' ? team.sponsorName : 'Ingen sponsor';
 
                     teamListItem.innerHTML = `
                         <div class="team-summary">
+                            <img src="${getTeamLogo(team.teamName)}" alt="${team.teamName} Logo" class="team-logo" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
                             <div class="team-main-info">
-                                <img src="${team.logo}" alt="${team.teamName} Logo" class="team-list-logo" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
-                                <span class="team-list-name">${team.teamName || 'N/A'}</span>
-                            </div>
-                            <span class="team-list-group">${team.group || 'N/A'}</span>
-                            <div class="team-list-details-summary">
-                                <p class="sponsor-display">
-                                    ${sponsorContentHtml}
-                                </p>
-                                <p class="motto-display">
-                                    Motto: <span class="font-semibold">${team.motto || 'Inget motto'}</span>
-                                </p>
-                                <p class="description-snippet">
-                                    ${truncatedDescriptionHtml}
-                                    ${needsMore ? `<span class="read-more">Läs mer</span>` : ''}
-                                </p>
+                                <h2 class="team-name">${team.teamName}</h2>
+                                <span class="team-list-group">${team.group !== 'N/A' ? 'Grupp ' + team.group : 'Ej tilldelad grupp'}</span>
                             </div>
                         </div>
-                        <div class="team-extra-details">
-                            <p>Kapten: <span class="font-semibold">${team.captainName || 'N/A'}</span></p>
-                            ${team.teamDescription && team.teamDescription !== 'N/A' ? `<p>Beskrivning: <span class="font-semibold">${team.teamDescription}</span></p>` : ''}
-                            <p>Spelstil: <span class="font-semibold">${team.teamStyle || 'N/A'}</span></p>
-                            <p>Hemlig Vapen: <span class="font-semibold">${team.secretWeapon || 'N/A'}</span></p>
-                            <p>Hot i Gruppen: <span class="font-semibold">${team.groupThreat || 'N/A'}</span></p>
-                            <p>Erfarenhet: <span class="font-semibold">${team.teamExp || 'N/A'}</span></p>
-                            ${team.playersRaw && team.playersRaw !== 'N/A' && team.playersRaw !== '' ? `<p>Spelare: <span class="font-semibold">${team.playersRaw}</span></p>` : ''}
-                            ${team.sponsorName && team.sponsorName !== 'N/A' ? `<p>Sponsor: <span class="font-semibold">${team.sponsorName}</span></p>` : ''}
-                            ${team.sponsorLogoUrl && team.sponsorLogoUrl !== 'N/A' && isValidImageUrl(team.sponsorLogoUrl) ? `<p>Sponsor Logotyp URL (från kombinerat fält): <span class="font-semibold break-all">${team.sponsorLogoUrl}</span></p>` : ''}
-
-                            ${team.partnerLogoUrl && team.partnerLogoUrl !== 'N/A' && isValidImageUrl(team.partnerLogoUrl) ?
-                            `<img src="${team.partnerLogoUrl}" alt="Partner Logotyp" class="partner-logo-large" onerror="this.onerror=null; this.src='https://placehold.co/150x50/dddddd/555555?text=Partner+Logo';">` :
-                            '' /* THIS LINE WAS MODIFIED: Removed fallback text, now outputs empty string if URL is invalid */}
+                        <div class="team-list-details-summary">
+                            <div class="team-list-stat-item">
+                                <span><span class="md:hidden">Kapten: </span><strong>${team.captainName || 'N/A'}</strong></span>
+                            </div>
+                            <div class="team-list-stat-item">
+                                <span><span class="md:hidden">Spelare: </span><strong>${team.playersRaw.split(',').filter(player => player.trim() !== '').length || 0}</strong></span>
+                            </div>
+                            ${sponsorDisplayHtml}
                         </div>
+                        <a href="laghub.html?team=${encodeURIComponent(team.teamName)}" class="team-hub-link">Visa Lag-Hubb</a>
                     `;
                     teamListDiv.appendChild(teamListItem);
                 });
-                console.log(`Rendered ${filteredTeams.length} teams as a list.`);
+                console.log(`Renderade ${filteredTeams.length} lag som en lista.`);
             }
 
-            // Initial data loading
+            /**
+             * Returnerar laglogotypens URL.
+             * @param {string} teamName Lagets namn.
+             * @returns {string} Logotypens URL eller en platshållar-URL.
+             */
+            function getTeamLogo(teamName) {
+                const team = allTeams.find(t => t.teamName === teamName);
+                return (team && team.logo && isValidImageUrl(team.logo)) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';
+            }
+
+
             async function initializeTeamRegister() {
-                console.log('initializeTeamRegister called.');
+                console.log('initializeTeamRegister kallad.');
                 teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar lagdata...</div>`;
-                groupFilterButtonsContainer.innerHTML = `<div class="text-center text-gray-500 p-2">Laddar filterknappar...</div>`; // Keep loading message for buttons
+                groupFilterButtonsContainer.innerHTML = `<div class="text-center text-gray-500 p-2">Laddar filterknappar...</div>`;
 
                 try {
-                    console.time('Fetch Teams CSV');
+                    console.time('Hämtar Lag CSV');
                     const teamsCsvText = await fetchCsvData(teamsCsvUrl);
                     allTeams = parseTeamsCsv(teamsCsvText);
-                    console.timeEnd('Fetch Teams CSV');
-                    console.log('allTeams loaded:', allTeams.length, 'teams');
+                    console.timeEnd('Hämtar Lag CSV');
+                    console.log('allTeams laddade:', allTeams.length, 'lag', allTeams);
 
-                    populateGroupFilterButtons(); // Populate the new buttons
-                    renderTeams(); // Initial rendering
+
+                    populateGroupFilterButtons();
+                    renderTeams();
                     console.log('Lagregistret initialiserat och renderat framgångsrikt.');
                 } catch (error) {
                     console.error("Felsökning: Ett fel uppstod vid initialisering av lagregistret.", error);
-                    // Error message is already handled by fetchCsvData, but can add a general fallback here if needed
+                    // Felmeddelande hanteras redan av fetchCsvData, men kan lägga till en allmän fallback här vid behov
                 }
             }
 

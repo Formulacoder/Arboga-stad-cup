@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lag-Hubb - Arboga Stad Cup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #1a202c;
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .navbar-home-logo {
+            height: 2.5rem;
+            margin-right: 1.5rem;
+            cursor: pointer;
+            border-radius: 9999px;
+            transition: transform 0.2s ease-in-out;
+            flex-shrink: 0;
+        }
+
+        .navbar-home-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-links-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .navbar a:hover {
+            background-color: #4a5568;
+        }
+
+        .content-container {
+            max-width: 1000px;
+            /* Wider for hub */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .team-hub-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .team-hub-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+        }
+
+        .team-hub-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a202c;
+        }
+
+        .team-hub-group {
+            font-size: 1.25rem;
+            color: #4a5568;
+        }
+
+        .hub-section {
+            background-color: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .hub-section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #cbd5e0;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-item {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .player-list-item-hub {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .player-list-item-hub:last-child {
+            border-bottom: none;
+        }
+
+        .match-item {
+            background-color: #fff;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            width: 100%;
+            background-color: #1a202c;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-logo {
+            max-width: 100%;
+            height: 6rem;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 640px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar-home-logo {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .navbar-links-wrapper {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .team-hub-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+    <nav class="navbar">
+        <a href="index.html">
+            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
+        </a>
+        <div class="navbar-links-wrapper">
+            <a href="index.html">Startsida</a>
+            <a href="fotbollsschema.html">Spelschema</a>
+            <a href="lagregister.html">Lagregister</a>
+            <a href="spelaregister.html">Spelarregister</a>
+            <a href="tabeller.html">Tabeller</a>
+            <a href="sponsorer.html">Samarbetspartners</a>
+            <a href="aktiviteter.html">Aktiviteter</a>
+            <a href="efterfesten.html">Efterfesten</a>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <header id="team-hub-header" class="team-hub-header">
+            <img id="team-logo-hub" src="https://placehold.co/80x80/aabbcc/ffffff?text=Lag" alt="Lag Logotyp"
+                class="team-hub-logo">
+            <div>
+                <h1 id="team-name-hub" class="team-hub-name">Laddar laginfo...</h1>
+                <p id="team-group-hub" class="team-hub-group">Grupp X</p>
+            </div>
+        </header>
+
+        <main id="team-hub-content">
+            <!-- Team Overview -->
+            <section class="hub-section">
+                <h2 class="hub-section-title">Översikt</h2>
+                <p id="team-description-hub" class="mb-2 text-gray-700">Lagbeskrivning laddas...</p>
+                <p class="mb-1"><span class="font-semibold">Motto:</span> <span id="team-motto-hub">Laddar...</span></p>
+                <p><span class="font-semibold">Lagkapten:</span> <span id="team-captain-hub">Laddar...</span></p>
+                <div id="team-sponsor-info-hub" class="mt-4">
+                    <h3 class="font-semibold text-gray-800">Sponsor:</h3>
+                    <p id="team-sponsor-name-hub">Laddar...</p>
+                    <img id="team-sponsor-logo-hub" src="" alt="Sponsor Logotyp" class="max-h-16 mt-2 hidden">
+                </div>
+            </section>
+
+            <!-- Upcoming Matches -->
+            <section class="hub-section">
+                <h2 class="hub-section-title">Kommande Matcher</h2>
+                <div id="upcoming-matches-hub">
+                    <p class="text-gray-500">Laddar kommande matcher...</p>
+                </div>
+            </section>
+
+            <!-- Player Roster & Stats -->
+            <section class="hub-section">
+                <h2 class="hub-section-title">Spelartrupp & Statistik</h2>
+                <div id="player-roster-hub">
+                    <p class="text-gray-500">Laddar spelartrupp...</p>
+                </div>
+            </section>
+
+            <!-- Team Overall Stats / Standings -->
+            <section class="hub-section">
+                <h2 class="hub-section-title">Lagets Tabellplacering</h2>
+                <div id="team-standings-hub">
+                    <p class="text-gray-500">Laddar tabell...</p>
+                </div>
+            </section>
+
+            <!-- Past Matches -->
+            <section class="hub-section">
+                <h2 class="hub-section-title">Spelade Matcher</h2>
+                <div id="past-matches-hub">
+                    <p class="text-gray-500">Laddar spelade matcher...</p>
+                </div>
+            </section>
+
+            <!-- Interviews (Optional) -->
+            <section class="hub-section">
+                <h2 class="hub-section-title">Intervjuer</h2>
+                <div id="interviews-hub">
+                    <p class="text-gray-500">Inga intervjuer tillgängliga för detta lag just nu.</p>
+                    <!-- Interviews will be loaded here -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
+    </footer>
+
+    <script>
+        // URLs to your Google Sheets (ensure they are published as CSV)
+        const TEAMS_INFO_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
+        const SCHEDULE_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
+        const PLAYER_STATS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1809976994&single=true&output=csv';
+        const STANDINGS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pubhtml?gid=1900542434&single=true';
+        // const INTERVIEWS_CSV_URL = 'YOUR_INTERVIEWS_SHEET_URL_HERE'; // Add if you create an interviews sheet
+
+        // Robust CSV Parser (same as in other files)
+        function parseRobustCsv(csvText) {
+            const rows = [];
+            const lines = csvText.split('\n').filter(line => line.trim() !== '');
+            if (lines.length <= 1) return []; // No data beyond header
+            for (let i = 1; i < lines.length; i++) { // Start from 1 to skip header
+                const line = lines[i];
+                const values = [];
+                let inQuote = false;
+                let currentField = '';
+                for (let j = 0; j < line.length; j++) {
+                    const char = line[j];
+                    const nextChar = line[j + 1];
+                    if (char === '"') {
+                        if (inQuote && nextChar === '"') {
+                            currentField += char; j++;
+                        } else {
+                            inQuote = !inQuote;
+                        }
+                    } else if (char === ',' && !inQuote) {
+                        values.push(currentField.trim()); currentField = '';
+                    } else {
+                        currentField += char;
+                    }
+                }
+                values.push(currentField.trim());
+                rows.push(values);
+            }
+            return rows;
+        }
+
+        function isValidImageUrl(url) {
+            if (!url || typeof url !== 'string') return false;
+            return (url.startsWith('http://') || url.startsWith('https://')) &&
+                (/\.(jpeg|jpg|gif|png|webp|svg)(\?raw=true)?$/i.test(url));
+        }
+
+        async function fetchCsvData(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error ${response.status} for ${url}`);
+                return await response.text();
+            } catch (error) {
+                console.error(`Failed to fetch CSV from ${url}:`, error);
+                return null; // Return null on error to handle gracefully
+            }
+        }
+
+        // Parse Team Info (PUB_TEAMINFO)
+        function parseTeamsInfo(csvText) {
+            const rawRows = parseRobustCsv(csvText);
+            return rawRows.map(values => {
+                if (values.length < 15) return null; // Ensure enough columns
+                const team = {
+                    teamName: values[0]?.trim() || 'N/A',
+                    logo: (values[1] && isValidImageUrl(values[1])) ? values[1].trim() : 'https://placehold.co/80x80/aabbcc/ffffff?text=Lag',
+                    captainName: values[2]?.trim() || 'N/A',
+                    group: values[3]?.trim() || 'N/A',
+                    teamDescription: values[4]?.trim() || 'N/A',
+                    motto: values[11]?.trim() || 'N/A',
+                    playersRaw: values[12]?.trim() || '',
+                    sponsorName: 'N/A',
+                    sponsorLogoUrl: 'N/A'
+                };
+                const sponsorInfoRaw = values[13]?.trim() || '';
+                if (sponsorInfoRaw && sponsorInfoRaw.toLowerCase() !== 'n/a') {
+                    const parts = sponsorInfoRaw.split(';');
+                    team.sponsorName = parts[0]?.trim() || 'N/A';
+                    if (parts.length > 1 && parts[1]?.trim() && isValidImageUrl(parts[1].trim())) {
+                        team.sponsorLogoUrl = parts[1].trim();
+                    }
+                }
+                return team;
+            }).filter(Boolean); // Remove null entries
+        }
+
+        // Parse Schedule (PUB_GROUP_SCHEDULE)
+        function parseSchedule(csvText) {
+            const rawRows = parseRobustCsv(csvText);
+            return rawRows.map(values => {
+                if (values.length < 8) return null;
+                return {
+                    matchId: values[0]?.trim() || 'N/A',
+                    time: values[1]?.trim() || 'N/A',
+                    team1: values[2]?.trim() || 'N/A',
+                    team2: values[3]?.trim() || 'N/A',
+                    venue: values[4]?.trim() || 'N/A',
+                    group: values[5]?.trim() || 'N/A',
+                    result: values[6]?.trim() || 'N/A',
+                    matchStatus: values[7]?.trim() || 'N/A'
+                };
+            }).filter(Boolean);
+        }
+
+        // Parse Player Stats (PLAYER_STATS)
+        function parsePlayerStats(csvText) {
+            const rawRows = parseRobustCsv(csvText);
+            // Headers: team|playerName|group|jerseyNumber|goals|yellowCards|redCards
+            return rawRows.map(values => {
+                if (values.length < 7) return null;
+                return {
+                    team: values[0]?.trim() || 'N/A',
+                    playerName: values[1]?.trim() || 'N/A',
+                    group: values[2]?.trim() || 'N/A',
+                    jerseyNumber: parseInt(values[3]) || 'N/A',
+                    goals: parseInt(values[4]) || 0,
+                    yellowCards: parseInt(values[5]) || 0,
+                    redCards: parseInt(values[6]) || 0
+                };
+            }).filter(Boolean);
+        }
+
+        // Parse Standings (TABELL)
+        function parseStandings(csvText) {
+            const rawRows = parseRobustCsv(csvText);
+            // Lag|Grupp|M|V|O|F|GM|IM|MS|P|Nästa
+            return rawRows.map(values => {
+                if (values.length < 11) return null;
+                return {
+                    teamName: values[0]?.trim() || 'N/A',
+                    group: values[1]?.trim() || 'N/A',
+                    matchesPlayed: parseInt(values[2]) || 0,
+                    wins: parseInt(values[3]) || 0,
+                    draws: parseInt(values[4]) || 0,
+                    losses: parseInt(values[5]) || 0,
+                    goalsFor: parseInt(values[6]) || 0,
+                    goalsAgainst: parseInt(values[7]) || 0,
+                    goalDifference: parseInt(values[8]) || 0,
+                    points: parseInt(values[9]) || 0,
+                    nextMatch: values[10]?.trim() || 'N/A'
+                };
+            }).filter(Boolean);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const teamNameQuery = urlParams.get('team');
+
+            if (!teamNameQuery) {
+                document.getElementById('team-name-hub').textContent = 'Inget lag valt';
+                document.getElementById('team-hub-content').innerHTML = '<p class="text-red-500 text-center">Vänligen välj ett lag från lagregistret.</p>';
+                return;
+            }
+
+            document.title = `${teamNameQuery} - Lag-Hubb - Arboga Stad Cup`;
+
+            // Fetch all data
+            const [teamsInfoText, scheduleText, playerStatsText, standingsText] = await Promise.all([
+                fetchCsvData(TEAMS_INFO_CSV_URL),
+                fetchCsvData(SCHEDULE_CSV_URL),
+                fetchCsvData(PLAYER_STATS_CSV_URL),
+                fetchCsvData(STANDINGS_CSV_URL)
+            ]);
+
+            const allTeamsInfo = teamsInfoText ? parseTeamsInfo(teamsInfoText) : [];
+            const allScheduledGames = scheduleText ? parseSchedule(scheduleText) : [];
+            const allPlayerStats = playerStatsText ? parsePlayerStats(playerStatsText) : [];
+            const allStandings = standingsText ? parseStandings(standingsText) : [];
+
+            const currentTeamInfo = allTeamsInfo.find(t => t.teamName === teamNameQuery);
+
+            if (!currentTeamInfo) {
+                document.getElementById('team-name-hub').textContent = `Lag "${teamNameQuery}" hittades inte.`;
+                document.getElementById('team-hub-content').innerHTML = '<p class="text-red-500 text-center">Kontrollera lagnamnet och försök igen.</p>';
+                return;
+            }
+
+            // Populate Header
+            document.getElementById('team-logo-hub').src = currentTeamInfo.logo;
+            document.getElementById('team-logo-hub').alt = `${currentTeamInfo.teamName} Logotyp`;
+            document.getElementById('team-name-hub').textContent = currentTeamInfo.teamName;
+            document.getElementById('team-group-hub').textContent = `Grupp ${currentTeamInfo.group || 'N/A'}`;
+
+            // Populate Overview
+            document.getElementById('team-description-hub').textContent = currentTeamInfo.teamDescription && currentTeamInfo.teamDescription.toLowerCase() !== 'n/a' ? currentTeamInfo.teamDescription : 'Ingen beskrivning tillgänglig.';
+            document.getElementById('team-motto-hub').textContent = currentTeamInfo.motto && currentTeamInfo.motto.toLowerCase() !== 'n/a' ? currentTeamInfo.motto : '-';
+            document.getElementById('team-captain-hub').textContent = currentTeamInfo.captainName && currentTeamInfo.captainName.toLowerCase() !== 'n/a' ? currentTeamInfo.captainName : '-';
+
+            if (currentTeamInfo.sponsorName && currentTeamInfo.sponsorName.toLowerCase() !== 'n/a') {
+                document.getElementById('team-sponsor-name-hub').textContent = currentTeamInfo.sponsorName;
+                if (currentTeamInfo.sponsorLogoUrl && currentTeamInfo.sponsorLogoUrl.toLowerCase() !== 'n/a') {
+                    const sponsorLogoImg = document.getElementById('team-sponsor-logo-hub');
+                    sponsorLogoImg.src = currentTeamInfo.sponsorLogoUrl;
+                    sponsorLogoImg.alt = `${currentTeamInfo.sponsorName} Logotyp`;
+                    sponsorLogoImg.classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('team-sponsor-info-hub').innerHTML = '<p>Ingen huvudsponsor angiven.</p>';
+            }
+
+
+            // Populate Upcoming Matches
+            const upcomingMatchesDiv = document.getElementById('upcoming-matches-hub');
+            const teamUpcomingGames = allScheduledGames.filter(game =>
+                (game.team1 === teamNameQuery || game.team2 === teamNameQuery) &&
+                (game.matchStatus === 'Kommande' || game.matchStatus === 'Pågående' || game.matchStatus === '' || game.matchStatus === 'N/A' || game.matchStatus === 'blank/null' || game.matchStatus === '-') && // More robust check
+                (game.result === 'N/A' || game.result === '' || game.result === ' - ') // Not yet played
+            ).sort((a, b) => a.time.localeCompare(b.time));
+
+            if (teamUpcomingGames.length > 0) {
+                upcomingMatchesDiv.innerHTML = teamUpcomingGames.map(game => `
+                    <div class="match-item">
+                        <strong>${game.time}</strong> vs ${game.team1 === teamNameQuery ? game.team2 : game.team1} på ${game.venue || 'Okänd plan'}
+                    </div>
+                `).join('');
+            } else {
+                upcomingMatchesDiv.innerHTML = '<p class="text-gray-500">Inga fler kommande matcher i schemat.</p>';
+            }
+
+            // Populate Player Roster & Stats
+            const playerRosterDiv = document.getElementById('player-roster-hub');
+            const teamPlayersStats = allPlayerStats.filter(player => player.team === teamNameQuery);
+
+            // Try to get player list from PUB_TEAMINFO if PLAYER_STATS is empty for this team
+            let playersToDisplay = [];
+            if (teamPlayersStats.length > 0) {
+                playersToDisplay = teamPlayersStats.map(p => ({
+                    name: p.playerName,
+                    goals: p.goals,
+                    yellowCards: p.yellowCards,
+                    redCards: p.redCards
+                }));
+            } else if (currentTeamInfo.playersRaw) {
+                playersToDisplay = currentTeamInfo.playersRaw.split(',').map(name => ({
+                    name: name.replace(/\s*\(K\)|\s*\(MV\)/i, '').trim(), // Remove (K) or (MV)
+                    goals: '?', yellowCards: '?', redCards: '?' // Stats unknown from this source
+                }));
+            }
+
+
+            if (playersToDisplay.length > 0) {
+                playerRosterDiv.innerHTML = playersToDisplay.map(player => `
+                    <div class="player-list-item-hub">
+                        <span>${player.name}</span>
+                        <span class="text-xs">
+                            Mål: ${player.goals} | G: ${player.yellowCards} | R: ${player.redCards}
+                        </span>
+                    </div>
+                `).join('');
+            } else {
+                playerRosterDiv.innerHTML = '<p class="text-gray-500">Ingen spelartrupp tillgänglig.</p>';
+            }
+
+            // Populate Team Standings
+            const teamStandingsDiv = document.getElementById('team-standings-hub');
+            const currentTeamStanding = allStandings.find(s => s.teamName === teamNameQuery);
+            if (currentTeamStanding) {
+                teamStandingsDiv.innerHTML = `
+                    <div class="stat-grid">
+                        <div class="stat-item"><div class="stat-label">Matcher</div><div class="stat-value">${currentTeamStanding.matchesPlayed}</div></div>
+                        <div class="stat-item"><div class="stat-label">Vinster</div><div class="stat-value">${currentTeamStanding.wins}</div></div>
+                        <div class="stat-item"><div class="stat-label">Oavgjorda</div><div class="stat-value">${currentTeamStanding.draws}</div></div>
+                        <div class="stat-item"><div class="stat-label">Förluster</div><div class="stat-value">${currentTeamStanding.losses}</div></div>
+                        <div class="stat-item"><div class="stat-label">Gjorda Mål</div><div class="stat-value">${currentTeamStanding.goalsFor}</div></div>
+                        <div class="stat-item"><div class="stat-label">Insläppta Mål</div><div class="stat-value">${currentTeamStanding.goalsAgainst}</div></div>
+                        <div class="stat-item"><div class="stat-label">Målskillnad</div><div class="stat-value">${currentTeamStanding.goalDifference}</div></div>
+                        <div class="stat-item"><div class="stat-label">Poäng</div><div class="stat-value">${currentTeamStanding.points}</div></div>
+                    </div>
+                `;
+            } else {
+                teamStandingsDiv.innerHTML = '<p class="text-gray-500">Tabellinformation inte tillgänglig.</p>';
+            }
+
+
+            // Populate Past Matches
+            const pastMatchesDiv = document.getElementById('past-matches-hub');
+            const teamPastGames = allScheduledGames.filter(game =>
+                (game.team1 === teamNameQuery || game.team2 === teamNameQuery) &&
+                (game.matchStatus === 'Slutrapporterad') && // Only played games
+                (game.result && game.result !== 'N/A' && game.result.trim() !== '' && game.result.trim() !== '-')
+            ).sort((a, b) => b.time.localeCompare(a.time)); // Show most recent first
+
+            if (teamPastGames.length > 0) {
+                pastMatchesDiv.innerHTML = teamPastGames.map(game => `
+                    <div class="match-item">
+                        ${game.team1} <strong>${game.result}</strong> ${game.team2} (${game.time})
+                    </div>
+                `).join('');
+            } else {
+                pastMatchesDiv.innerHTML = '<p class="text-gray-500">Inga spelade matcher att visa.</p>';
+            }
+
+            // Placeholder for Interviews - you'll need to implement fetching and parsing for this
+            // const interviewsDiv = document.getElementById('interviews-hub');
+            // interviewsDiv.innerHTML = '<p class="text-gray-500">Laddar intervjuer...</p>';
+        });
+    </script>
+</body>
+
+</html>
