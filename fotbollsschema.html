@@ -274,7 +274,7 @@
                 width: 100%;
                 /* Ta full bredd under logotypen */
                 justify-content: center;
-                /* Centrera länkar i en rad som bryter */
+                /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
             }
 
             .navbar a {
@@ -325,22 +325,27 @@
                     class="flex-1 px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200">
                     Visa alla matcher
                 </button>
-                <button id="my-games-btn"
-                    class="flex-1 px-5 py-3 bg-gray-200 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 transition duration-200">
-                    Mina matcher
-                </button>
             </div>
         </div>
 
         <!-- Informations-/instruktionsmeddelande -->
         <p id="info-message" class="text-center text-gray-600 mb-8 p-3 bg-blue-50 rounded-lg border border-blue-200">
-            Visar alla schemalagda matcher. Välj ditt lag för att markera dina matcher.
+            Visar alla schemalagda matcher. Välj ditt lag för att filtrera.
         </p>
 
         <!-- Spelschema sektion -->
-        <div id="game-list" class="flex flex-col gap-4">
-            <!-- Spelkorten kommer att renderas här av JavaScript -->
-            <div class="text-center text-gray-500 p-8">Laddar schema...</div>
+        <div id="schedule-sections"> <!-- New container for different schedule sections -->
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Pågående matcher</h2>
+            <div id="ongoing-games-list" class="flex flex-col gap-4">
+                <!-- Pågående spelkorten kommer att renderas här av JavaScript -->
+                <div class="text-center text-gray-500 p-8">Laddar pågående matcher...</div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Kommande matcher</h2>
+            <div id="upcoming-games-list" class="flex flex-col gap-4">
+                <!-- Kommande spelkorten kommer att renderas här av JavaScript -->
+                <div class="text-center text-gray-500 p-8">Laddar kommande matcher...</div>
+            </div>
         </div>
     </div>
 
@@ -361,23 +366,24 @@
             // Denna URL pekar nu på din dedikerade PUB_TEAMINFO Google Sheet.
             // Se till att din Google Sheet är publicerad som "Comma-separated values (.csv)".
             // Se också till att 'Logo'-kolumnen i lagregistret innehåller DIREKTA BILD-URL:er (t.ex. https://example.com/logo.png), inte länkar till Google Drive-visningslänkar.
+            // KORRIGERAD URL: FUS i mitten var felaktigt, ändrat till US
             const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
 
             const teamSelect = document.getElementById('team-select');
             const viewAllBtn = document.getElementById('view-all-btn');
-            const myGamesBtn = document.getElementById('my-games-btn');
-            const gameListDiv = document.getElementById('game-list');
+            // Referenser till de nya divarna för pågående och kommande matcher
+            const ongoingGameListDiv = document.getElementById('ongoing-games-list');
+            const upcomingGameListDiv = document.getElementById('upcoming-games-list');
             const infoMessage = document.getElementById('info-message');
 
-            let allGames = []; // Lagrar rådata från spelschema CSV
-            let allTeamsData = []; // Lagrar rådata från lagregister CSV för logotyper
-            let currentFilterTeam = 'All Teams';
-            let showMyGamesOnly = false;
+            let allGames = []; // Stores raw data from schedule CSV
+            let allTeamsData = []; // Stores raw data from team register CSV for logos
+            let currentFilterTeam = 'All Teams'; // Initial filter state
 
             /**
-             * Hämtar CSV-data från den angivna URL:en.
-             * @param {string} url URL:en till CSV-filen.
-             * @returns {Promise<string>} Ett löfte som löser med CSV-texten.
+             * Fetches CSV data from the given URL.
+             * @param {string} url The URL to the CSV file.
+             * @returns {Promise<string>} A promise that resolves with the CSV text.
              */
             async function fetchCsvData(url) {
                 console.log(`Attempting to fetch CSV from: ${url}`);
@@ -392,27 +398,27 @@
                     return await response.text();
                 } catch (error) {
                     console.error(`Error fetching CSV data from: ${url}`, error);
-                    // Denna felmeddelandedel hanteras i initializeSchedule för att vara mer specifik
-                    throw error; // Propagera felet uppåt
+                    // This error message part is handled in initializeSchedule for more specificity
+                    throw error; // Propagate the error upwards
                 }
             }
 
             /**
-             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
-             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
-             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
-             * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
+             * A robust CSV parsing function that handles fields with commas and quotes.
+             * Assumes that fields containing commas are enclosed in double quotes.
+             * Also handles double quotes within quoted fields (by doubling them, e.g., "He said ""Hello""").
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Array<string>>} An array of rows, where each row is an array of string values.
              */
             function parseRobustCsv(csvText) {
                 const rows = [];
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
 
-                if (lines.length === 0) { // Tom CSV eller bara whitespace-rader
+                if (lines.length === 0) { // Empty CSV or just whitespace lines
                     return [];
                 }
 
-                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
+                // Process data rows (skip header row for internal parsing)
                 for (let i = 0; i < lines.length; i++) {
                     const line = lines[i];
                     const values = [];
@@ -424,44 +430,45 @@
                         const nextChar = line[j + 1];
 
                         if (char === '"') {
-                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
+                            if (inQuote && nextChar === '"') { // Handle double quotes inside a quoted field ("" becomes ")
                                 currentField += char;
-                                j++; // Hoppa över nästa citationstecken
+                                j++; // Skip the next quote
                             } else {
-                                inQuote = !inQuote; // Växla in/ut ur citerat läge
+                                inQuote = !inQuote; // Toggle in/out of quoted mode
                             }
                         } else if (char === ',' && !inQuote) {
+                            // Reverting to original logic: if comma and not in quote, push field and reset
                             values.push(currentField.trim());
                             currentField = '';
                         } else {
                             currentField += char;
                         }
                     }
-                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
+                    values.push(currentField.trim()); // Add the last field in the line
                     rows.push(values);
                 }
                 console.log(`Parsed ${rows.length - 1} data rows.`); // Log how many data rows were parsed
-                return rows.slice(1); // Returnera alla rader utom rubrikraden
+                return rows.slice(1); // Return all rows except the header row
             }
 
             /**
-             * Parsar den robusta CSV-texten till en array av spelobjekt från PUB_GROUP_SCHEDULE.
-             * VIKTIGT: Denna funktion förväntar sig att kolumnerna är i DENNA SPECIFIKA ORDNING:
-             * Matchid|Time|Hemma|Borta|Plansponsor|Group|Resultat|Anmärkning
-             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
-             * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Object>} En array av spelobjekt.
+             * Parses the robust CSV text into an array of game objects from PUB_GROUP_SCHEDULE.
+             * IMPORTANT: This function expects columns in THIS SPECIFIC ORDER:
+             * Matchid|Time|Hemma|Borta|Plansponsor|Group|Resultat|Kommande match
+             * If the column order in your Google Sheet is different, you MUST adjust the indices below.
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Object>} An array of game objects.
              */
             function parseScheduleCsv(csvText) {
-                const rawRows = parseRobustCsv(csvText); // Använd den robusta parsern
+                const rawRows = parseRobustCsv(csvText); // Use the robust parser
                 if (rawRows.length === 0) {
                     console.warn("Schedule CSV is empty or parsing resulted in no data.");
                     return [];
                 }
 
                 const games = [];
-                // Kolumnmappning baserad på din angivna ordning: Matchid|Time|Hemma|Borta|Plansponsor|Group|Resultat|Anmärkning
-                const headers = ['matchId', 'time', 'team1', 'team2', 'venue', 'group', 'result', 'note'];
+                // Uppdaterade headers för PUB_GROUP_SCHEDULE
+                const headers = ['matchId', 'time', 'team1', 'team2', 'venue', 'group', 'result', 'matchStatus'];
 
                 rawRows.forEach((values, index) => {
                     if (values.length >= headers.length) {
@@ -472,25 +479,24 @@
                             team2: values[3] ? values[3].trim() : 'N/A',
                             venue: values[4] ? values[4].trim() : 'N/A',
                             group: values[5] ? values[5].trim() : 'N/A',
-                            result: values[6] ? values[6].trim() : 'N/A', // Ny kolumn
-                            note: values[7] ? values[7].trim() : 'N/A',
-                            date: 'N/A' // Date column is not present in the new schema, setting to N/A
+                            result: values[6] ? values[6].trim() : 'N/A', // Resultat
+                            matchStatus: values[7] ? values[7].trim() : 'N/A' // Kommande match / Status
                         };
                         games.push(game);
                     } else {
-                        console.warn(`Hoppar över felaktig schemarad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}). Radinnehåll: "${values.join(',')}"`); // index + 2 för att matcha radnummer i Google Sheet
+                        console.warn(`Skipping invalid schedule row ${index + 2}: Not enough columns (expected ${headers.length}, found ${values.length}). Row content: "${values.join(',')}"`); // index + 2 to match Google Sheet row numbers
                     }
                 });
                 return games;
             }
 
             /**
-             * Parsar CSV-text till en array av lagobjekt. Används för att hämta logotyper.
-             * VIKTIGT: Denna funktion förväntar sig kolumnerna i DENNA SPECIFIKA ORDNING:
+             * Parses CSV text into an array of team objects. Used to fetch logos.
+             * IMPORTANT: This function expects columns in THIS SPECIFIC ORDER:
              * Lagnamn|Logo|Lagkapten|Samarbetspartner|Grupp|Spelare (K=Kapten, MV=Keeper)|TEAM_DESCRIPTION|TEAM_STYLE|SECRET_WEAPON|HIGHLIGHT_OPS|GROUP_THREAT|TEAM_EXP|CELEBRATION|MOTTO|BetStats
-             * Om kolumnordningen i ditt Google Sheet är annorlunda, MÅSTE du justera indexen nedan.
-             * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Object>} En array av lagobjekt.
+             * If the column order in your Google Sheet is different, you MUST adjust the indices below.
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Object>} An array of team objects.
              */
             function parseTeamsCsv(csvText) {
                 const rawRows = parseRobustCsv(csvText);
@@ -500,7 +506,7 @@
                 }
 
                 const teams = [];
-                // Kolumnmappning baserad på din angivna ordning
+                // Column mapping based on your specified order
                 const headers = [
                     'teamName', 'logo', 'captainName', 'sponsor', 'group', 'playersRaw',
                     'teamDescription', 'teamStyle', 'secretWeapon', 'highlightOps',
@@ -511,7 +517,7 @@
                     if (values.length >= 15) {
                         const team = {
                             teamName: values[0] ? values[0].trim() : 'N/A',
-                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Team+Logo', // Platshållarbild om ingen URL finns
+                            logo: values[1] ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo', // Placeholder image if no URL exists
                             captainName: values[2] ? values[2].trim() : 'N/A',
                             sponsor: values[3] ? values[3].trim() : 'N/A',
                             group: values[4] ? values[4].trim() : 'N/A',
@@ -528,26 +534,26 @@
                         };
                         teams.push(team);
                     } else {
-                        console.warn(`Hoppar över felaktig lagrad ${index + 2}: Inte tillräckligt med kolumner (förväntade ${headers.length}, hittade ${values.length}).`);
+                        console.warn(`Skipping invalid team row ${index + 2}: Not enough columns (expected ${headers.length}, found ${values.length}).`);
                     }
                 });
                 return teams;
             }
 
             /**
-             * Hämtar en lags logotyp-URL.
-             * @param {string} teamName Namnet på laget.
-             * @returns {string} Logotypens URL eller en platshållar-URL.
+             * Fetches a team's logo URL.
+             * @param {string} teamName The name of the team.
+             * @returns {string} The logo URL or a placeholder URL.
              */
             function getTeamLogo(teamName) {
                 const team = allTeamsData.find(t => t.teamName === teamName);
-                // Använder team.logo om den finns, annars den specifika platshållarbilden för logotypfel.
-                // Lägg till en fallback för att hantera om team.logo är tom eller ogiltig.
+                // Use team.logo if it exists, otherwise the specific placeholder image for logo errors.
+                // Add a fallback to handle if team.logo is empty or invalid.
                 return (team && team.logo && isValidImageUrl(team.logo)) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';
             }
 
             /**
-             * Kontrollerar om en URL ser ut som en giltig bild-URL.
+             * Checks if a URL looks like a valid image URL.
              * @param {string} url
              * @returns {boolean}
              */
@@ -558,7 +564,7 @@
 
 
             /**
-             * Fyller i lagvalsrullgardinsmenyn med unika lag från speldatan.
+             * Populates the team selection dropdown with unique teams from the game data.
              */
             function populateTeamDropdown() {
                 const teams = new Set();
@@ -567,10 +573,10 @@
                     if (game.team2 && game.team2 !== 'N/A') teams.add(game.team2);
                 });
 
-                // Rensa befintliga alternativ förutom "Alla lag"
+                // Clear existing options except "Alla lag"
                 teamSelect.innerHTML = '<option value="All Teams">Alla lag</option>';
 
-                // Lägg till unika lag, sorterade alfabetiskt
+                // Add unique teams, sorted alphabetically
                 Array.from(teams).sort().forEach(team => {
                     const option = document.createElement('option');
                     option.value = team;
@@ -581,128 +587,130 @@
             }
 
             /**
-             * Renderar spelschemat baserat på aktuella filter.
+             * Renders the game schedule based on current filters.
              */
             function renderSchedule() {
-                console.log('renderSchedule called. Clearing game list. Current filter team:', currentFilterTeam, 'Show my games only:', showMyGamesOnly);
-                gameListDiv.innerHTML = ''; // Rensa tidigare spel
+                console.log('renderSchedule called. Current filter team:', currentFilterTeam);
 
-                let gamesToDisplay = allGames;
+                // Clear both lists explicitly
+                ongoingGameListDiv.innerHTML = '';
+                upcomingGameListDiv.innerHTML = '';
 
-                // Använd "Mina matcher" filtret först om det är aktivt och ett lag är valt
-                if (showMyGamesOnly && currentFilterTeam !== 'All Teams') {
-                    gamesToDisplay = allGames.filter(game =>
+                // Filter games based on result (only show if N/A, i.e., not finished)
+                const relevantGames = allGames.filter(game => game.result === 'N/A' || game.result === '' || game.result === ' - ' || game.result === '-');
+
+                let ongoingGames = relevantGames.filter(game => game.matchStatus === 'Pågående');
+                let upcomingGames = relevantGames.filter(game =>
+                    (game.matchStatus === 'Kommande' || game.matchStatus === 'blank/null' || game.matchStatus === '' || game.matchStatus === ' - ' || game.matchStatus === '-')
+                ); // Added '-' and blank/null check here too for robust filtering
+
+
+                // Apply team filter if a specific team is selected
+                if (currentFilterTeam !== 'All Teams') {
+                    ongoingGames = ongoingGames.filter(game =>
                         game.team1 === currentFilterTeam || game.team2 === currentFilterTeam
                     );
-                    infoMessage.textContent = `Visar endast matcher för "${currentFilterTeam}".`;
-                } else if (!showMyGamesOnly && currentFilterTeam !== 'All Teams') {
-                    // Om "Visa alla matcher" är aktivt och ett lag är valt, visa alla men markera
-                    infoMessage.textContent = `Visar alla matcher. "${currentFilterTeam}" matcher är markerade.`;
+                    upcomingGames = upcomingGames.filter(game =>
+                        game.team1 === currentFilterTeam || game.team2 === currentFilterTeam
+                    );
+                    infoMessage.textContent = `Visar endast kommande och pågående matcher för "${currentFilterTeam}".`;
                 } else {
-                    // Standardläge eller "Visa alla matcher" och "Alla lag" valda
-                    infoMessage.textContent = 'Visar alla schemalagda matcher. Välj ditt lag för att markera eller filtrera dina matcher.';
+                    infoMessage.textContent = 'Visar alla kommande och pågående matcher. Välj ditt lag för att filtrera.';
                 }
 
-                if (gamesToDisplay.length === 0) {
-                    gameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga matcher hittades som matchar dina kriterier.</div>`;
-                    console.warn('No games to display based on current filters.');
-                    return;
+                // Sort ongoing games by time (oldest first)
+                ongoingGames.sort((a, b) => a.time.localeCompare(b.time));
+                // Sort upcoming games by time (oldest first)
+                upcomingGames.sort((a, b) => a.time.localeCompare(b.time));
+
+
+                // Render Ongoing Games (limit to 3)
+                if (ongoingGames.length > 0) {
+                    ongoingGames.slice(0, 3).forEach(game => { // Limit to max 3 ongoing matches
+                        ongoingGameListDiv.appendChild(createGameCard(game, currentFilterTeam));
+                    });
+                } else {
+                    ongoingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga pågående matcher.</div>`;
                 }
+                console.log(`Rendered ${ongoingGames.length} ongoing games.`);
 
-                gamesToDisplay.forEach(game => {
-                    const gameRow = document.createElement('div');
-                    // Lägg till highlighted-game-klass om det aktuella filterlaget är en del av spelet OCH det inte är 'Alla lag'
-                    const isHighlighted = currentFilterTeam !== 'All Teams' &&
-                        (game.team1 === currentFilterTeam || game.team2 === currentFilterTeam);
-                    gameRow.className = `game-row ${isHighlighted ? 'highlighted-game' : ''}`;
 
-                    const team1Logo = getTeamLogo(game.team1);
-                    const team2Logo = getTeamLogo(game.team2);
-
-                    const team1Class = (currentFilterTeam !== 'All Teams' && game.team1 === currentFilterTeam) ? 'highlighted-team-text' : '';
-                    const team2Class = (currentFilterTeam !== 'All Teams' && game.team2 === currentFilterTeam) ? 'highlighted-team-text' : '';
-
-                    gameRow.innerHTML = `
-                        <div class="flex flex-col md:flex-row items-center justify-center md:justify-start flex-grow mb-4 md:mb-0 md:w-1/2">
-                            <div class="team-display mr-4">
-                                <img src="${team1Logo}" alt="${game.team1} Logo" class="team-logo">
-                                <span class="${team1Class} text-lg md:text-xl font-bold">${game.team1 || 'N/A'}</span>
-                            </div>
-                            <span class="text-gray-500 text-base md:text-lg mx-2 md:mx-4 font-semibold">vs</span>
-                            <div class="team-display">
-                                <img src="${team2Logo}" alt="${game.team2} Logo" class="team-logo">
-                                <span class="${team2Class} text-lg md:text-xl font-bold">${game.team2 || 'N/A'}</span>
-                            </div>
-                        </div>
-
-                        <div class="game-details md:w-1/2">
-                            <p class="game-time-venue">
-                                ${game.time || 'N/A'} @ ${game.venue || 'N/A'}
-                            </p>
-                            <!-- Matchresultat visas inte längre på spelschemat -->
-                            <p class="game-group-note">
-                                Grupp: ${game.group || 'N/A'} ${game.note && game.note !== 'N/A' ? ` | Anm: ${game.note}` : ''}
-                            </p>
-                        </div>
-                    `;
-                    gameListDiv.appendChild(gameRow);
-                });
-                console.log(`Rendered ${gamesToDisplay.length} games.`);
+                // Render Upcoming Games
+                if (upcomingGames.length > 0) {
+                    upcomingGames.forEach(game => {
+                        upcomingGameListDiv.appendChild(createGameCard(game, currentFilterTeam));
+                    });
+                } else {
+                    upcomingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga kommande matcher.</div>`;
+                }
+                console.log(`Rendered ${upcomingGames.length} upcoming games.`);
             }
 
             /**
-             * Uppdaterar knapparnas stilar baserat på det aktiva filtret.
+             * Creates a game card DOM element.
+             * @param {Object} game - The game object.
+             * @param {string} filterTeam - The currently selected filter team.
+             * @returns {HTMLElement} The created game card div.
              */
-            function updateFilterButtons() {
-                if (showMyGamesOnly) {
-                    myGamesBtn.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
-                    myGamesBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700');
-                    viewAllBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700');
-                    viewAllBtn.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
-                } else {
-                    viewAllBtn.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
-                    viewAllBtn.classList.add('bg-blue-600', 'text-white', 'hover:bg-blue-700');
-                    myGamesBtn.classList.remove('bg-blue-600', 'text-white', 'hover:bg-blue-700');
-                    myGamesBtn.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
-                }
-                console.log('Filter buttons updated.');
+            function createGameCard(game, filterTeam) {
+                const gameRow = document.createElement('div');
+                const isHighlighted = filterTeam !== 'All Teams' &&
+                    (game.team1 === filterTeam || game.team2 === filterTeam);
+                gameRow.className = `game-row ${isHighlighted ? 'highlighted-game' : ''}`;
+
+                const team1Logo = getTeamLogo(game.team1);
+                const team2Logo = getTeamLogo(game.team2);
+
+                const team1Class = (filterTeam !== 'All Teams' && game.team1 === filterTeam) ? 'highlighted-team-text' : '';
+                const team2Class = (filterTeam !== 'All Teams' && game.team2 === filterTeam) ? 'highlighted-team-text' : '';
+
+                gameRow.innerHTML = `
+                    <div class="flex flex-col md:flex-row items-center justify-center md:justify-start flex-grow mb-4 md:mb-0 md:w-1/2">
+                        <div class="team-display mr-4">
+                            <img src="${team1Logo}" alt="${game.team1} Logo" class="team-logo">
+                            <span class="${team1Class} text-lg md:text-xl font-bold">${game.team1 || 'N/A'}</span>
+                        </div>
+                        <span class="text-gray-500 text-base md:text-lg mx-2 md:mx-4 font-semibold">vs</span>
+                        <div class="team-display">
+                            <img src="${team2Logo}" alt="${game.team2} Logo" class="team-logo">
+                            <span class="${team2Class} text-lg md:text-xl font-bold">${game.team2 || 'N/A'}</span>
+                        </div>
+                    </div>
+
+                    <div class="game-details md:w-1/2">
+                        <p class="game-time-venue">
+                            ${game.time || 'N/A'} @ ${game.venue || 'N/A'}
+                        </p>
+                        <p class="game-group-note">
+                            Grupp: ${game.group || 'N/A'} ${game.matchStatus && game.matchStatus !== 'N/A' && game.matchStatus !== 'blank/null' ? ` | Status: ${game.matchStatus}` : ''}
+                        </p>
+                    </div>
+                `;
+                return gameRow;
             }
 
-            // Händelselyssnare
+
+            // Event Listeners
             teamSelect.addEventListener('change', (event) => {
                 currentFilterTeam = event.target.value;
                 console.log('Team selected:', currentFilterTeam);
-                if (showMyGamesOnly && currentFilterTeam === 'All Teams') {
-                    showMyGamesOnly = false;
-                    console.log('Switched to show all games because "All Teams" was selected while "My Games" was active.');
-                }
-                updateFilterButtons();
-                renderSchedule();
+                renderSchedule(); // Render automatically on team selection
             });
 
             viewAllBtn.addEventListener('click', () => {
-                console.log('View All Games button clicked.');
-                showMyGamesOnly = false;
-                updateFilterButtons();
-                renderSchedule();
+                console.log('View All Games button clicked. Resetting filter.');
+                currentFilterTeam = 'All Teams'; // Reset filter
+                teamSelect.value = 'All Teams'; // Reset dropdown
+                renderSchedule(); // Render all games
             });
 
-            myGamesBtn.addEventListener('click', () => {
-                console.log('My Games button clicked.');
-                if (currentFilterTeam === 'All Teams') {
-                    infoMessage.textContent = 'Välj ett lag från rullgardinsmenyn först för att använda filtret "Mina matcher".';
-                    console.warn('Cannot filter "My Games" without a selected team.');
-                } else {
-                    showMyGamesOnly = true;
-                    updateFilterButtons();
-                    renderSchedule();
-                }
-            });
-
-            // Initial laddning av data
+            // Initial data loading
             async function initializeSchedule() {
                 console.log('initializeSchedule called.');
-                gameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar schema och lagdata...</div>`;
+                // Update initial loading messages for the specific divs
+                ongoingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Laddar pågående matcher...</div>`;
+                upcomingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Laddar kommande matcher...</div>`;
+
                 try {
                     console.time('Fetch Teams CSV');
                     const teamsCsvText = await fetchCsvData(teamsCsvUrl);
@@ -717,17 +725,17 @@
                     console.log('allGames loaded:', allGames.length, 'games');
 
                     populateTeamDropdown();
-                    renderSchedule();
-                    updateFilterButtons();
+                    renderSchedule(); // Initial render with all matches
                     console.log('Schedule initialized and rendered successfully.');
                 } catch (error) {
                     console.error("Felsökning: Ett fel uppstod vid initialisering av schemat.", error);
-                    gameListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
+                    ongoingGameListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">
                                                 Kunde inte ladda schema eller lagdata. Se konsolen för detaljer. <br>
                                                 Kontrollera att båda dina Google Sheets är korrekt publicerade som CSV.
                                                 <br>
                                                 <a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Hur du publicerar Google Sheet till webben (Google Support)</a>
                                             </div>`;
+                    upcomingGameListDiv.innerHTML = ''; // Clear upcoming if overall error
                 }
             }
 
