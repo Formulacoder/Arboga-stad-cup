@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arboga Stad Cup</title>
-    <!-- Tailwind CSS CDN för styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -232,6 +231,17 @@
             /* Centrera bilden horisontellt */
         }
 
+        /* Countdown specific styling */
+        #countdown {
+            font-size: 1.875rem;
+            /* text-3xl */
+            font-weight: 700;
+            color: #ef4444;
+            /* Red color for urgency */
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
         /* Responsive justeringar */
         @media (max-width: 640px) {
 
@@ -266,7 +276,6 @@
 </head>
 
 <body class="flex flex-col">
-    <!-- Global Navigationsmeny -->
     <nav class="navbar">
         <a href="index.html">
             <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
@@ -284,16 +293,15 @@
     </nav>
 
     <div class="content-container">
-        <!-- Välkomstsektion -->
         <section class="section">
             <h1 class="section-title">Välkommen till Arboga Stad Cup!</h1>
             <p class="section-text">Följ alla matcher, lag och spelare under årets mest spännande fotbollscup!</p>
+            <div id="countdown" class="text-red-500 text-3xl font-bold my-4"></div>
             <a href="fotbollsschema.html" class="btn-primary">Se spelschemat</a>
         </section>
 
         <hr class="border-gray-200 my-8">
 
-        <!-- Video Sektion -->
         <section class="section">
             <h2 class="section-title">Se Vår Kampanjvideo!</h2>
             <p class="section-text">
@@ -310,7 +318,6 @@
 
         <hr class="border-gray-200 my-8">
 
-        <!-- Om Cupen Sektion -->
         <section class="section">
             <h2 class="section-title">Om Cupen</h2>
             <p class="section-text">
@@ -339,10 +346,52 @@
         </section>
     </div>
 
-    <!-- Global Footer -->
     <footer class="footer">
         <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
     </footer>
+
+    <script>
+        // Sätter datumet vi räknar ner till
+        const countDownDate = new Date("Jul 12, 2025 12:00:00").getTime();
+
+        // Uppdatera nedräkningen varje 1 sekund
+        const x = setInterval(function () {
+
+            // Hämta dagens datum och tid
+            const now = new Date().getTime();
+
+            // Hitta avståndet mellan nu och nedräkningsdatumet
+            const distance = countDownDate - now;
+
+            // Tidsberäkningar för dagar, timmar, minuter och sekunder
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Lägg till ledande nollor för timmar, minuter och sekunder
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+
+            // Konstruera den snyggare strängen
+            let countdownString = `Startar om: `;
+            if (days > 0) {
+                countdownString += `${days} ${days === 1 ? 'dag' : 'dagar'}, `;
+            }
+            countdownString += `${formattedHours} timmar, ${formattedMinutes} minuter och ${formattedSeconds} sekunder`;
+
+
+            // Visa resultatet i elementet med id="countdown"
+            document.getElementById("countdown").innerHTML = countdownString;
+
+            // Om nedräkningen är över, skriv en text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "CUPEN HAR STARTAT!";
+            }
+        }, 1000);
+    </script>
 </body>
 
 </html>
