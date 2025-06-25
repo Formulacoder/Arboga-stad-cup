@@ -334,6 +334,27 @@
     </footer>
 
     <script>
+        // Hamburger menu toggle logic
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const navbarLinksContainer = document.getElementById('navbar-links-container');
+
+        if (hamburgerButton && navbarLinksContainer) {
+            hamburgerButton.addEventListener('click', () => {
+                // Toggle the 'hidden' class to show/hide the menu
+                navbarLinksContainer.classList.toggle('hidden');
+                // Add/remove 'flex' and 'flex-col' for proper mobile layout when active
+                navbarLinksContainer.classList.toggle('flex');
+                navbarLinksContainer.classList.toggle('flex-col');
+            });
+
+            // Close menu if resized to a larger screen (md breakpoint and above)
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) { // Tailwind's 'md' breakpoint
+                    navbarLinksContainer.classList.remove('hidden', 'flex-col');
+                    navbarLinksContainer.classList.add('flex'); // Ensure it's flex on large screens
+                }
+            });
+        }
         // Sätter datumet vi räknar ner till
         const countDownDate = new Date("Jul 12, 2025 12:00:00").getTime();
 
