@@ -26,71 +26,41 @@
         .navbar {
             width: 100%;
             background-color: #1a202c;
-            /* Mörk bakgrund för navbar */
             color: white;
             padding: 1rem 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
-            /* Kvar på toppen vid scroll */
             top: 0;
             z-index: 1000;
-            /* Säkerställ att den ligger över annat innehåll */
             display: flex;
-            /* Använd flexbox */
+            /* Changed to flex for proper alignment */
             align-items: center;
-            /* Centrera vertikalt */
-            justify-content: flex-start;
-            /* Starta objekt från vänster */
+            justify-content: space-between;
+            /* Space between logo and hamburger/links */
             flex-wrap: wrap;
-            /* Tillåt objekt att bryta rad om utrymmet är begränsat */
+            /* Allow wrapping on very small screens if necessary */
         }
 
         .navbar-home-logo {
             height: 2.5rem;
-            /* Storlek på logotypen som hemknapp */
             margin-right: 1.5rem;
-            /* Mer utrymme till höger om logotypen */
-            cursor: pointer;
-            border-radius: 9999px;
-            /* Rundad */
-            transition: transform 0.2s ease-in-out;
-            flex-shrink: 0;
-            /* Förhindra att logotypen krymper */
         }
 
-        .navbar-home-logo:hover {
-            transform: scale(1.05);
-            /* Lätt förstoring vid hover */
-        }
-
-        .navbar-links-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            /* Tillåt länkar att bryta rad */
-            gap: 0.5rem;
-            /* Litet mellanrum mellan länkar */
-            flex-grow: 1;
-            /* Tillåt länkomslutningen att ta tillgängligt utrymme */
-            justify-content: center;
-            /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
-        }
-
-        .navbar a {
+        /* No longer directly styling .navbar-links as they are now inside #navbar-links-container */
+        .navbar-link {
             color: white;
             text-decoration: none;
-            padding: 0.5rem 0.8rem;
-            /* Något minskad padding för kompakthet */
-            border-radius: 0.375rem;
-            /* rounded-md */
-            transition: background-color 0.2s ease-in-out;
             font-weight: 500;
-            white-space: nowrap;
-            /* Förhindra att länkar bryter text */
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            /* Added padding for better tap targets on mobile */
+            border-radius: 0.25rem;
         }
 
-        .navbar a:hover {
-            background-color: #4a5568;
-            /* Mörkare grå vid hover */
+        .navbar-link:hover {
+            color: #a0aec0;
+            /* Light gray on hover */
+            background-color: #2d3748;
         }
 
         .content-container {
@@ -243,48 +213,61 @@
         }
 
         /* Responsive justeringar */
-        @media (max-width: 640px) {
-
-            /* För mobil (sm breakpoint) */
+        @media (max-width: 767px) {
             .navbar {
-                flex-direction: column;
-                /* Stapla logotyp och länkar vertikalt */
+                flex-direction: row;
+                /* Keep logo and hamburger on the same row */
+                justify-content: space-between;
+                /* Space them out */
                 align-items: center;
-                /* Centrera allt */
             }
 
             .navbar-home-logo {
                 margin-right: 0;
-                /* Ingen marginal till höger om logotypen om den är centrerad */
-                margin-bottom: 1rem;
-                /* Avstånd till länkarna nedanför */
+                /* Remove margin-right for mobile */
+                margin-bottom: 0;
+                /* Ensure no bottom margin */
             }
 
-            .navbar-links-wrapper {
+            /* Styles for the hamburger menu when active */
+            #navbar-links-container.is-active {
+                display: flex;
+                flex-direction: column;
                 width: 100%;
-                /* Ta full bredd under logotypen */
-                justify-content: center;
-                /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
+                margin-top: 1rem;
+                /* Space below logo/hamburger */
             }
 
-            .navbar a {
-                width: auto;
-                /* Låt länkarna bestämma sin egen bredd */
+            #navbar-links-container.is-active .navbar-link {
+                text-align: center;
+                width: 100%;
+                padding: 0.75rem 0;
+                /* Larger touch target */
             }
         }
     </style>
 </head>
 
 <body class="flex flex-col">
+    <!-- Navbar -->
     <nav class="navbar">
         <a href="index.html">
-            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
+            <img src="https://placehold.co/100x40/1a202c/white?text=LOGO" alt="Home Logo" class="navbar-home-logo">
         </a>
-        <div class="navbar-links-wrapper">
+        <!-- Hamburger Button - Visible only on small screens (md:hidden) -->
+        <button id="hamburger-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                </path>
+            </svg>
+        </button>
+        <!-- Navigation Links Container - Hidden by default on small screens, flex on md and larger -->
+        <div id="navbar-links-container"
+            class="hidden md:flex flex-grow justify-start md:justify-end items-center md:gap-4 w-full md:w-auto flex-col md:flex-row">
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
             <a href="lagregister.html">Lagregister</a>
-            <a href="spelaregister.html">Spelarregister</a>
             <a href="tabeller.html">Tabeller</a>
             <a href="sponsorer.html">Samarbetspartners</a>
             <a href="aktiviteter.html">Aktiviteter</a>
@@ -390,6 +373,7 @@
                 clearInterval(x);
                 document.getElementById("countdown").innerHTML = "CUPEN HAR STARTAT!";
             }
+
         }, 1000);
     </script>
 </body>

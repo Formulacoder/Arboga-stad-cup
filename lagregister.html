@@ -111,8 +111,9 @@
             /* Låter innehållskontainern växa och pressa ner footern */
         }
 
-        /* --- START OF NEW/MODIFIED STYLES FOR TEAM LIST --- */
-        /* Group Filter Buttons */
+        /* ... (keep existing body, navbar, content-container, footer styles) ... */
+
+        /* Group Filter Buttons - no changes needed from previous state */
         .group-filter-buttons-container {
             display: flex;
             flex-wrap: wrap;
@@ -134,7 +135,6 @@
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out;
             flex-grow: 1;
-            /* Allows buttons to grow and fill space */
             text-align: center;
             min-width: 80px;
             white-space: nowrap;
@@ -151,136 +151,269 @@
             background-color: #cbd5e0;
         }
 
-        /* Team List Layout */
+        /* Team Card Grid */
         #team-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            /* Min width slightly increased */
             gap: 1.5rem;
         }
 
+        /* INDIVIDUAL TEAM CARD STYLING */
         .team-list-item {
-            background-color: #f7fafc;
+            /* The main card container */
+            background-color: #ffffff;
+            /* Brighter card background */
             border-radius: 0.75rem;
-            padding: 1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            padding: 1.25rem;
+            /* Increased padding */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            min-height: 280px;
+            /* Ensure a minimum height for consistency */
         }
 
         .team-list-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
-        .team-summary {
+        /* Row 1: Logo/Group + Name/Captain */
+        .team-card-row1 {
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align items to the top of the row */
+            margin-bottom: 1rem;
             gap: 1rem;
-            margin-bottom: 0.75rem;
-            width: 100%;
-            /* Ta full bredd för mobil */
-            justify-content: center;
-            /* Centrera horisontellt */
         }
 
-        .team-main-info {
+        .team-card-row1-left {
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-grow: 1;
-            min-width: 150px;
-            /* Låter lagnamn svepa */
-        }
-
-        .team-logo {
-            width: 3.5rem;
-            /* Större logotyp */
-            height: 3.5rem;
-            border-radius: 9999px;
-            object-fit: cover;
-            border: 2px solid #e2e8f0;
+            /* Center logo and group tag */
             flex-shrink: 0;
         }
 
-        .team-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1a202c;
-            margin-top: 0.5rem;
+        .team-logo-card {
+            /* Specific for this card's logo */
+            width: 70px;
+            /* Larger logo */
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+            margin-bottom: 0.5rem;
+            /* Space before group tag */
         }
 
-        .team-list-group {
-            background-color: #e0f2fe;
-            color: #2b6cb0;
+        .team-list-group-card {
+            /* Group tag specific for card */
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            /* Smaller group tag text */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .team-list-details-summary {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            /* Centrera detaljer på mindre skärmar */
-            gap: 0.75rem 1.5rem;
-            /* Vertikalt och horisontellt mellanrum */
-            width: 100%;
-            margin-bottom: 1rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid #e2e8f0;
+        /* Group specific colors will be added via JS */
+        .group-a {
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
 
-        .team-list-stat-item {
+        /* Light Red */
+        .group-b {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Light Blue */
+        .group-c {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        /* Light Green */
+        .group-d {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        /* Light Yellow/Amber */
+        .group-default {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+
+        /* Light Gray */
+
+
+        .team-card-row1-right {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            color: #4a5568;
+            align-items: flex-start;
+            /* Align text to the left */
+            flex-grow: 1;
+            min-width: 0;
+            /* Allows text to wrap properly */
+        }
+
+        .team-name-card {
+            font-size: 1.6rem;
+            /* Larger team name */
+            font-weight: 800;
+            color: #1a202c;
+            line-height: 1.2;
+            margin-bottom: 0.1rem;
+        }
+
+        .team-captain-card {
             font-size: 0.85rem;
+            color: #4a5568;
         }
 
-        .team-list-stat-item strong {
-            font-size: 1rem;
-            color: #2d3748;
-            margin-top: 0.2rem;
+        /* Row 2: Info - Players, Style, Motto, ShortDesc */
+        .team-card-row2 {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #374151;
+            text-align: left;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.75rem 0;
         }
 
-        .sponsor-display {
+        .team-card-row2 p {
+            margin-bottom: 0.35rem;
+        }
+
+        .team-card-row2 strong {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .short-description-card {
+            font-style: italic;
+            color: #4b5563;
+            max-height: 4.5em;
+            /* approx 3 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* Note: Pure CSS ellipsis on multi-line is tricky, JS might be needed for perfect "..." */
+        }
+
+        .short-description-card .read-more-link {
+            font-weight: 600;
+            color: #3b82f6;
+            text-decoration: none;
+            font-style: normal;
+        }
+
+        .short-description-card .read-more-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Row 3: Sponsor / Hub Link */
+        .team-card-row3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            /* Pushes this row to the bottom of the card */
+            padding-top: 0.75rem;
+        }
+
+        .sponsor-info-card {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 0.5rem;
             font-size: 0.8rem;
-            color: #718096;
+            color: #6b7280;
+            flex-grow: 1;
+            /* Allows sponsor info to take available space */
         }
 
-        .sponsor-logo-small {
-            height: 1.25rem;
-            width: auto;
+        .sponsor-logo-small-card {
+            height: 1.5rem;
+            /* Slightly larger sponsor logo */
+            max-width: 70px;
+            /* Max width for sponsor logo */
             object-fit: contain;
         }
 
-        .team-hub-link {
+        .team-hub-link-card {
+            /* Specific for card button */
             background-color: #3b82f6;
             color: white;
-            padding: 0.6rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: 0.5rem;
             font-weight: 600;
             text-decoration: none;
             transition: background-color 0.2s ease-in-out;
-            margin-top: auto;
-            /* Trycker länken till botten */
+            white-space: nowrap;
+            flex-shrink: 0;
+            /* Prevent button from shrinking */
         }
 
-        .team-hub-link:hover {
+        .team-hub-link-card:hover {
             background-color: #2563eb;
         }
 
-        /* --- END OF NEW/MODIFIED STYLES FOR TEAM LIST --- */
+        .team-hub-link-card.full-width {
+            width: 100%;
+            text-align: center;
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            /* ... (navbar responsive styles remain the same) ... */
+
+            #team-list {
+                grid-template-columns: 1fr;
+                /* Single column for mobile */
+            }
+
+            .team-card-row1 {
+                flex-direction: column;
+                /* Stack left and right on mobile */
+                align-items: center;
+                /* Center items in the column */
+                text-align: center;
+            }
+
+            .team-card-row1-right {
+                align-items: center;
+                /* Center team name and captain */
+            }
+
+            .team-card-row2 {
+                text-align: center;
+            }
+
+            .team-card-row3 {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .team-hub-link-card.full-width,
+            .team-hub-link-card {
+                width: 100%;
+                text-align: center;
+            }
+
+            .sponsor-info-card {
+                justify-content: center;
+            }
+        }
 
         /* Footer styling */
         .footer {
@@ -407,7 +540,6 @@
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
             <a href="lagregister.html">Lagregister</a>
-            <a href="spelaregister.html">Spelarregister</a>
             <a href="tabeller.html">Tabeller</a>
             <a href="sponsorer.html">Samarbetspartners</a>
             <a href="aktiviteter.html">Aktiviteter</a>
@@ -525,7 +657,21 @@
                 console.log(`Parsed ${rows.length - 1} data rows.`);
                 return rows.slice(1); // Returnera alla rader utom rubrikraden
             }
-
+            /**
+             * NEW: Helper function to assign a color class based on group name.
+             * @param {string} groupName The name of the group (e.g., "A", "B").
+             * @returns {string} Tailwind CSS class for background and text color.
+             */
+            function getGroupColorClass(groupName) {
+                if (!groupName || groupName === 'N/A') return 'group-default';
+                const group = groupName.toUpperCase();
+                if (group.includes('A')) return 'group-a';
+                if (group.includes('B')) return 'group-b';
+                if (group.includes('C')) return 'group-c';
+                if (group.includes('D')) return 'group-d';
+                // Add more cases if you have more than 4 groups with specific colors
+                return 'group-default'; // Fallback
+            }
             /**
              * Parsar CSV-text till en array av lagobjekt.
              * Förutsatt kolumnordning (viktigt!):
@@ -539,44 +685,51 @@
                     console.warn("Teams CSV är tom eller parsning resulterade i ingen data.");
                     return [];
                 }
-
                 const teams = [];
-                // Kolumnordning baserad på senaste specifikationen:
-                // teamName (0), logo (1), captainName (2), group (3), teamDescription (4),
-                // teamStyle (5), secretWeapon (6), highlightOps (7), groupThreat (8),
-                // teamExp (9), celebration (10), motto (11), playersRaw (12),
-                // sponsor (13), sponsorLogo (14)
-                const expectedHeadersCount = 15; // Totalt antal förväntade kolumner
+                const expectedColumns = 15;
 
                 rawRows.forEach((values, index) => {
-                    if (values.length > 0) { // Säkerställ att det inte är en helt tom rad
+                    if (values.length > 0) { // Process only if row is not completely empty
                         const team = {
-                            teamName: values[0] !== undefined ? values[0].trim() : 'N/A',
-                            logo: (values[1] !== undefined && isValidImageUrl(values[1])) ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
-                            captainName: values[2] !== undefined ? values[2].trim() : 'N/A',
-                            group: values[3] !== undefined ? values[3].trim() : 'N/A',
-                            teamDescription: values[4] !== undefined ? values[4].trim() : 'N/A',
-                            teamStyle: values[5] !== undefined ? values[5].trim() : 'N/A',
-                            secretWeapon: values[6] !== undefined ? values[6].trim() : 'N/A',
-                            highlightOps: values[7] !== undefined ? values[7].trim() : 'N/A',
-                            groupThreat: values[8] !== undefined ? values[8].trim() : 'N/A',
-                            teamExp: values[9] !== undefined ? values[9].trim() : 'N/A',
-                            celebration: values[10] !== undefined ? values[10].trim() : 'N/A',
-                            motto: values[11] !== undefined ? values[11].trim() : 'N/A',
-                            playersRaw: values[12] !== undefined ? values[12].trim() : '',
-                            sponsor: values[13] !== undefined ? values[13].trim() : 'N/A',
-                            sponsorLogo: (values[14] !== undefined && isValidImageUrl(values[14])) ? values[14].trim() : 'N/A'
+                            teamName: values[0]?.trim() || 'N/A',
+                            logo: (values[1] && isValidImageUrl(values[1].trim())) ? values[1].trim() : 'https://placehold.co/70x70/aabbcc/ffffff?text=Logo',
+                            captainName: values[2]?.trim() || 'N/A',
+                            group: values[3]?.trim() || 'N/A',
+                            teamDescription: values[4]?.trim() || 'Ingen beskrivning tillgänglig.', // For hub
+                            teamStyle: values[5]?.trim() || 'N/A',
+                            // secretWeapon etc. can be added if needed for the card, otherwise N/A for now
+                            motto: values[11]?.trim() || 'N/A',
+                            playersRaw: values[12]?.trim() || '',
+                            shortDescription: values[13]?.trim() || '', // New field
+                            sponsorInfoRaw: values[14]?.trim() || 'N/A', // Combined sponsor field
                         };
-                        teams.push(team);
-                    } else {
-                        console.warn(`[TEAMS CSV PARSE WARNING] Rad ${index + 2}: Tom rad hittades. Hoppar över.`);
-                    }
 
-                    if (values.length !== expectedHeadersCount && values.length > 0) {
-                        console.warn(`[TEAMS CSV PARSE WARNING] Rad ${index + 2}: Förväntade ${expectedHeadersCount} kolumner, men hittade ${values.length}. ` +
-                            `Raden från parsern: "${values.join(' | ')}". ` +
-                            `Möjlig orsak: Ett fält med kommatecken har inte citerats korrekt i Google Sheet, eller inkonsekvent kolumnordning. ` +
-                            `Saknade kolumner kommer att tilldelas 'N/A'.`);
+                        // Fallback for shortDescription
+                        if (!team.shortDescription || team.shortDescription.toLowerCase() === 'n/a') {
+                            if (team.teamDescription && team.teamDescription.toLowerCase() !== 'n/a') {
+                                team.shortDescription = team.teamDescription.substring(0, 100); // Truncate long desc
+                                if (team.teamDescription.length > 100) team.shortDescription += "...";
+                            } else {
+                                team.shortDescription = "Mer information kommer snart.";
+                            }
+                        }
+
+                        // Parse sponsorInfoRaw
+                        team.sponsorName = 'N/A';
+                        team.sponsorLogoUrl = null;
+                        if (team.sponsorInfoRaw && team.sponsorInfoRaw.toLowerCase() !== 'n/a') {
+                            const parts = team.sponsorInfoRaw.split(';');
+                            team.sponsorName = parts[0]?.trim() || 'N/A';
+                            if (parts.length > 1 && parts[1]?.trim() && isValidImageUrl(parts[1].trim())) {
+                                team.sponsorLogoUrl = parts[1].trim();
+                            }
+                        }
+
+                        teams.push(team);
+
+                        if (values.length < expectedColumns) { // Warn if not enough columns
+                            console.warn(`[TEAMS CSV PARSE WARNING] Rad ${index + 2}: Förväntade ${expectedColumns} kolumner, men hittade ${values.length}. Rad: "${values.join(' | ')}"`);
+                        }
                     }
                 });
                 return teams;
@@ -644,7 +797,7 @@
              */
             function renderTeams() {
                 console.log('renderTeams kallad med filter:', currentGroupFilter);
-                teamListDiv.innerHTML = ''; // Rensa befintlig laglista
+                teamListDiv.innerHTML = '';
 
                 const filteredTeams = currentGroupFilter === 'All'
                     ? allTeams
@@ -652,62 +805,84 @@
 
                 if (filteredTeams.length === 0) {
                     teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga lag att visa för ${currentGroupFilter === 'All' ? 'alla grupper' : 'Grupp ' + currentGroupFilter}.</div>`;
-                    console.warn(`Inga lag hittades för filter: ${currentGroupFilter}`);
                     return;
                 }
 
-                // Sortera lag alfabetiskt efter namn
                 filteredTeams.sort((a, b) => a.teamName.localeCompare(b.teamName));
 
                 filteredTeams.forEach(team => {
                     const teamListItem = document.createElement('div');
                     teamListItem.className = 'team-list-item';
-                    // Fallback för saknad sponsorLogo eller ogiltig URL
-                    const sponsorLogoSrc = (team.sponsorLogo && isValidImageUrl(team.sponsorLogo)) ? team.sponsorLogo : ''; // Visa endast om giltig
-                    const sponsorDisplayHtml = (team.sponsor && team.sponsor !== 'N/A') ? `
-                        <div class="sponsor-display">
-                            ${sponsorLogoSrc ? `<img src="${sponsorLogoSrc}" alt="${team.sponsor} Logo" class="sponsor-logo-small" onerror="this.onerror=null; this.src='https://placehold.co/20x20/ffffff/ffffff?text=';">` : ''}
-                            <span>Sponsor: ${team.sponsor}</span>
-                        </div>
-                    ` : '';
 
+                    const groupColorClass = getGroupColorClass(team.group);
+                    const numPlayers = team.playersRaw.split(',').filter(player => player.trim() !== '').length || 0;
+
+                    const hubLink = `laghub.html?team=${encodeURIComponent(team.teamName)}`;
+
+                    // Short description handling
+                    let displayShortDescription = team.shortDescription;
+                    const shortDescMaxLength = 70; // Max chars before "read more" hint
+                    let readMoreHtml = "";
+                    if (displayShortDescription.length > shortDescMaxLength) {
+                        displayShortDescription = displayShortDescription.substring(0, shortDescMaxLength) + "... ";
+                        readMoreHtml = `<a href="${hubLink}" class="read-more-link">läs mer</a>`;
+                    }
+
+
+                    // Row 3: Sponsor & Hub Link content
+                    let row3Content = '';
+                    const hasSponsor = team.sponsorName && team.sponsorName.toLowerCase() !== 'n/a';
+
+                    if (hasSponsor) {
+                        row3Content = `
+                            <div class="sponsor-info-card">
+                                ${team.sponsorLogoUrl ? `<img src="${team.sponsorLogoUrl}" alt="${team.sponsorName} Logo" class="sponsor-logo-small-card" onerror="this.style.display='none';">` : ''}
+                                <span>${team.sponsorName}</span>
+                            </div>
+                            <a href="${hubLink}" class="team-hub-link-card">Visa Lag-Hubb</a>
+                        `;
+                    } else {
+                        row3Content = `
+                            <a href="${hubLink}" class="team-hub-link-card full-width">Visa Lag-Hubb</a>
+                        `;
+                    }
 
                     teamListItem.innerHTML = `
-                        <div class="team-summary">
-                            <img src="${getTeamLogo(team.teamName)}" alt="${team.teamName} Logo" class="team-logo" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
-                            <div class="team-main-info">
-                                <h2 class="team-name">${team.teamName}</h2>
-                                <span class="team-list-group">${team.group !== 'N/A' ? 'Grupp ' + team.group : 'Ej tilldelad grupp'}</span>
+                        <!-- Row 1: Logo/Group + Name/Captain -->
+                        <div class="team-card-row1">
+                            <div class="team-card-row1-left">
+                                <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-card" onerror="this.onerror=null; this.src='https://placehold.co/70x70/aabbcc/ffffff?text=Logo';">
+                                <span class="team-list-group-card ${groupColorClass}">
+                                    ${team.group !== 'N/A' ? 'Grupp ' + team.group : 'Okänd Grupp'}
+                                </span>
+                            </div>
+                            <div class="team-card-row1-right">
+                                <h2 class="team-name-card">${team.teamName}</h2>
+                                <p class="team-captain-card">Lagkapten: ${team.captainName || 'N/A'}</p>
                             </div>
                         </div>
-                        <div class="team-list-details-summary">
-                            <div class="team-list-stat-item">
-                                <span><span class="md:hidden">Kapten: </span><strong>${team.captainName || 'N/A'}</strong></span>
-                            </div>
-                            <div class="team-list-stat-item">
-                                <span><span class="md:hidden">Spelare: </span><strong>${team.playersRaw.split(',').filter(player => player.trim() !== '').length || 0}</strong></span>
-                            </div>
-                            ${sponsorDisplayHtml}
+
+                        <!-- Row 2: Info - Players, Style, Motto, ShortDesc -->
+                        <div class="team-card-row2">
+                            <p><strong>Antal spelare:</strong> ${numPlayers}</p>
+                            ${team.teamStyle && team.teamStyle.toLowerCase() !== 'n/a' ? `<p><strong>Spelstil:</strong> ${team.teamStyle}</p>` : ''}
+                            ${team.motto && team.motto.toLowerCase() !== 'n/a' ? `<p><strong>Motto:</strong> "${team.motto}"</p>` : ''}
+                            <p class="short-description-card">${displayShortDescription}${readMoreHtml}</p>
                         </div>
-                        <a href="laghub.html?team=${encodeURIComponent(team.teamName)}" class="team-hub-link">Visa Lag-Hubb</a>
+
+                        <!-- Row 3: Sponsor / Hub Link -->
+                        <div class="team-card-row3">
+                            ${row3Content}
+                        </div>
                     `;
                     teamListDiv.appendChild(teamListItem);
                 });
-                console.log(`Renderade ${filteredTeams.length} lag som en lista.`);
             }
 
-            /**
-             * Returnerar laglogotypens URL.
-             * @param {string} teamName Lagets namn.
-             * @returns {string} Logotypens URL eller en platshållar-URL.
-             */
-            function getTeamLogo(teamName) {
-                const team = allTeams.find(t => t.teamName === teamName);
-                return (team && team.logo && isValidImageUrl(team.logo)) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';
-            }
-
+            // getTeamLogo is not needed here as team.logo is directly used.
 
             async function initializeTeamRegister() {
+                // ... (initial loading messages remain)
                 console.log('initializeTeamRegister kallad.');
                 teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar lagdata...</div>`;
                 groupFilterButtonsContainer.innerHTML = `<div class="text-center text-gray-500 p-2">Laddar filterknappar...</div>`;
@@ -715,17 +890,15 @@
                 try {
                     console.time('Hämtar Lag CSV');
                     const teamsCsvText = await fetchCsvData(teamsCsvUrl);
-                    allTeams = parseTeamsCsv(teamsCsvText);
+                    allTeams = parseTeamsCsv(teamsCsvText); // Uses the updated parser
                     console.timeEnd('Hämtar Lag CSV');
-                    console.log('allTeams laddade:', allTeams.length, 'lag', allTeams);
-
+                    console.log('allTeams laddade:', allTeams.length, 'lag');
 
                     populateGroupFilterButtons();
-                    renderTeams();
+                    renderTeams(); // Uses the updated renderer
                     console.log('Lagregistret initialiserat och renderat framgångsrikt.');
                 } catch (error) {
                     console.error("Felsökning: Ett fel uppstod vid initialisering av lagregistret.", error);
-                    // Felmeddelande hanteras redan av fetchCsvData, men kan lägga till en allmän fallback här vid behov
                 }
             }
 

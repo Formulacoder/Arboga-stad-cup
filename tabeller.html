@@ -719,7 +719,6 @@
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
             <a href="lagregister.html">Lagregister</a>
-            <a href="spelaregister.html">Spelarregister</a>
             <a href="tabeller.html">Tabeller</a>
             <a href="sponsorer.html">Samarbetspartners</a>
             <a href="aktiviteter.html">Aktiviteter</a>
@@ -747,7 +746,7 @@
         </div>
         <div id="standings-tabs-content">
             <!-- Tabellinnehåll för grupper genereras här av JavaScript -->
-            <div class="text-center text-gray-500 p-8 col-span-full">Laddar tabeller...</div>
+            <!-- <div class="text-center text-gray-500 p-8 col-span-full"></div> -->
         </div>
 
         <!-- Målskytteliga sektion -->
@@ -1093,10 +1092,7 @@
 
 
                 groupSection.innerHTML = `
-                    <h3 class="group-heading">${groupName}</h3>
-                    <div class="team-descriptions-area mb-8">
-                        ${teamDescriptionsHtml}
-                    </div>
+                    <h3 class="group-heading">Grupp ${groupName}</h3>
                     <div class="overflow-x-auto rounded-lg shadow-md">
                         <table class="standings-table">
                             <thead>
@@ -1492,8 +1488,8 @@
                 qualifiedTeamsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar kvalificerade lag...</div>`;
                 topScorersListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar målskytteliga...</div>`;
                 matchResultsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar matchresultat...</div>`;
+                /* standingsTabsContentDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar tabeller...</div>`; */ // Keep this initial message until tabs are rendered
                 groupTabButtonsDiv.innerHTML = ''; // Clear buttons initially
-                standingsTabsContentDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar tabeller...</div>`; // Keep this initial message until tabs are rendered
 
 
                 // Försök att hämta alla data samtidigt
@@ -1516,6 +1512,7 @@
                 renderTopScorers();
                 renderMatchResults();
                 console.log('Tables page initialized and rendered successfully.');
+
 
                 // Check if ALL data is empty (only if parsing itself resulted in no data for critical sections)
                 // This final check covers cases where all relevant CSVs fail or are empty.
