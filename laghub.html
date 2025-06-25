@@ -180,20 +180,27 @@
             margin: 0 auto;
         }
 
+        /* Responsive justeringar */
         @media (max-width: 640px) {
+
+            /* --- MOBILE STYLES START --- */
             .navbar {
-                flex-direction: column;
-                align-items: center;
+                padding: 0.75rem 1rem;
             }
 
             .navbar-home-logo {
-                margin-right: 0;
-                margin-bottom: 1rem;
+                height: 2rem;
+                margin-right: 1rem;
+                margin-bottom: 0;
             }
 
             .navbar-links-wrapper {
-                width: 100%;
-                justify-content: center;
+                gap: 0.25rem;
+            }
+
+            .navbar a {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.9rem;
             }
 
             .team-hub-header {
@@ -284,18 +291,14 @@
 </head>
 
 <body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
     <nav class="navbar">
-        <a href="index.html">
-            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo">
-        </a>
         <div class="navbar-links-wrapper">
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
             <a href="lagregister.html">Lagregister</a>
             <a href="tabeller.html">Tabeller</a>
             <a href="sponsorer.html">Samarbetspartners</a>
-            <a href="aktiviteter.html">Aktiviteter</a>
-            <a href="efterfesten.html">Efterfesten</a>
         </div>
     </nav>
 

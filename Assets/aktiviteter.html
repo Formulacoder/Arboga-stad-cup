@@ -161,31 +161,24 @@
 
         @media (max-width: 640px) {
 
-            /* För mobil (sm breakpoint) */
+            /* --- MOBILE STYLES START --- */
             .navbar {
-                flex-direction: column;
-                /* Stapla logotyp och länkar vertikalt */
-                align-items: center;
-                /* Centrera allt */
+                padding: 0.75rem 1rem;
             }
 
             .navbar-home-logo {
-                margin-right: 0;
-                /* Ingen marginal till höger om logotypen om den är centrerad */
-                margin-bottom: 1rem;
-                /* Avstånd till länkarna nedanför */
+                height: 2rem;
+                margin-right: 1rem;
+                margin-bottom: 0;
             }
 
             .navbar-links-wrapper {
-                width: 100%;
-                /* Ta full bredd under logotypen */
-                justify-content: center;
-                /* Centrera länkar i en rad som bryter */
+                gap: 0.25rem;
             }
 
             .navbar a {
-                width: auto;
-                /* Låt länkarna bestämma sin egen bredd */
+                padding: 0.4rem 0.6rem;
+                font-size: 0.9rem;
             }
         }
     </style>

@@ -33,34 +33,44 @@
             top: 0;
             z-index: 1000;
             display: flex;
-            /* Changed to flex for proper alignment */
             align-items: center;
-            justify-content: space-between;
-            /* Space between logo and hamburger/links */
+            justify-content: flex-start;
             flex-wrap: wrap;
-            /* Allow wrapping on very small screens if necessary */
         }
 
         .navbar-home-logo {
             height: 2.5rem;
             margin-right: 1.5rem;
+            cursor: pointer;
+            border-radius: 9999px;
+            transition: transform 0.2s ease-in-out;
+            flex-shrink: 0;
         }
 
-        /* No longer directly styling .navbar-links as they are now inside #navbar-links-container */
-        .navbar-link {
+        .navbar-home-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-links-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .navbar a {
             color: white;
             text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease-in-out;
             font-weight: 500;
-            transition: color 0.3s ease;
-            padding: 0.5rem 1rem;
-            /* Added padding for better tap targets on mobile */
-            border-radius: 0.25rem;
+            white-space: nowrap;
         }
 
-        .navbar-link:hover {
-            color: #a0aec0;
-            /* Light gray on hover */
-            background-color: #2d3748;
+        .navbar a:hover {
+            background-color: #4a5568;
         }
 
         .content-container {
@@ -213,44 +223,28 @@
         }
 
         /* Responsive justeringar */
-        @media (max-width: 767px) {
+        @media (max-width: 640px) {
+
+            /* --- MOBILE STYLES START --- */
             .navbar {
-                flex-direction: row;
-                /* Keep logo and hamburger on the same row */
-                justify-content: space-between;
-                /* Space them out */
-                align-items: center;
+                padding: 0.75rem 1rem;
             }
 
             .navbar-home-logo {
-                margin-right: 0;
-                /* Remove margin-right for mobile */
+                height: 2rem;
+                margin-right: 1rem;
                 margin-bottom: 0;
-                /* Ensure no bottom margin */
             }
 
-            /* Styles for the hamburger menu when active */
-            #navbar-links-container {
-                /* Removed .is-active for simpler toggle */
-                display: none;
-                /* Hidden by default on mobile */
-                flex-direction: column;
-                width: 100%;
-                margin-top: 1rem;
-                /* Space below logo/hamburger */
+            .navbar-links-wrapper {
+                gap: 0.25rem;
             }
 
-            #navbar-links-container.flex {
-                /* Use .flex to show it */
-                display: flex;
+            .navbar a {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.9rem;
             }
 
-            #navbar-links-container .navbar-link {
-                text-align: center;
-                width: 100%;
-                padding: 0.75rem 0;
-                /* Larger touch target */
-            }
         }
     </style>
 </head>
@@ -258,28 +252,12 @@
 <body class="flex flex-col">
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="index.html">
-            <img src="https://raw.githubusercontent.com/Formulacoder/Arboga-stad-cup/refs/heads/main/Assets/images/StadenBranding/StadenColorWhitelineNoTxt.png"
-                alt="Arboga Stad Cup Logo" class="navbar-home-logo">
-        </a>
-        <!-- Hamburger Button - Visible only on small screens (md:hidden) -->
-        <button id="hamburger-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                </path>
-            </svg>
-        </button>
-        <!-- Navigation Links Container - Hidden by default on small screens, flex on md and larger -->
-        <div id="navbar-links-container"
-            class="hidden md:flex flex-grow justify-start md:justify-end items-center md:gap-4 w-full md:w-auto flex-col md:flex-row">
-            <a href="index.html" class="navbar-link">Startsida</a>
-            <a href="fotbollsschema.html" class="navbar-link">Spelschema</a>
-            <a href="lagregister.html" class="navbar-link">Lagregister</a>
-            <a href="tabeller.html" class="navbar-link">Tabeller</a>
-            <a href="sponsorer.html" class="navbar-link">Samarbetspartners</a>
-            <a href="aktiviteter.html" class="navbar-link">Aktiviteter</a>
-            <a href="efterfesten.html" class="navbar-link">Efterfesten</a>
+        <div class="navbar-links-wrapper">
+            <a href="index.html">Startsida</a>
+            <a href="fotbollsschema.html">Spelschema</a>
+            <a href="lagregister.html">Lagregister</a>
+            <a href="tabeller.html">Tabeller</a>
+            <a href="sponsorer.html">Samarbetspartners</a>
         </div>
     </nav>
 
@@ -294,10 +272,17 @@
         <hr class="border-gray-200 my-8">
 
         <section class="section">
-            <h2 class="section-title">Se Vår Kampanjvideo!</h2>
             <p class="section-text">
+
+            <h2 class="section-title">Om Cupen</h2>
+            <p class="section-text">
+                Arboga Stad Cup är en heldag där fotboll, glädje och gemenskap står i centrum. Hit kommer lag från hela
+                regionen för att kämpa, heja, skratta och svettas tillsammans. Det spelar ingen roll om du står på
+                planen eller vid sidlinjen, målet är detsamma: att skapa en dag man minns.
                 Få en inblick i atmosfären och spänningen på Arboga Stad Cup med vår officiella kampanjvideo.
             </p>
+            <p class="section-text">
+                Få en inblick i atmosfären och spänningen på Arboga Stad Cup med vår officiella kampanjvideo. </p>
             <div class="video-container">
                 <iframe src="https://www.youtube.com/embed/qHDWecT_K0w?controls=1&modestbranding=1&rel=0"
                     title="Arboga Stad Cup Promotion Video" frameborder="0"
@@ -305,111 +290,151 @@
                     allowfullscreen>
                 </iframe>
             </div>
-        </section>
-
-        <hr class="border-gray-200 my-8">
-
-        <section class="section">
-            <h2 class="section-title">Om Cupen</h2>
-            <p class="section-text">
-                Arboga Stad Cup är en årlig fotbollscup som samlar lag från hela regionen för en dag fylld med spänning,
-                gemenskap och fantastisk fotboll. Vårt mål är att erbjuda en minnesvärd upplevelse för både spelare och
-                åskådare.
-            </p>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">⚽</span>
-                    <h3 class="feature-title">Spännande matcher</h3>
-                    <p class="feature-description">Följ de hetaste derbymatcherna och avgörande gruppspelsfighterna.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🏆</span>
-                    <h3 class="feature-title">Vinnarmentalitet</h3>
-                    <p class="feature-description">Se vilka lag som har det som krävs för att ta sig hela vägen till
-                        final.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">✨</span>
-                    <h3 class="feature-title">Oförglömliga ögonblick</h3>
-                    <p class="feature-description">Upplev gemenskapen och glädjen på och utanför planen.</p>
-                </div>
+            <div class="content-container">
+                <header class="text-center mb-8">
+                    <h1 class="section-title">Dagens aktiviteter och mat</h1>
+                </header>
+                <img src="https://i.imgur.com/gU6wq9h.png" alt="Dagens aktiviteter och mat" class="afterparty-image">
             </div>
-        </section>
-    </div>
+            <div class="content-container">
+                <header class="text-center mb-8">
+                    <h1 class="section-title">Efterfesten – Sommarfesten x Arboga Stad</h1>
+                    <p class="section-text">
+                        När matcherna är spelade, känslorna på topp och benen kanske lite trötta är det dags för den
+                        riktiga
+                        höjdpunkten – efterfesten på Stadskällaren! Här samlas spelare, funktionärer, supportrar och
+                        alla som
+                        älskar gemenskap och glädje för att fira tillsammans.
+                    </p>
+                </header>
 
-    <footer class="footer">
-        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
-    </footer>
+                <img src="https://i.imgur.com/rEjVWBv.jpeg" alt="Efterfesten på Stadskällaren" class="afterparty-image">
 
-    <script>
-        // Hamburger menu toggle logic
-        const hamburgerButton = document.getElementById('hamburger-button');
-        const navbarLinksContainer = document.getElementById('navbar-links-container');
+                <section class="mt-8">
+                    <h2 class="section-subtitle">Vad väntar dig?</h2>
+                    <div class="space-y-4">
+                        <div class="info-point">
+                            <span class="info-point-icon">🎶</span>
+                            <p>
+                                <span class="font-bold">En het DJ från Stockholm</span> som vrider upp volymen med
+                                en
+                                mix av
+                                Latin och Club-hits
+                            </p>
+                        </div>
+                        <div class="info-point">
+                            <span class="info-point-icon">☀️</span>
+                            <p>
+                                <span class="font-bold">Magisk terrass</span> som förvandlas till en sommarklubb
+                                under
+                                bar
+                                himmel (vid fint väder)
+                            </p>
+                        </div>
+                        <div class="info-point">
+                            <span class="info-point-icon">🍹</span>
+                            <p>
+                                <span class="font-bold">God stämning,</span> härliga möten och massor av nya
+                                ansikten
+                                att lära
+                                känna
+                            </p>
+                        </div>
+                        <div class="info-point">
+                            <span class="info-point-icon">🎉</span>
+                            <p>
+                                <span class="font-bold">Fri entré innan 22.00</span> – kom i tid och ta plats i
+                                kvällens
+                                bästa
+                                lounge
+                            </p>
+                        </div>
+                    </div>
+                </section>
 
-        if (hamburgerButton && navbarLinksContainer) {
-            hamburgerButton.addEventListener('click', () => {
-                // Toggle the 'hidden' class to show/hide the menu
-                navbarLinksContainer.classList.toggle('hidden');
-                // Toggle the 'flex' class to control display property
-                navbarLinksContainer.classList.toggle('flex');
-            });
+                <p class="section-text mt-8">
+                    Efterfesten är mer än bara musik och dans – det är en plats där Arbogas fotbollspuls fortsätter
+                    slå,
+                    där nya
+                    vänskaper föds och sommarminnen skapas. Oavsett om du är spelare, supporter eller bara sugen på
+                    att
+                    hänga
+                    med laget – här hör du hemma.
+                </p>
+            </div>
+            <footer class="footer">
+                <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
+            </footer>
 
-            // Close menu if resized to a larger screen (md breakpoint and above)
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 768) { // Tailwind's 'md' breakpoint
-                    navbarLinksContainer.classList.remove('hidden', 'flex-col'); // Ensure flex-col is removed too
-                    navbarLinksContainer.classList.add('flex'); // Ensure it's flex on large screens
+            <script>
+                // Hamburger menu toggle logic
+                const hamburgerButton = document.getElementById('hamburger-button');
+                const navbarLinksContainer = document.getElementById('navbar-links-container');
+
+                if (hamburgerButton && navbarLinksContainer) {
+                    hamburgerButton.addEventListener('click', () => {
+                        // Toggle the 'hidden' class to show/hide the menu
+                        navbarLinksContainer.classList.toggle('hidden');
+                        // Toggle the 'flex' class to control display property
+                        navbarLinksContainer.classList.toggle('flex');
+                    });
+
+                    // Close menu if resized to a larger screen (md breakpoint and above)
+                    window.addEventListener('resize', () => {
+                        if (window.innerWidth >= 768) { // Tailwind's 'md' breakpoint
+                            navbarLinksContainer.classList.remove('hidden', 'flex-col'); // Ensure flex-col is removed too
+                            navbarLinksContainer.classList.add('flex'); // Ensure it's flex on large screens
+                        }
+                    });
                 }
-            });
-        }
-        // Sätter datumet vi räknar ner till
-        const countDownDate = new Date("Jul 12, 2025 12:00:00").getTime();
+                // Sätter datumet vi räknar ner till
+                const countDownDate = new Date("Jul 12, 2025 12:00:00").getTime();
 
-        // Uppdatera nedräkningen varje 1 sekund
-        const x = setInterval(function () {
+                // Uppdatera nedräkningen varje 1 sekund
+                const x = setInterval(function () {
 
-            // Hämta dagens datum och tid
-            const now = new Date().getTime();
+                    // Hämta dagens datum och tid
+                    const now = new Date().getTime();
 
-            // Hitta avståndet mellan nu och nedräkningsdatumet
-            const distance = countDownDate - now;
+                    // Hitta avståndet mellan nu och nedräkningsdatumet
+                    const distance = countDownDate - now;
 
-            // Tidsberäkningar för dagar, timmar, minuter och sekunder
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    // Tidsberäkningar för dagar, timmar, minuter och sekunder
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Lägg till ledande nollor för timmar, minuter och sekunder
-            const formattedHours = String(hours).padStart(2, '0');
-            const formattedMinutes = String(minutes).padStart(2, '0');
-            const formattedSeconds = String(seconds).padStart(2, '0');
+                    // Lägg till ledande nollor för timmar, minuter och sekunder
+                    const formattedHours = String(hours).padStart(2, '0');
+                    const formattedMinutes = String(minutes).padStart(2, '0');
+                    const formattedSeconds = String(seconds).padStart(2, '0');
 
-            // Konstruera den snyggare strängen
-            let countdownString = `Startar om: `;
-            if (days > 0) {
-                countdownString += `${days} ${days === 1 ? 'dag' : 'dagar'}, `;
-            }
-            countdownString += `${formattedHours} timmar, ${formattedMinutes} minuter och ${formattedSeconds} sekunder`;
+                    // Konstruera den snyggare strängen
+                    let countdownString = `Startar om: `;
+                    if (days > 0) {
+                        countdownString += `${days} ${days === 1 ? 'dag' : 'dagar'}, `;
+                    }
+                    countdownString += `${formattedHours} timmar, ${formattedMinutes} minuter och ${formattedSeconds} sekunder`;
 
 
-            // Visa resultatet i elementet med id="countdown"
-            const countdownElement = document.getElementById("countdown");
-            if (countdownElement) { // Defensive check
-                countdownElement.innerHTML = countdownString;
-            }
+                    // Visa resultatet i elementet med id="countdown"
+                    const countdownElement = document.getElementById("countdown");
+                    if (countdownElement) { // Defensive check
+                        countdownElement.innerHTML = countdownString;
+                    }
 
 
-            // Om nedräkningen är över, skriv en text
-            if (distance < 0) {
-                clearInterval(x);
-                if (countdownElement) { // Defensive check
-                    countdownElement.innerHTML = "CUPEN HAR STARTAT!";
-                }
-            }
+                    // Om nedräkningen är över, skriv en text
+                    if (distance < 0) {
+                        clearInterval(x);
+                        if (countdownElement) { // Defensive check
+                            countdownElement.innerHTML = "CUPEN HAR STARTAT!";
+                        }
+                    }
 
-        }, 1000);
-    </script>
+                }, 1000);
+            </script>
 </body>
 
 </html>

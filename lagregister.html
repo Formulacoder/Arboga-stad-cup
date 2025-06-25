@@ -27,71 +27,51 @@
         .navbar {
             width: 100%;
             background-color: #1a202c;
-            /* Mörk bakgrund för navbar */
             color: white;
             padding: 1rem 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
-            /* Kvar på toppen vid scroll */
             top: 0;
             z-index: 1000;
-            /* Säkerställ att den ligger över annat innehåll */
             display: flex;
-            /* Använd flexbox */
             align-items: center;
-            /* Centrera vertikalt */
             justify-content: flex-start;
-            /* Starta objekt från vänster */
             flex-wrap: wrap;
-            /* Tillåt objekt att bryta rad om utrymmet är begränsat */
         }
 
         .navbar-home-logo {
             height: 2.5rem;
-            /* Storlek på logotypen som hemknapp */
             margin-right: 1.5rem;
-            /* Mer utrymme till höger om logotypen */
             cursor: pointer;
             border-radius: 9999px;
-            /* Rundad */
             transition: transform 0.2s ease-in-out;
             flex-shrink: 0;
-            /* Förhindra att logotypen krymper */
         }
 
         .navbar-home-logo:hover {
             transform: scale(1.05);
-            /* Lätt förstoring vid hover */
         }
 
         .navbar-links-wrapper {
             display: flex;
             flex-wrap: wrap;
-            /* Tillåt länkar att bryta rad */
             gap: 0.5rem;
-            /* Litet mellanrum mellan länkar */
             flex-grow: 1;
-            /* Tillåt länkomslutningen att ta tillgängligt utrymme */
             justify-content: center;
-            /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 0.5rem 0.8rem;
-            /* Något minskad padding för kompakthet */
             border-radius: 0.375rem;
-            /* rounded-md */
             transition: background-color 0.2s ease-in-out;
             font-weight: 500;
             white-space: nowrap;
-            /* Förhindra att länkar bryter text */
         }
 
         .navbar a:hover {
             background-color: #4a5568;
-            /* Mörkare grå vid hover */
         }
 
         .content-container {
@@ -442,24 +422,24 @@
         /* Responsive adjustments */
         @media (max-width: 640px) {
 
-            /* Små skärmar (sm breakpoint och nedåt) */
+            /* --- MOBILE STYLES START --- */
             .navbar {
-                flex-direction: column;
-                align-items: center;
+                padding: 0.75rem 1rem;
             }
 
             .navbar-home-logo {
-                margin-right: 0;
-                margin-bottom: 1rem;
+                height: 2rem;
+                margin-right: 1rem;
+                margin-bottom: 0;
             }
 
             .navbar-links-wrapper {
-                width: 100%;
-                justify-content: center;
+                gap: 0.25rem;
             }
 
             .navbar a {
-                width: auto;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.9rem;
             }
 
             /* Team List adjustments for mobile */
@@ -532,18 +512,12 @@
 <body>
     <!-- Global Navigationsmeny -->
     <nav class="navbar">
-        <a href="index.html">
-            <img src="https://i.imgur.com/pwnWIDU.png" alt="Arboga Stad SK Logo" class="navbar-home-logo"
-                onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Hem+Logo';">
-        </a>
         <div class="navbar-links-wrapper">
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
             <a href="lagregister.html">Lagregister</a>
             <a href="tabeller.html">Tabeller</a>
             <a href="sponsorer.html">Samarbetspartners</a>
-            <a href="aktiviteter.html">Aktiviteter</a>
-            <a href="efterfesten.html">Efterfesten</a>
         </div>
     </nav>
 
