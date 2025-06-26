@@ -224,8 +224,6 @@
       }
     }
 
-    /* ... existing navbar, content-container, footer styles ... */
-
     .team-logo {
       /* Kept this as it's used inside game cells */
       width: 3.5rem;
@@ -270,12 +268,10 @@
       text-align: center;
     }
 
-    @media (min-width: 768px) {
 
-      /* md breakpoint */
-      .schedule-grid-header {
-        display: grid;
-      }
+    /* md breakpoint */
+    .schedule-grid-header {
+      display: grid;
     }
 
 
@@ -300,7 +296,7 @@
 
     .games-in-time-slot {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       /* Single column for mobile */
       gap: 0;
       /* No gap, border handles separation */

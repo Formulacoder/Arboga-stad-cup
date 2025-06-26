@@ -789,7 +789,7 @@
                     teamListItem.className = 'team-list-item';
 
                     const groupColorClass = getGroupColorClass(team.group);
-                    const numPlayers = team.playersRaw.split(',').filter(player => player.trim() !== '').length || 0;
+                    const numPlayers = team.playersRaw.split('/').filter(player => player.trim() !== '').length || 0;
 
                     const hubLink = `laghub.html?team=${encodeURIComponent(team.teamName)}`;
 

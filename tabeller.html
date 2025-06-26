@@ -168,15 +168,16 @@
         }
 
         /* DESKTOP Column Widths */
+        /* Logo */
         .standings-table th:nth-child(1),
         .standings-table td:nth-child(1) {
-            width: 25%;
+            width: 10%;
         }
 
         /* Lag */
         .standings-table th:nth-child(2),
         .standings-table td:nth-child(2) {
-            width: 7%;
+            width: 15%;
         }
 
         /* M */
@@ -218,53 +219,58 @@
         /* MS */
         .standings-table th:nth-child(9),
         .standings-table td:nth-child(9) {
-            width: 10%;
+            width: 7%;
         }
 
         /* P */
         .standings-table th:nth-child(10),
         .standings-table td:nth-child(10) {
-            width: 15%;
+            width: 7%;
         }
 
         /* Nästa */
-
-        .results-table th:nth-child(1),
-        .results-table td:nth-child(1) {
-            width: 15%;
+        .standings-table th:nth-child(11),
+        .standings-table td:nth-child(11) {
+            width: 25%;
         }
 
         /* Matchid */
+        .results-table th:nth-child(1),
+        .results-table td:nth-child(1) {
+            width: 5%;
+        }
+
+        /* Tid */
         .results-table th:nth-child(2),
         .results-table td:nth-child(2) {
             width: 15%;
         }
 
-        /* Tid */
+        /* Hemma */
         .results-table th:nth-child(3),
         .results-table td:nth-child(3) {
-            width: 25%;
-        }
-
-        /* Hemma */
-        .results-table th:nth-child(4),
-        .results-table td:nth-child(4) {
-            width: 25%;
+            width: 20%;
         }
 
         /* Borta */
-        .results-table th:nth-child(5),
-        .results-table td:nth-child(5) {
-            width: 10%;
+        .results-table th:nth-child(4),
+        .results-table td:nth-child(4) {
+            width: 20%;
         }
 
         /* Resultat */
-        .results-table th:nth-child(6),
-        .results-table td:nth-child(6) {
-            width: 10%;
+        .results-table th:nth-child(5),
+        .results-table td:nth-child(5) {
+            width: 15%;
         }
 
         /* Anmärkning */
+        .results-table th:nth-child(6),
+        .results-table td:nth-child(6) {
+            display: none;
+        }
+
+
 
         .top-scorer-table th:nth-child(1),
         .top-scorer-table td:nth-child(1) {
@@ -562,27 +568,31 @@
 
             /* Standings Table (.standings-table) - Mobile Column Visibility & Widths */
             /* Visible: Lag, M, V, O, F, MS, P */
-            /* Hidden: GM(6), IM(7), Nästa(10) */
-            .standings-table th:nth-child(6),
-            .standings-table td:nth-child(6),
-            /* GM */
+            /* Hidden: GM(7), IM(8), Nästa(11) */
             .standings-table th:nth-child(7),
             .standings-table td:nth-child(7),
+            /* GM */
+            .standings-table th:nth-child(8),
+            .standings-table td:nth-child(8),
             /* IM */
-            .standings-table th:nth-child(10),
-            .standings-table td:nth-child(10) {
+            .standings-table th:nth-child(11),
+            .standings-table td:nth-child(11) {
                 /* Nästa */
                 display: none;
             }
 
+            /* Logo */
             .standings-table th:nth-child(1),
             .standings-table td:nth-child(1) {
-                width: 32%;
+                width: 10%;
             }
 
             /* Lag */
             .standings-table th:nth-child(2),
-            .standings-table td:nth-child(2),
+            .standings-table td:nth-child(2) {
+                width: 15%;
+            }
+
             /* M */
             .standings-table th:nth-child(3),
             .standings-table td:nth-child(3),
@@ -591,18 +601,16 @@
             .standings-table td:nth-child(4),
             /* O */
             .standings-table th:nth-child(5),
-            .standings-table td:nth-child(5)
-
-            /* F */
-                {
+            .standings-table td:nth-child(5) {
                 width: 9%;
                 text-align: center;
                 white-space: nowrap;
             }
 
-            .standings-table th:nth-child(8),
-            .standings-table td:nth-child(8) {
-                width: 10%;
+            /* F */
+            .standings-table th:nth-child(6),
+            .standings-table td:nth-child(6) {
+                width: 9%;
                 text-align: center;
                 white-space: nowrap;
             }
@@ -616,6 +624,13 @@
             }
 
             /* P */
+            .standings-table th:nth-child(10),
+            .standings-table td:nth-child(10) {
+                width: 10%;
+                text-align: center;
+                white-space: nowrap;
+            }
+
 
             /* Results Table (.results-table) - Mobile Column Visibility & Widths */
             .results-table th:nth-child(1),
@@ -654,22 +669,28 @@
 
 
             /* Top Scorer Table (.top-scorer-table) - Mobile Column Visibility & Widths */
-            .top-scorer-table th:nth-child(1),
-            .top-scorer-table td:nth-child(1),
             /* Rank */
-            .top-scorer-table th:nth-child(3),
-            .top-scorer-table td:nth-child(3) {
-                /* Lag */
+            .top-scorer-table th:nth-child(1),
+            .top-scorer-table td:nth-child(1) {
                 display: none;
             }
 
+            /* Lag */
+            .top-scorer-table th:nth-child(3),
+            .top-scorer-table td:nth-child(3),
+            /* {
+                display: none;
+            } */
+
+            /* Namn */
             .top-scorer-table th:nth-child(2),
             .top-scorer-table td:nth-child(2) {
                 width: 70%;
             }
 
-            /* Namn */
+
             /* If Namn needs ellipsis: wrap in span in JS, add styles similar to .team-name-text */
+            /* Mål */
             .top-scorer-table th:nth-child(4),
             .top-scorer-table td:nth-child(4) {
                 width: 30%;
@@ -677,7 +698,7 @@
                 white-space: nowrap;
             }
 
-            /* Mål */
+
             /* If Lag column in top scorers used .team-cell, it would also need the JS span wrapping for .team-name-text */
 
 
@@ -929,16 +950,16 @@
                         <table class="standings-table">
                             <thead>
                                 <tr>
-                                    <th>Lag</th><th title="Matcher">M</th><th title="Vinster">V</th><th title="Oavgjorda">O</th><th title="Förluster">F</th>
+                                    <th></th><th>Lag</th><th title="Matcher">M</th><th title="Vinster">V</th><th title="Oavgjorda">O</th><th title="Förluster">F</th>
                                     <th title="Gjorda Mål">GM</th><th title="Insläppta Mål">IM</th><th title="Målskillnad">MS</th><th title="Poäng">P</th><th title="Nästa">Nästa</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${teamsInGroup.map(team => `
                                     <tr>
-                                        <td class="team-cell">
+                                        <td >
                                             <img src="${getTeamLogo(team.teamName)}" alt="${team.teamName} Logo" class="team-logo-small" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
-                                        </td>
+                                        </td><td>${team.teamName}</td>
                                         <td>${team.matchesPlayed}</td><td>${team.wins}</td><td>${team.draws}</td><td>${team.losses}</td>
                                         <td>${team.goalsFor}</td><td>${team.goalsAgainst}</td><td>${team.goalDifference}</td><td class="points-cell">${team.points}</td><td>${team.nextMatch || 'N/A'}</td>
                                     </tr>`).join('')}
@@ -1043,7 +1064,7 @@
                 matchResultsListDiv.innerHTML = `
                     <div class="overflow-x-auto rounded-lg shadow-md">
                         <table class="results-table">
-                            <thead><tr><th>Matchid</th><th>Tid</th><th>Hemma</th><th>Borta</th><th>Resultat</th><th>Anm.</th></tr></thead>
+                            <thead><tr><th>#</th><th>Tid</th><th>Hemma</th><th>Borta</th><th>Resultat</th><th>Anm.</th></tr></thead>
                             <tbody>${completed.map(g => `<tr><td>${g.matchId}</td><td>${g.time}</td><td>${g.team1}</td><td>${g.team2}</td><td class="font-bold">${g.result}</td><td>${g.matchStatus !== 'N/A' ? g.matchStatus : ''}</td></tr>`).join('')}</tbody>
                         </table>
                     </div>`;
