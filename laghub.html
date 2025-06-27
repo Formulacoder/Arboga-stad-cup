@@ -305,9 +305,10 @@
         <div class="navbar-links-wrapper">
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
-            <a href="lagregister.html">Lagregister</a>
-            <a href="tabeller.html">Tabeller</a>
-            <a href="sponsorer.html">Samarbetspartners</a>
+            <a href="lagregister.html">Lagen</a>
+            <a href="tabeller.html">Tabell & resultat</a>
+            <a href="Leaderboards.html">Rekord</a>
+            <a href="sponsorer.html">Partners</a>
         </div>
     </nav>
 
@@ -338,7 +339,7 @@
                             id="team-group-threat-hub">Laddar...</span></p>
                     <p class="mb-1"><span class="font-semibold">Lagets erfarenhet:</span> <span
                             id="team-exp-hub">Laddar...</span></p>
-                    <p class="mb-1"><span class="font-semibold">:</span> <span
+                    <p class="mb-1"><span class="font-semibold">Ponera att ni vinner:</span> <span
                             id="team-celebration-hub">Laddar...</span></p>
                 </div>
 
@@ -514,7 +515,7 @@
         function parseStandings(csvText) {
             const rawRows = parseRobustCsv(csvText);
             return rawRows.map(values => {
-                if (values.length < 11) return null;
+                if (values.length < 12) return null;
                 const parseNumericWithMinus = (valStr) => {
                     if (typeof valStr !== 'string') return parseInt(valStr) || 0;
                     return parseInt(valStr.replace(/\s/g, '').replace('−', '-')) || 0;
@@ -530,7 +531,8 @@
                     goalsAgainst: parseNumericWithMinus(values[7]),
                     goalDifference: parseNumericWithMinus(values[8]),
                     points: parseNumericWithMinus(values[9]),
-                    nextMatch: values[10]?.trim() || 'N/A'
+                    nextMatch: values[10]?.trim() || 'N/A',
+                    goalDifferenceHistory: parseNumericWithMinus(values[11])
                 };
             }).filter(Boolean);
         }

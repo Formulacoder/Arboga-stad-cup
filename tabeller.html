@@ -736,30 +736,25 @@
         <div class="navbar-links-wrapper">
             <a href="index.html">Startsida</a>
             <a href="fotbollsschema.html">Spelschema</a>
-            <a href="lagregister.html">Lagregister</a>
-            <a href="tabeller.html">Tabeller</a>
-            <a href="sponsorer.html">Samarbetspartners</a>
+            <a href="lagregister.html">Lagen</a>
+            <a href="tabeller.html">Tabell & resultat</a>
+            <a href="Leaderboards.html">Rekord</a>
+            <a href="sponsorer.html">Partners</a>
         </div>
     </nav>
 
     <div class="content-container">
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Resultat och Tabeller</h1>
-            <p class="text-lg text-gray-600">Se ställningen och matchresultat från cupen.</p>
         </header>
-
-        <h2 class="section-heading">Just nu klara för slutspel</h2>
-        <div id="qualified-teams-list" class="table-container">
-            <div class="text-center text-gray-500 p-4">Laddar kvalificerade lag...</div>
-        </div>
 
         <h2 class="section-heading">Grupptabeller</h2>
         <div class="tab-buttons" id="group-tab-buttons"></div>
         <div id="standings-tabs-content"></div>
 
-        <h2 class="section-heading">Målskytteliga</h2>
-        <div id="top-scorers-list" class="table-container">
-            <div class="text-center text-gray-500 p-4">Laddar målskytteliga...</div>
+        <h2 class="section-heading">Just nu klara för slutspel</h2>
+        <div id="qualified-teams-list" class="table-container">
+            <div class="text-center text-gray-500 p-4">Laddar kvalificerade lag...</div>
         </div>
 
         <h2 class="section-heading">Alla Matchresultat</h2>
@@ -777,18 +772,15 @@
 
             const standingsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1900542434&single=true&output=csv';
             const groupScheduleCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
-            const playerStatsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1809976994&single=true&output=csv';
             const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
 
             const standingsTabsContentDiv = document.getElementById('standings-tabs-content');
             const matchResultsListDiv = document.getElementById('match-results-list');
             const qualifiedTeamsListDiv = document.getElementById('qualified-teams-list');
-            const topScorersListDiv = document.getElementById('top-scorers-list');
             const groupTabButtonsDiv = document.getElementById('group-tab-buttons');
 
             let allStandingsData = [];
             let allGamesData = [];
-            let allPlayerStatsData = [];
             let allTeamsData = [];
             let availableGroups = [];
 
@@ -842,7 +834,7 @@
                 const rawRows = parseRobustCsv(csvText);
                 if (rawRows.length === 0) { console.warn("Standings CSV är tom."); return []; }
                 const standings = [];
-                const headers = ['teamName', 'group', 'matchesPlayed', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points', 'nextMatch'];
+                const headers = ['teamName', 'group', 'matchesPlayed', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points', 'nextMatch', 'goalDifferencePerGame'];
                 rawRows.forEach((values, index) => {
                     if (values.length >= headers.length) {
                         const entry = {};
@@ -871,28 +863,6 @@
                     } else { console.warn(`Hoppar över schemarad ${index + 2}. Rad: "${values.join(',')}"`); }
                 });
                 return games;
-            }
-
-            function parsePlayerStatsCsv(csvText) {
-                const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) { console.warn("Player Stats CSV är tom."); return []; }
-                const stats = [];
-                const headers = ['team', 'playerName', 'group', 'jerseyNumber', 'goals', 'yellowCards', 'redCards'];
-                rawRows.forEach((values, index) => {
-                    if (values.length >= headers.length) {
-                        const playerStats = {
-                            team: values[0] ? values[0].trim() : 'N/A',
-                            playerName: values[1] ? values[1].trim() : 'N/A',
-                            group: values[2] ? values[2].trim() : 'N/A',
-                            jerseyNumber: parseInt(values[3]) || 'N/A',
-                            goals: parseInt(values[4]) || 0,
-                            yellowCards: parseInt(values[5]) || 0,
-                            redCards: parseInt(values[6]) || 0
-                        };
-                        stats.push(playerStats);
-                    } else { console.warn(`Hoppar över spelarstatrad ${index + 2}. Rad: "${values.join(',')}"`); }
-                });
-                return stats;
             }
 
             function parseTeamsCsv(csvText) {
@@ -1078,48 +1048,28 @@
                         </table>
                     </div>`;
                 console.log('Match results rendered.');
-            }
-
-            function renderTopScorers() {
-                topScorersListDiv.innerHTML = '';
-                if (allPlayerStatsData.length === 0) { topScorersListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Ingen statistik.</div>`; return; }
-                const scorers = allPlayerStatsData.filter(p => p.goals > 0).sort((a, b) => b.goals - a.goals);
-                // If team names in top scorers (player.team) needed logos and ellipsis, you'd modify this structure:
-                // Example: <td class="team-cell"><img ...><span class="team-name-text">${player.team || 'N/A'}</span></td>
-                // Current structure is simpler: <td data-label="Lag">${player.team || 'N/A'}</td>
-                topScorersListDiv.innerHTML = `
-                    <div class="overflow-x-auto rounded-lg shadow-md">
-                        <table class="top-scorer-table">
-                            <thead><tr><th>Rank</th><th>Namn</th><th>Lag</th><th>Mål</th></tr></thead>
-                            <tbody>${scorers.map((p, i) => `<tr><td>${i + 1}</td><td>${p.playerName || 'N/A'}</td><td>${p.team || 'N/A'}</td><td class="goals-cell">${p.goals}</td></tr>`).join('')}</tbody>
-                        </table>
-                    </div>`;
-                console.log('Top scorers rendered.');
-            }
+            };
 
             async function initializeTablesPage() {
                 qualifiedTeamsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar...</div>`;
-                topScorersListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar...</div>`;
                 matchResultsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar...</div>`;
                 groupTabButtonsDiv.innerHTML = '';
 
                 const [standingsCsv, scheduleCsv, playerStatsCsv, teamsCsv] = await Promise.all([
                     fetchCsvData(standingsCsvUrl, standingsTabsContentDiv, "Tabeller"),
                     fetchCsvData(groupScheduleCsvUrl, matchResultsListDiv, "Resultat"),
-                    fetchCsvData(playerStatsCsvUrl, topScorersListDiv, "Skytteliga"),
                     fetchCsvData(teamsCsvUrl, standingsTabsContentDiv, "Laginfo")
                 ]);
                 allStandingsData = standingsCsv ? parseStandingsCsv(standingsCsv) : [];
                 allGamesData = scheduleCsv ? parseGroupScheduleCsv(scheduleCsv) : [];
-                allPlayerStatsData = playerStatsCsv ? parsePlayerStatsCsv(playerStatsCsv) : [];
                 allTeamsData = teamsCsv ? parseTeamsCsv(teamsCsv) : [];
 
-                renderQualifiedTeams(); renderGroupTabButtons(); renderTopScorers(); renderMatchResults();
+                renderQualifiedTeams(); renderGroupTabButtons(); renderMatchResults();
                 console.log('Tables page init.');
-                if (!allStandingsData.length && !allGamesData.length && !allPlayerStatsData.length) {
+                if (!allStandingsData.length && !allGamesData.length) {
                     console.error("All data sources empty/failed.");
                     standingsTabsContentDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8">Kunde inte ladda data.</div>`;
-                    qualifiedTeamsListDiv.innerHTML = ''; matchResultsListDiv.innerHTML = ''; topScorersListDiv.innerHTML = ''; groupTabButtonsDiv.innerHTML = '';
+                    qualifiedTeamsListDiv.innerHTML = ''; matchResultsListDiv.innerHTML = ''; groupTabButtonsDiv.innerHTML = '';
                 }
             }
             initializeTablesPage();

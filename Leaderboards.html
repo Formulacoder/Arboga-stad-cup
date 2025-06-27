@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arboga Stad Cup - Hall of Fame</title>
+    <!-- Tailwind CSS CDN för styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS83LWSY7E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-YS83LWSY7E');
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* Ljusgrå bakgrund */
+            min-height: 100vh;
+            /* Säkerställer att bakgrunden täcker hela sidan */
+            display: flex;
+            flex-direction: column;
+            /* För att navbaren ska ligga överst */
+            align-items: center;
+            justify-content: flex-start;
+            /* Justera för navbar */
+            padding: 0;
+            /* Ta bort padding från body */
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #1a202c;
+            /* Mörk bakgrund för navbar */
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            /* Kvar på toppen vid scroll */
+            top: 0;
+            z-index: 1000;
+            /* Säkerställ att den ligger över annat innehåll */
+            display: flex;
+            /* Använd flexbox */
+            align-items: center;
+            /* Centrera vertikalt */
+            justify-content: flex-start;
+            /* Starta objekt från vänster */
+            flex-wrap: wrap;
+            /* Tillåt objekt att bryta rad om utrymmet är begränsat */
+        }
+
+        .navbar-home-logo {
+            height: 2.5rem;
+            /* Storlek på logotypen som hemknapp */
+            margin-right: 1.5rem;
+            /* Mer utrymme till höger om logotypen */
+            cursor: pointer;
+            border-radius: 9999px;
+            /* Rundad */
+            transition: transform 0.2s ease-in-out;
+            flex-shrink: 0;
+            /* Förhindra att logotypen krymper */
+        }
+
+        .navbar-home-logo:hover {
+            transform: scale(1.05);
+            /* Lätt förstoring vid hover */
+        }
+
+        .navbar-links-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            /* Tillåt länkar att bryta rad */
+            gap: 0.5rem;
+            /* Litet mellanrum mellan länkar */
+            flex-grow: 1;
+            /* Tillåt länkomslutningen att ta tillgängligt utrymme */
+            justify-content: center;
+            /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            /* Något minskad padding för kompakthet */
+            border-radius: 0.375rem;
+            /* rounded-md */
+            transition: background-color 0.2s ease-in-out;
+            font-weight: 500;
+            white-space: nowrap;
+            /* Förhindra att länkar bryter text */
+        }
+
+        .navbar a:hover {
+            background-color: #4a5568;
+            /* Mörkare grå vid hover */
+        }
+
+        .content-container {
+            max-width: 960px;
+            /* max-w-4xl är ca 960px */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            /* rounded-xl */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem 1.5rem;
+            /* Justerad padding */
+            margin-top: 2rem;
+            /* Marginal från navbar */
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            /* Låter innehållskontainern växa och pressa ner footern */
+        }
+
+        .section-heading {
+            font-size: 2.25rem;
+            /* text-4xl */
+            font-weight: 800;
+            /* font-extrabold */
+            color: #1a202c;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .group-heading {
+            font-size: 2rem;
+            /* text-3xl */
+            font-weight: 800;
+            /* font-extrabold */
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .table-container {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .record-table th,
+        .record-table td {
+            padding: 0.75rem 0.5rem;
+            /* Anpassad padding */
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            /* Lätt linje */
+        }
+
+        .record-table th {
+            background-color: #f0f4f8;
+            /* Ljusare bakgrund för rubrik */
+            color: #4a5568;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .record-table tbody tr:hover {
+            background-color: #f7fafc;
+            /* Ljusare rad vid hover */
+        }
+
+        .player-cell {
+            font-weight: 600;
+            display: flex;
+            /* Flexbox för att centrera logotyp och text */
+            align-items: center;
+            /* Centrera vertikalt */
+        }
+
+        .team-logo-small {
+            width: 1.5rem;
+            /* Mindre logotyp i tabellen */
+            height: 1.5rem;
+            border-radius: 9999px;
+            /* Rund */
+            object-fit: cover;
+            margin-right: 0.5rem;
+            /* Mellanrum till text */
+        }
+
+        .record-value-cell {
+            font-weight: 700;
+            color: #3b82f6;
+            /* Blå färg för poäng/mål */
+        }
+
+        /* Styling for Overall Records Grid */
+        .overall-records-grid {
+            /* Used for largest win & best goal difference cards */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .record-card {
+            background-color: #ebf8ff;
+            /* Light blue background */
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            font-weight: 600;
+            color: #2b6cb0;
+            border: 1px solid #90cdf4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .record-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.75rem;
+        }
+
+        .record-player-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            color: #2d3748;
+        }
+
+        .record-value {
+            font-size: 1.875rem;
+            /* text-3xl */
+            font-weight: 800;
+            color: #3b82f6;
+        }
+
+        /* Footer styling (reused from other pages) */
+        .footer {
+            width: 100%;
+            background-color: #1a202c;
+            /* Mörk bakgrund för footer */
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: auto;
+            /* Trycker ner footern till botten */
+        }
+
+        .footer-logo {
+            max-width: 100%;
+            /* Anpassa till skärmbredden */
+            height: 6rem;
+            /* FAST HÖJD FÖR FOTLOGOTYPEN, ÖKAD FRÅN 4REM TILL 6REM */
+            object-fit: contain;
+            /* Behåll proportioner, se till att hela bilden syns */
+            display: block;
+            /* Centrera bilden */
+            margin: 0 auto;
+            /* Centrera bilden horisontellt */
+        }
+
+        /* Filter buttons for player records */
+        .filter-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allows wrapping on smaller screens */
+            justify-content: center;
+            gap: 0.75rem;
+            /* Space between buttons */
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #f7fafc;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-button {
+            padding: 0.75rem 1.25rem;
+            background-color: #e2e8f0;
+            /* Light gray for inactive tabs */
+            color: #4a5568;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            flex-grow: 1;
+            /* Allows buttons to grow and fill space */
+            text-align: center;
+            min-width: 100px;
+            /* Minimum width for buttons */
+        }
+
+        .filter-button.active {
+            background-color: #3b82f6;
+            /* Blue for active tab */
+            color: white;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .filter-button:hover:not(.active) {
+            background-color: #cbd5e0;
+        }
+
+        /* Responsive adjustments (reused from other pages) */
+        @media (max-width: 640px) {
+
+            /* För mobil (sm breakpoint) */
+            .navbar {
+                flex-direction: column;
+                /* Stapla logotyp och länkar vertikalt */
+                align-items: center;
+                /* Centrera allt */
+            }
+
+            .navbar-home-logo {
+                margin-right: 0;
+                /* Ingen marginal till höger om logotypen om den är centrerad */
+                margin-bottom: 1rem;
+                /* Avstånd till länkarna nedanför */
+            }
+
+            .navbar-links-wrapper {
+                width: 100%;
+                /* Ta full bredd under logotypen */
+                justify-content: center;
+                /* Centrera länkar inom deras omslutning på små skärmar om de bryter rad */
+            }
+
+            .navbar a {
+                width: auto;
+                /* Låt länkarna bestämma sin egen bredd */
+            }
+
+
+
+            /*             .record-table,
+            .record-table tbody,
+            .record-table tr,
+            .record-table td {
+                display: block;
+                Visa element som block för staplad layout
+                width: 100%;
+            } */
+
+            /*             .record-table tr {
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.5rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            }
+
+            .record-table td {
+                text-align: right;
+                /* Högerjustera värden
+                padding-left: 50%;
+                /* Gör plats för etikett
+                position: relative;
+                border: none;
+            }
+
+            .record-table td::before {
+                content: attr(data-label);
+                /* Använd data-label som etikett
+                position: absolute;
+                left: 0.5rem;
+                width: calc(50% - 1rem);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: #4a5568;
+            }
+
+            .record-table th,
+            .record-table td {
+                width: auto !important;
+                /* Åsidosätt specifika bredder
+            }
+ */
+            .filter-button {
+                min-width: unset;
+                /* Remove min-width on very small screens */
+                width: 100%;
+                /* Take full width on very small screens */
+            }
+
+            .overall-records-grid {
+                grid-template-columns: 1fr;
+                /* En kolumn på mobil */
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+    <!-- Global Navigationsmeny -->
+    <nav class="navbar">
+        <div class="navbar-links-wrapper">
+            <a href="index.html">Startsida</a>
+            <a href="fotbollsschema.html">Spelschema</a>
+            <a href="lagregister.html">Lagen</a>
+            <a href="tabeller.html">Tabell & resultat</a>
+            <a href="Leaderboards.html">Rekord</a>
+            <a href="sponsorer.html">Partners</a>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <!-- Rubriksektion -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Hall of Fame & Rekord</h1>
+            <p class="text-lg text-gray-600">Utforska de mest framstående prestationerna under cupen!</p>
+        </header>
+
+        <!-- Filterknappar för Rekord (inkl. lag- och spelarrekord) -->
+        <h2 class="section-heading">Filtrera Rekord</h2>
+        <div class="filter-buttons-container" id="record-filter-buttons">
+            <!-- Knappar genereras här av JavaScript -->
+        </div>
+        <div id="filtered-records-display-area">
+            <!-- Lag- och Spelarrekord genereras här av JavaScript, filtrerade av knapparna ovan -->
+            <div class="text-center text-gray-500 p-8 col-span-full">Välj en grupp eller "Alla Grupper" för att visa
+                rekord.</div>
+        </div>
+    </div>
+
+    <!-- Global Footer -->
+    <footer class="footer">
+        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded and parsed for halloffame.html');
+
+            // !!! VIKTIGT: Kontrollera DESSA URL:er och att dina Google Sheets är publicerade som CSV !!!
+            const playerStatsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1809976994&single=true&output=csv'; // PLAYER_STATS sheet
+            const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
+            const groupScheduleCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv'; // PUB_GROUP_SCHEDULE sheet for match results
+            const standingsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1900542434&single=true&output=csv'; // TABELL sheet for goal difference
+
+            const recordFilterButtonsDiv = document.getElementById('record-filter-buttons'); // For filter buttons
+            const filteredRecordsDisplayArea = document.getElementById('filtered-records-display-area'); // Where filtered tables are shown
+
+            let allPlayerStatsData = [];
+            let allTeamsData = []; // För att hämta laglogotyper för spelare
+            let allGamesData = []; // To fetch match results for largest win
+            let allStandingsData = []; // To fetch standings for best goal difference
+            let availableGroups = []; // Lagrar unika gruppnamn
+
+            /**
+             * Hämtar CSV-data från den angivna URL:en och avkoda den med 'utf-8'.
+             * Visar felmeddelande på sidan om hämtningen misslyckas.
+             * @param {string} url URL:en till CSV-filen.
+             * @param {HTMLElement} errorDisplayElement Elementet där felmeddelandet ska visas.
+             * @param {string} sectionName Namnet på sektionen för felmedmeddelandet.
+             * @returns {Promise<string>} Ett löfte som löser med den avkodade CSV-texten.
+             */
+            async function fetchCsvData(url, errorDisplayElement, sectionName) {
+                console.log(`Attempting to fetch CSV from: ${url} for ${sectionName}`);
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        const errorMessage = `Kunde inte ladda data för ${sectionName}. Kontrollera att URL:en är korrekt och att Google Sheet är publicerat som CSV. (HTTP Status: ${response.status})`;
+                        console.error(errorMessage, url);
+                        errorDisplayElement.innerHTML = `<div class="text-center text-red-600 font-bold p-4">${errorMessage}</div>`;
+                        return '';
+                    }
+                    console.log(`Successfully fetched CSV from: ${url} for ${sectionName}`);
+                    const decodedText = await response.text();
+                    return decodedText;
+
+                } catch (error) {
+                    const errorMessage = `Nätverksfel vid laddning av data för ${sectionName}. Kontrollera din internetanslutning eller Google Sheet URL.`;
+                    console.error(errorMessage, url, error);
+                    errorDisplayElement.innerHTML = `<div class="text-center text-red-600 font-bold p-4">${errorMessage}</div>`;
+                    return '';
+                }
+            }
+
+            /**
+             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
+             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
+             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
+             * @param {string} csvText CSV-innehållet som en sträng.
+             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
+             */
+            function parseRobustCsv(csvText) {
+                const rows = [];
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+
+                if (lines.length === 0) { // Tom CSV eller bara whitespace-rader
+                    return [];
+                }
+
+                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
+                for (let i = 0; i < lines.length; i++) { // Loopar över alla rader, *inklusive* första raden som rubriker
+                    const line = lines[i];
+                    const values = [];
+                    let inQuote = false;
+                    let currentField = '';
+
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        const nextChar = line[j + 1];
+
+                        if (char === '"') {
+                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
+                                currentField += char;
+                                j++; // Hoppa över nästa citationstecken
+                            } else {
+                                inQuote = !inQuote; // Växla in/ut ur citerat läge
+                            }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField.trim());
+                            currentField = '';
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
+                    rows.push(values);
+                }
+                console.log(`Parsed ${rows.length - 1} data rows.`);
+                return rows.slice(1); // Returnera alla rader utom rubrikraden
+            }
+
+            /**
+             * Parsar spelardata från PLAYER_STATS CSV.
+             * @param {string} csvText
+             * @returns {Array<Object>}
+             */
+            function parsePlayerStatsCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
+
+                const players = [];
+                // Headers from PLAYER_STATS sheet: team|playerName|group|jerseyNumber|goals|yellowCards|redCards
+                const headers = [
+                    'team', 'playerName', 'group', 'jerseyNumber',
+                    'goals', 'yellowCards', 'redCards'
+                ];
+                const expectedHeadersCount = headers.length;
+
+                rawRows.forEach((values, index) => {
+                    if (values.length >= headers.length) {
+                        const player = {
+                            team: values[0] ? values[0].trim() : 'N/A',
+                            playerName: values[1] ? values[1].trim() : 'N/A',
+                            // Normalisera gruppnamnet: Ta bort "Grupp " och konvertera till versaler
+                            group: values[2] ? values[2].trim().replace(/^Grupp\s*/i, '').toUpperCase() : 'N/A',
+                            jerseyNumber: parseInt(values[3]) || 'N/A',
+                            goals: parseInt(values[4]) || 0,
+                            yellowCards: parseInt(values[5]) || 0,
+                            redCards: parseInt(values[6]) || 0
+                        };
+                        players.push(player);
+                    } else {
+                        console.warn(`[PLAYER_STATS CSV PARSE WARNING] Row ${index + 2}: Not enough columns (expected at least ${headers.length}, found ${values.length}). Skipping row.`);
+                    }
+                });
+                return players;
+            }
+
+            /**
+             * Parsar lagdata från PUB_TEAMINFO CSV.
+             * Används för att hämta laglogotyper och lagnamn.
+             * @param {string} csvText
+             * @returns {Array<Object>}
+             */
+            function parseTeamsCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) return [];
+
+                const teams = [];
+                // Kolumnordning enligt senaste specifikationen (som i standings-page-app):
+                // teamName (0), logo (1), captainName (2), group (3), teamDescription (4), etc.
+                rawRows.forEach(values => {
+                    if (values.length >= 4) { // Needs at least teamName, logo, captainName, group
+                        const team = {
+                            teamName: values[0] ? values[0].trim() : 'N/A',
+                            logo: (values[1] && isValidImageUrl(values[1])) ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
+                            // Normalisera gruppnamnet: Ta bort "Grupp " och konvertera till versaler
+                            group: values[3] ? values[3].trim().replace(/^Grupp\s*/i, '').toUpperCase() : 'N/A' // Group is at index 3
+                        };
+                        teams.push(team);
+                    }
+                });
+                return teams;
+            }
+
+            /**
+             * Parsar CSV-text till en array av spelobjekt från PUB_GROUP_SCHEDULE.
+             * FÖRUTSATT KOLUMNORDNING (viktigt!): Matchid|Time|Hemma|Borta|Plansponsor|Group|Resultat|Matchstatus
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Object>} En array av spelobjekt.
+             */
+            function parseGroupScheduleCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) {
+                    console.warn("Group Schedule CSV är tom eller felaktigt parsad.");
+                    return [];
+                }
+
+                const games = [];
+                const headers = ['matchId', 'time', 'team1', 'team2', 'venue', 'group', 'result', 'matchStatus'];
+                const expectedHeadersCount = headers.length;
+
+                rawRows.forEach((values, index) => {
+                    if (values.length > 0) { // Säkerställ att det inte är en helt tom rad
+                        const game = {
+                            matchId: values[0] !== undefined ? values[0].trim() : 'N/A',
+                            time: values[1] !== undefined ? values[1].trim() : 'N/A',
+                            team1: values[2] !== undefined ? values[2].trim() : 'N/A',
+                            team2: values[3] !== undefined ? values[3].trim() : 'N/A',
+                            venue: values[4] !== undefined ? values[4].trim() : 'N/A',
+                            // Normalisera gruppnamnet: Ta bort "Grupp " och konvertera till versaler
+                            group: values[5] !== undefined ? values[5].trim().replace(/^Grupp\s*/i, '').toUpperCase() : 'N/A',
+                            result: values[6] !== undefined ? values[6].trim() : 'N/A',
+                            matchStatus: values[7] !== undefined ? values[7].trim() : 'N/A'
+                        };
+                        games.push(game);
+                    } else {
+                        console.warn(`[GROUP_SCHEDULE CSV PARSE WARNING] Rad ${index + 2}: Tom rad hittades. Hoppar över.`);
+                    }
+
+                    if (values.length !== expectedHeadersCount && values.length > 0) {
+                        console.warn(`[GROUP_SCHEDULE CSV PARSE WARNING] Rad ${index + 2}: Förväntade ${expectedHeadersCount} kolumner, men hittade ${values.length}. ` +
+                            `Raden från parsern: "${values.join(' | ')}". ` +
+                            `Möjlig orsak: Ett fält med kommatecken har inte citerats korrekt i Google Sheet, eller en inkonsekvent kolumnordning.`);
+                    }
+                });
+                return games;
+            }
+
+            /**
+             * Parsar CSV-text till en array av tabellobjekt från TABELL (PUB_STANDINGS).
+             * FÖRUTSATT KOLUMNORDNING (viktigt!): Lag|Grupp|M|V|O|F|GM|IM|MS|P|Nästa|goalDifferencePerGame
+             * @param {string} csvText The CSV content as a string.
+             * @returns {Array<Object>} En array av lagobjekt för tabellen.
+             */
+            function parseStandingsCsv(csvText) {
+                const rawRows = parseRobustCsv(csvText);
+                if (rawRows.length === 0) {
+                    console.warn("Standings CSV är tom eller felaktigt parsad.");
+                    return [];
+                }
+
+                const standings = [];
+                const headers = [
+                    'teamName', 'group', 'matchesPlayed', 'wins', 'draws',
+                    'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points', 'nextMatch', 'goalDifferencePerGame'
+                ];
+                const expectedHeadersCount = headers.length;
+
+                rawRows.forEach((values, index) => {
+                    if (values.length > 0) {
+                        const entry = {};
+                        headers.forEach((header, colIndex) => {
+                            let value = values[colIndex] !== undefined ? values[colIndex].trim() : 'N/A';
+                            if (header === 'group') {
+                                // Normalisera gruppnamnet: Ta bort "Grupp " och konvertera till versaler
+                                entry[header] = value.replace(/^Grupp\s*/i, '').toUpperCase();
+                            } else if (['matchesPlayed', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points', 'goalDifferencePerGame'].includes(header)) {
+                                entry[header] = parseInt(value) || 0; // Parsar numeriska fält till integers, inkl. goalDifferencePerGame
+                            }
+                            else {
+                                entry[header] = value;
+                            }
+                        });
+                        standings.push(entry);
+                    } else {
+                        console.warn(`[STANDINGS CSV PARSE WARNING] Rad ${index + 2}: Tom rad hittades. Hoppar över.`);
+                    }
+                    if (values.length !== expectedHeadersCount && values.length > 0) {
+                        console.warn(`[STANDINGS CSV PARSE WARNING] Rad ${index + 2}: Förväntade ${expectedHeadersCount} kolumner, men hittade ${values.length}. ` +
+                            `Raden från parsern: "${values.join(' | ')}". ` +
+                            `Möjlig orsak: Ett fält med kommatecken har inte citerats korrekt i Google Sheet, eller en inkonsekvent kolumnordning.`);
+                    }
+                });
+                return standings;
+            }
+
+
+            /**
+             * Hämtar en lags logotyp-URL.
+             * @param {string} teamName Namnet på laget.
+             * @returns {string} Logotypens URL eller en platshållar-URL.
+             */
+            function getTeamLogo(teamName) {
+                const team = allTeamsData.find(t => t.teamName === teamName);
+                return (team && team.logo && isValidImageUrl(team.logo)) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';
+            }
+
+            /**
+             * Kontrollerar om en URL ser ut som en giltig bild-URL.
+             * @param {string} url
+             * @returns {boolean}
+             */
+            function isValidImageUrl(url) {
+                return (url && (url.startsWith('http://') || url.startsWith('https://')) &&
+                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url)));
+            }
+
+            /**
+             * Rendrar en tabell med spelare för en given kategori.
+             * Visar alla spelare med värde > 0.
+             * @param {Array<Object>} players Spelardata.
+             * @param {string} sortBy Kolumn att sortera efter (t.ex. 'goals').
+             * @param {string} title Rubriken för tabellen.
+             * @param {string} valueLabel Etikett för värdet (t.ex. 'Mål').
+             * @param {string} tableId ID för tabellen.
+             */
+            function renderPlayerTable(players, sortBy, title, valueLabel, tableId) {
+                const filteredPlayers = players.filter(player => player[sortBy] > 0); // Only show players with more than 0 in the category
+                const sortedPlayers = [...filteredPlayers].sort((a, b) => b[sortBy] - a[sortBy]); // Sort all of them
+
+                if (sortedPlayers.length === 0) {
+                    return `<div class="text-center text-gray-500 p-4">Ingen data att visa för "${title}".</div>`;
+                }
+
+                let tableHtml = `
+                    <div class="overflow-x-auto rounded-lg shadow-md mb-8">
+                        <h4 class="text-xl font-bold text-gray-800 p-4 bg-gray-100 rounded-t-lg">${title}</h4>
+                        <table class="record-table" id="${tableId}">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Namn</th>
+                                    <th>Lag</th>
+                                    <th>${valueLabel}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${sortedPlayers.map((player, index) => `
+                                    <tr>
+                                        <td data-label="Rank">${index + 1}</td>
+                                        <td class="player-cell" data-label="Namn">
+                                            ${player.playerName}
+                                        </td>
+                                        <td data-label="Lag">${player.team}</td>
+                                        <td class="record-value-cell" data-label="${valueLabel}">${player[sortBy]}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                return tableHtml;
+            }
+
+            /**
+             * Rendrar en tabell med lag för en given kategori (t.ex. Lägst Antal Kort).
+             * Har specialhantering för "+X andra lag" om fler än 'limit' lag delar samma lägsta värde.
+             * @param {Array<Object>} teams Lista av team-objekt med totalCards och goalsFor.
+             * @param {string} title Rubriken för tabellen.
+             * @param {string} valueLabel Etikett för värdet (t.ex. 'Antal Kort').
+             * @param {string} tableId ID för tabellen.
+             * @param {number} [limit=Infinity] Max antal rader att visa. Använd Infinity för att visa alla.
+             */
+            function renderTeamTable(teams, title, valueLabel, tableId, limit = Infinity) {
+                // Teams are already sorted by calculateLeastCards based on totalCards, then goalsFor, then teamName.
+
+                if (teams.length === 0) {
+                    return `<div class="text-center text-gray-500 p-4">Ingen data att visa för "${title}".</div>`;
+                }
+
+                let displayTeams = teams;
+                let additionalTeamsMessage = '';
+
+                // Apply limit only if limit is a number and teams exceed it
+                if (typeof limit === 'number' && limit !== Infinity && teams.length > limit) {
+                    displayTeams = teams.slice(0, limit);
+                    additionalTeamsMessage = `<tr class="text-gray-600 font-medium"><td colspan="3" class="text-center pt-2">+${teams.length - limit} andra lag</td></tr>`;
+                }
+
+
+                let tableHtml = `
+                    <div class="overflow-x-auto rounded-lg shadow-md mb-8">
+                        <h4 class="text-xl font-bold text-gray-800 p-4 bg-gray-100 rounded-t-lg">${title}</h4>
+                        <table class="record-table" id="${tableId}">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Lag</th>
+                                    <th>${valueLabel}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${displayTeams.map((team, index) => `
+                                    <tr>
+                                        <td data-label="Rank">${index + 1}</td>
+                                        <td class="player-cell" data-label="Lag">
+                                            <img src="${getTeamLogo(team.teamName)}" alt="${team.teamName} Logo" class="team-logo-small" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                                            ${team.teamName}
+                                        </td>
+                                        <td class="record-value-cell" data-label="${valueLabel}">${team.totalCards}</td>
+                                    </tr>
+                                `).join('')}
+                                ${additionalTeamsMessage}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                return tableHtml;
+            }
+
+            /**
+             * Beräknar och returnerar den största vinsten för en specifik grupp eller alla.
+             * @param {string} groupName Gruppen att filtrera efter, eller 'All'.
+             * @returns {Object|null} Ett objekt med vinnande lag, förlorande lag, målskillnad och resultatsträng, annars null.
+             */
+            function calculateLargestWin(groupName) {
+                let largestWin = null;
+                let maxGoalDifference = -1;
+
+                const gamesToConsider = groupName === 'All' ? allGamesData : allGamesData.filter(game => game.group === groupName.toUpperCase()); // Använd normaliserat gruppnamn
+
+                gamesToConsider.forEach(game => {
+                    if (game.result && game.result !== 'N/A' && game.matchStatus === 'Slutrapporterad') {
+                        const [score1Str, score2Str] = game.result.split('-').map(s => s.trim());
+                        const score1 = parseInt(score1Str);
+                        const score2 = parseInt(score2Str);
+
+                        if (!isNaN(score1) && !isNaN(score2)) {
+                            let goalDifference = Math.abs(score1 - score2);
+                            let winningTeam = '';
+                            let losingTeam = '';
+
+                            if (score1 > score2) {
+                                winningTeam = game.team1;
+                                losingTeam = game.team2;
+                            } else if (score2 > score1) {
+                                winningTeam = game.team2;
+                                losingTeam = game.team1;
+                            } else {
+                                // Draw, no winner
+                                return;
+                            }
+
+                            // Om målskillnaden är större, eller samma men med en tidigare match (mindre matchId för tie-breaker)
+                            if (goalDifference > maxGoalDifference ||
+                                (goalDifference === maxGoalDifference && largestWin && parseInt(game.matchId) < parseInt(largestWin.matchId))) {
+                                maxGoalDifference = goalDifference;
+                                largestWin = {
+                                    winningTeam: winningTeam,
+                                    losingTeam: losingTeam,
+                                    goalDifference: goalDifference,
+                                    result: game.result,
+                                    matchId: game.matchId,
+                                    group: game.group // Add group for display
+                                };
+                            }
+                        }
+                    }
+                });
+                return largestWin;
+            }
+
+            /**
+             * Beräknar och returnerar laget med bäst målskillnad för en specifik grupp eller alla.
+             * Använder den förberäknade 'goalDifferencePerGame' från kalkylbladet och `matchesPlayed` för omgång.
+             * Den justerade displayRound ska visa lägsta antal matcher spelade för att indikera "efter omgång X" för hela gruppen.
+             * @param {string} groupName Gruppen att filtrera efter, eller 'All'.
+             * @returns {Object|null} Ett objekt med lagets namn, målskillnad, grupp och vilken omgång det gäller, annars null.
+             */
+            function calculateBestGoalDifference(groupName) {
+                let standingsToConsider = allStandingsData;
+
+                if (groupName !== 'All') {
+                    standingsToConsider = allStandingsData.filter(standing => standing.group === groupName.toUpperCase()); // Använd normaliserat gruppnamn
+                }
+
+                if (standingsToConsider.length === 0) return null;
+
+                let bestGoalDifferenceTeam = null;
+                let maxGoalDiff = -Infinity;
+
+                // Hitta lägsta antal spelade matcher bland alla lag i den aktuella filtergruppen (eller alla grupper)
+                let minMatchesPlayedAcrossAllTeams = Infinity;
+                if (standingsToConsider.length > 0) {
+                    minMatchesPlayedAcrossAllTeams = Math.min(...standingsToConsider.map(team => team.matchesPlayed));
+                }
+
+                // Iterera genom lag för att hitta det med högst 'goalDifferencePerGame'
+                standingsToConsider.forEach(team => {
+                    const currentTeamGoalDiff = team.goalDifferencePerGame;
+
+                    if (!isNaN(currentTeamGoalDiff)) {
+                        if (currentTeamGoalDiff > maxGoalDiff) {
+                            maxGoalDiff = currentTeamGoalDiff;
+                            bestGoalDifferenceTeam = {
+                                teamName: team.teamName,
+                                goalDifference: currentTeamGoalDiff,
+                                group: team.group,
+                                goalsFor: team.goalsFor,
+                                matchesPlayed: team.matchesPlayed
+                            };
+                        } else if (currentTeamGoalDiff === maxGoalDiff) {
+                            if (bestGoalDifferenceTeam && team.goalsFor > bestGoalDifferenceTeam.goalsFor) {
+                                bestGoalDifferenceTeam = {
+                                    teamName: team.teamName,
+                                    goalDifference: currentTeamGoalDiff,
+                                    group: team.group,
+                                    goalsFor: team.goalsFor,
+                                    matchesPlayed: team.matchesPlayed
+                                };
+                            } else if (bestGoalDifferenceTeam && team.goalsFor === bestGoalDifferenceTeam.goalsFor && team.teamName.localeCompare(bestGoalDifferenceTeam.teamName) < 0) {
+                                bestGoalDifferenceTeam = {
+                                    teamName: team.teamName,
+                                    goalDifference: currentTeamGoalDiff,
+                                    group: team.group,
+                                    goalsFor: team.goalsFor,
+                                    matchesPlayed: team.matchesPlayed
+                                };
+                            }
+                        }
+                    }
+                });
+
+                if (bestGoalDifferenceTeam) {
+                    // Sätt displayRound till det lägsta antalet matcher spelade bland alla lag i scope
+                    bestGoalDifferenceTeam.displayRound = minMatchesPlayedAcrossAllTeams;
+                }
+
+                return bestGoalDifferenceTeam;
+            }
+
+            /**
+             * Beräknar och returnerar laget/lagen med lägst antal kort för en specifik grupp eller alla.
+             * Tie-breaker: flest gjorda mål, sedan alfabetiskt.
+             * @param {string} groupName Gruppen att filtrera efter, eller 'All'.
+             * @returns {Object|null} Ett objekt med lagets/lagens namn, totalt antal kort, annars null.
+             */
+            function calculateLeastCards(groupName) {
+                // Normalisera groupName för jämförelse
+                const normalizedGroupName = groupName.toUpperCase();
+
+                let playersToConsider = normalizedGroupName === 'ALL' ? allPlayerStatsData : allPlayerStatsData.filter(player => player.group === normalizedGroupName);
+                let teamsInScope = normalizedGroupName === 'ALL' ? allTeamsData : allTeamsData.filter(team => team.group === normalizedGroupName);
+
+                console.log(`calculateLeastCards: ${playersToConsider.length} players considered for group ${groupName} (normalized: ${normalizedGroupName})`);
+                console.log(`calculateLeastCards: ${teamsInScope.length} teams in scope for group ${groupName} (normalized: ${normalizedGroupName})`);
+
+                const teamCardCounts = {}; // { 'team a': { yellow: X, red: Y, total: Z, goalsFor: G }, ... }
+
+                // Initialize all relevant teams with 0 cards and 0 goals (if not in standings yet)
+                teamsInScope.forEach(team => {
+                    const normalizedTeamName = team.teamName.toLowerCase(); // Normalisera lagnamn för nyckel
+                    // Säkerställ att vi bara hittar lag i rätt grupp i standings för goalsFor tie-breaker
+                    const standing = allStandingsData.find(s => s.teamName.toLowerCase() === normalizedTeamName && s.group === normalizedGroupName);
+                    teamCardCounts[normalizedTeamName] = {
+                        yellow: 0,
+                        red: 0,
+                        total: 0,
+                        goalsFor: standing ? standing.goalsFor : 0,
+                        originalTeamName: team.teamName // Spara originalnamnet för senare visning
+                    };
+                });
+
+                playersToConsider.forEach(player => {
+                    const normalizedPlayerTeam = player.team.toLowerCase(); // Normalisera spelarlagnamn
+                    if (teamCardCounts[normalizedPlayerTeam]) { // Använd normaliserad nyckel
+                        teamCardCounts[normalizedPlayerTeam].yellow += player.yellowCards;
+                        teamCardCounts[normalizedPlayerTeam].red += player.redCards;
+                        teamCardCounts[normalizedPlayerTeam].total = teamCardCounts[normalizedPlayerTeam].yellow + teamCardCounts[normalizedPlayerTeam].red;
+                    } else {
+                        // Denna varning kan indikera datamatchningsproblem om lagnamn inte är konsekventa
+                        console.warn(`calculateLeastCards: Player's team "${player.team}" (normalized: "${normalizedPlayerTeam}") not found in current scope's teamCardCounts. Player: ${player.playerName}, Group: ${player.group}. This could indicate a data mismatch or an issue with the filtering of teams/players.`);
+                    }
+                });
+                console.log('calculateLeastCards: teamCardCounts after processing players:', teamCardCounts);
+
+                if (Object.keys(teamCardCounts).length === 0) {
+                    console.log('calculateLeastCards: No team card counts generated.');
+                    return null;
+                }
+
+                // Mappa tillbaka till ursprungliga lagnamn för visning, men använd normaliserade värden för sortering
+                const allTeamsWithCardCounts = Object.keys(teamCardCounts).map(normalizedTeamName => {
+                    return {
+                        teamName: teamCardCounts[normalizedTeamName].originalTeamName, // Använd originalnamnet
+                        totalCards: teamCardCounts[normalizedTeamName].total,
+                        goalsFor: teamCardCounts[normalizedTeamName].goalsFor
+                    };
+                });
+                console.log('calculateLeastCards: allTeamsWithCardCounts:', allTeamsWithCardCounts);
+
+                // Find the minimum card count
+                let minCards = Infinity;
+                if (allTeamsWithCardCounts.length > 0) {
+                    minCards = Math.min(...allTeamsWithCardCounts.map(team => team.totalCards));
+                } else {
+                    console.log('calculateLeastCards: No teams with card data after mapping.');
+                    return null; // No teams with card data
+                }
+                console.log('calculateLeastCards: minCards:', minCards);
+
+                // Filter out all teams that have exactly the minimum card count
+                let leastCardTeams = allTeamsWithCardCounts.filter(team => team.totalCards === minCards);
+
+                // Sort tied teams: first by goalsFor (descending), then by teamName (ascending)
+                leastCardTeams.sort((a, b) => {
+                    if (a.totalCards !== b.totalCards) return a.totalCards - b.totalCards; // Primary sort by total cards (lowest first)
+                    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor; // Secondary sort by goalsFor (highest first)
+                    return a.teamName.localeCompare(b.teamName); // Tertiary sort by name (alphabetical)
+                });
+                console.log('calculateLeastCards: leastCardTeams (sorted):', leastCardTeams);
+
+                return { teams: leastCardTeams, minCards: minCards };
+            }
+
+
+            /**
+             * Rendrar filterknapparna för alla rekord (lag- och spelarrekord).
+             */
+            function renderRecordFilterButtons() {
+                recordFilterButtonsDiv.innerHTML = ''; // Rensa
+                // Se till att unika grupper också normaliseras för konsekvens
+                const uniqueGroups = new Set(allPlayerStatsData.map(player => player.group).filter(g => g && g !== 'N/A'));
+                availableGroups = Array.from(uniqueGroups).sort();
+
+                if (availableGroups.length === 0) {
+                    recordFilterButtonsDiv.innerHTML = `<div class="text-center text-gray-500 p-2">Inga grupper hittades för rekord.</div>`;
+                    return;
+                }
+
+                // Lägg till "Alla Grupper" -knapp
+                const allButton = document.createElement('button');
+                allButton.className = 'filter-button active'; // Standard aktiv
+                allButton.textContent = 'Alla Grupper';
+                allButton.addEventListener('click', () => {
+                    activateFilterButton(allButton);
+                    renderFilteredRecords('All');
+                });
+                recordFilterButtonsDiv.appendChild(allButton);
+
+                // Lägg till knappar för varje unik grupp
+                availableGroups.forEach(group => {
+                    const button = document.createElement('button');
+                    button.className = 'filter-button';
+                    // Visa "Grupp A" men skicka bara "A" i data-group
+                    button.textContent = `Grupp ${group}`;
+                    button.setAttribute('data-group', group);
+                    button.addEventListener('click', () => {
+                        activateFilterButton(button);
+                        renderFilteredRecords(group);
+                    });
+                    recordFilterButtonsDiv.appendChild(button);
+                });
+                console.log('Record filter buttons rendered.');
+
+                // Visa alla rekord som standard vid start
+                renderFilteredRecords('All');
+            }
+
+            /**
+             * Aktiverar den klickade filterknappen och avaktiverar andra.
+             * @param {HTMLElement} activeButton Knappen som ska aktiveras.
+             */
+            function activateFilterButton(activeButton) {
+                document.querySelectorAll('.filter-button').forEach(button => {
+                    button.classList.remove('active');
+                });
+                activeButton.classList.add('active');
+            }
+
+            /**
+             * Rendrar alla typer av rekord baserat på det valda filtret.
+             * @param {string} filterByGroup Namnet på gruppen att filtrera efter, eller 'All'.
+             */
+            function renderFilteredRecords(filterByGroup) {
+                filteredRecordsDisplayArea.innerHTML = ''; // Rensa
+
+                // Om en specifik grupp är vald, lägg till grupprubrik
+                if (filterByGroup !== 'All') {
+                    // Använd original `filterByGroup` här (t.ex. "A") för rubriken.
+                    filteredRecordsDisplayArea.innerHTML += `<h3 class="group-heading">Grupp ${filterByGroup}</h3>`;
+                }
+
+                // --- Render Team-based Records (Largest Win, Best Goal Difference, Least Cards) ---
+                const largestWin = calculateLargestWin(filterByGroup);
+                const bestGoalDifference = calculateBestGoalDifference(filterByGroup);
+                const leastCardsResult = calculateLeastCards(filterByGroup);
+
+                let teamRecordsCardsHtml = ''; // For the card-style records
+
+                // Largest Win Card
+                if (largestWin) {
+                    const winningTeamLogo = getTeamLogo(largestWin.winningTeam);
+                    teamRecordsCardsHtml += `
+                        <div class="record-card">
+                            <h3 class="record-card-title">Största Segern</h3>
+                            <img src="${winningTeamLogo}" alt="${largestWin.winningTeam} Logo" class="team-logo-small mb-2" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                            <div class="record-player-info">
+                                <span class="text-xl font-bold">${largestWin.winningTeam}</span>
+                            </div>
+                            <div class="record-value">
+                                ${largestWin.result}
+                            </div>
+                            <p class="text-sm text-gray-600">(${largestWin.goalDifference} målskillnad mot ${largestWin.losingTeam})</p>
+                        </div>
+                    `;
+                } else {
+                    teamRecordsCardsHtml += `<div class="record-card">Ingen matchdata för största segern i ${filterByGroup === 'All' ? 'alla grupper' : 'Grupp ' + filterByGroup}.</div>`;
+                }
+
+                // Best Goal Difference Card
+                if (bestGoalDifference) {
+                    const teamLogo = getTeamLogo(bestGoalDifference.teamName);
+                    teamRecordsCardsHtml += `
+                        <div class="record-card">
+                            <h3 class="record-card-title">Bäst Målskillnad</h3>
+                            <img src="${teamLogo}" alt="${bestGoalDifference.teamName} Logo" class="team-logo-small mb-2" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
+                            <div class="record-player-info">
+                                <span class="text-xl font-bold">${bestGoalDifference.teamName}</span>
+                            </div>
+                            <div class="record-value">
+                                ${bestGoalDifference.goalDifference}
+                            </div>
+                            <p class="text-sm text-gray-600">(Efter omgång ${bestGoalDifference.displayRound} ${filterByGroup !== 'All' ? `i Grupp ${filterByGroup}` : ''})</p>
+                        </div>
+                    `;
+                } else {
+                    teamRecordsCardsHtml += `<div class="record-card">Väntar på att alla lag ska spela 1 omgång</div>`;
+                }
+
+                filteredRecordsDisplayArea.innerHTML += `<div class="overall-records-grid">${teamRecordsCardsHtml}</div>`;
+
+                // Render Least Cards (as a table)
+                if (leastCardsResult && leastCardsResult.teams.length > 0) {
+                    // limit is Infinity for specific groups, 4 for 'All'
+                    const leastCardsLimit = (filterByGroup === 'All') ? 4 : Infinity;
+                    filteredRecordsDisplayArea.innerHTML += renderTeamTable(
+                        leastCardsResult.teams, 'Lägst Antal Kort', 'Antal Kort', 'filtered-least-cards', leastCardsLimit
+                    );
+                } else {
+                    filteredRecordsDisplayArea.innerHTML += `<div class="text-center text-gray-500 p-4 col-span-full">Ingen kortstatistik för lägst antal kort i ${filterByGroup === 'All' ? 'alla grupper' : 'Grupp ' + filterByGroup}.</div>`;
+                }
+
+
+                // --- Render Player-based Records ---
+                let playersToDisplay = allPlayerStatsData;
+                if (filterByGroup !== 'All') {
+                    playersToDisplay = allPlayerStatsData.filter(player => player.group === filterByGroup.toUpperCase()); // Använd normaliserat gruppnamn
+                }
+
+                // Check if there are any player stats (goals) to display before rendering tables
+                const hasPlayerGoals = playersToDisplay.some(p => p.goals > 0);
+
+                if (!hasPlayerGoals) {
+                    filteredRecordsDisplayArea.innerHTML += `<div class="text-center text-gray-500 p-4 col-span-full">Ingen spelarstatistik (mål) att visa för ${filterByGroup === 'All' ? 'alla grupper' : 'Grupp ' + filterByGroup}.</div>`;
+                } else {
+                    // Render Målskytteliga (alla med mer än 0 mål)
+                    filteredRecordsDisplayArea.innerHTML += renderPlayerTable(
+                        playersToDisplay, 'goals', 'Målskytteliga', 'Mål', 'filtered-top-scorers'
+                    );
+                }
+
+                console.log(`All records rendered for filter: ${filterByGroup}`);
+            }
+
+
+            // Initial laddning av all data
+            async function initializeHallOfFamePage() {
+                console.log('initializeHallOfFamePage called.');
+                // Initiala laddningsmeddelanden
+                filteredRecordsDisplayArea.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar rekorddata...</div>`;
+                recordFilterButtonsDiv.innerHTML = '';
+
+                try {
+                    console.time('Fetch All Hall of Fame CSVs');
+                    const [playerStatsCsvText, teamsCsvText, groupScheduleCsvText, standingsCsvText] = await Promise.all([
+                        fetchCsvData(playerStatsCsvUrl, filteredRecordsDisplayArea, "Spelarstatistik"),
+                        fetchCsvData(teamsCsvUrl, filteredRecordsDisplayArea, "Laginformation"),
+                        fetchCsvData(groupScheduleCsvUrl, filteredRecordsDisplayArea, "Matchschema"),
+                        fetchCsvData(standingsCsvUrl, filteredRecordsDisplayArea, "Tabellinformation")
+                    ]);
+                    console.timeEnd('Fetch All Hall of Fame CSVs');
+
+                    allPlayerStatsData = playerStatsCsvText ? parsePlayerStatsCsv(playerStatsCsvText) : [];
+                    allTeamsData = teamsCsvText ? parseTeamsCsv(teamsCsvText) : [];
+                    allGamesData = groupScheduleCsvUrl ? parseGroupScheduleCsv(groupScheduleCsvText) : [];
+                    allStandingsData = standingsCsvText ? parseStandingsCsv(standingsCsvText) : [];
+
+                    renderRecordFilterButtons(); // This will also trigger the initial rendering of filtered records
+                    console.log('Hall of Fame page initialized and rendered successfully.');
+                } catch (error) {
+                    console.error("Felsökning: Ett fel uppstod vid initialisering av Hall of Fame-sidan.", error);
+                    filteredRecordsDisplayArea.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-8">
+                                                            Kunde inte ladda data för Hall of Fame. Kontrollera Google Sheets URL:er och publiceringsinställningar.
+                                                        </div>`;
+                    recordFilterButtonsDiv.innerHTML = '';
+                }
+            }
+
+            initializeHallOfFamePage();
+        });
+    </script>
+</body>
+
+</html>
