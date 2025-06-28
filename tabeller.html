@@ -180,7 +180,7 @@
 
         #mobile-menu-toggle .icon-menu,
         #mobile-menu-toggle .icon-close {
-            display: block;
+            /* Keep shared styles here */
             width: 24px;
             height: 24px;
             background-color: white;
@@ -188,32 +188,35 @@
         }
 
         .icon-menu {
+            display: block;
             -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
         }
 
         .icon-close {
+            display: none;
             -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
             mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
         }
 
-        .is-mobile-menu-open .icon-menu {
+        /* When the mobile menu is open */
+        body.is-mobile-menu-open .icon-menu {
             display: none;
+            /* Hide the menu icon */
         }
 
-        .is-mobile-menu-open .icon-close {
+        body.is-mobile-menu-open .icon-close {
             display: block;
+            /* Show the close icon */
         }
 
-        body:not(.is-mobile-menu-open) .icon-close {
-            display: none;
-        }
-
+        /* Ensure mobile toggle is hidden on larger screens */
         @media (min-width: 724px) {
             #mobile-menu-toggle {
                 display: none;
             }
         }
+
 
         #mobile-nav {
             position: fixed;
@@ -336,6 +339,15 @@
             padding-bottom: 0.5rem;
         }
 
+        .section-subtitle {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
         .section-heading:first-of-type {
             margin-top: 0;
         }
@@ -353,9 +365,16 @@
         .standings-table th,
         .standings-table td {
             padding: 0.75rem;
-            text-align: left;
+            text-align: center;
             border-bottom: 1px solid #e2e8f0;
             white-space: nowrap;
+        }
+
+        #team-cell-header {
+            text-align: left;
+            font-weight: 700;
+            color: #2d3748;
+            /* Darker text for better contrast */
         }
 
         .standings-table th {
@@ -397,7 +416,7 @@
         .standings-table td:first-child,
         .results-table td:nth-child(2),
         .results-table td:nth-child(4) {
-            text-align: left;
+            text-align: center;
         }
 
         .tab-buttons {
@@ -420,12 +439,26 @@
             transition: all 0.2s ease-in-out;
         }
 
+        @media (max-width: 640px) {
+            .tab-button {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .tab-button {
+                padding: 0.2rem 0.4rem;
+                font-size: 0.5rem;
+            }
+        }
+
         .tab-button.active {
             background-color: #F29849;
             /* New Color */
             color: white;
             box-shadow: 0 2px 8px rgba(242, 152, 73, 0.4);
-            transform: translateY(-2px);
+            /*             transform: translateY(-2px); */
         }
 
         .tab-button:hover:not(.active) {
@@ -453,22 +486,6 @@
             padding: 1rem;
             border-radius: 0.5rem;
             font-weight: 600;
-        }
-
-        .footer {
-            width: 100%;
-            background-color: #034159;
-            /* New Color */
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .footer-logo {
-            max-width: 100%;
-            height: 6rem;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
         }
 
         /* Bracket Styles */
@@ -549,26 +566,21 @@
             }
         }
 
-
-        @media (max-width: 640px) {
-            .navbar {
-                justify-content: center;
-                padding: 1rem;
-            }
-
-            .navbar-logo-link {
-                margin-bottom: 0.5rem;
-            }
+        @media (max-width: 560px) {
 
             .standings-table th:nth-child(6),
-            /* F */
+            /* GM */
             .standings-table td:nth-child(6),
             .standings-table th:nth-child(7),
-            /* GM */
-            .standings-table td:nth-child(7),
-            .standings-table th:nth-child(8),
             /* IM */
-            .standings-table td:nth-child(8),
+            .standings-table td:nth-child(7) {
+                display: none;
+            }
+        }
+
+        @media (max-width:740px) {
+
+
             .standings-table th:nth-child(10),
             /* Nästa */
             .standings-table td:nth-child(10) {
@@ -665,24 +677,24 @@
         <!-- Your existing page content goes here -->
         <div class="content-container">
             <header class="text-center mb-8">
-                <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Resultat och Tabeller</h1>
+                <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Resultat och Tabeller</h1>
             </header>
 
             <section id="group-stage-section">
-                <h2 class="section-heading">Gruppspel & Slutspel</h2>
+                <h2 class="section-subtitle">Gruppspel & Slutspel</h2>
                 <div class="tab-buttons" id="group-tab-buttons"></div>
                 <div id="tabs-content-area" class="table-container"></div>
             </section>
 
             <section id="qualified-section">
-                <h2 class="section-heading">Just nu klara för slutspel</h2>
+                <h2 class="section-subtitle">Just nu klara för slutspel</h2>
                 <div id="qualified-teams-list">
                     <div class="text-center text-gray-500 p-4">Laddar kvalificerade lag...</div>
                 </div>
             </section>
 
             <section id="results-section">
-                <h2 class="section-heading">Alla Matchresultat</h2>
+                <h2 class="section-subtitle">Alla Matchresultat</h2>
                 <div id="match-results-list" class="table-container">
                     <div class="text-center text-gray-500 p-4">Laddar matchresultat...</div>
                 </div>
@@ -813,7 +825,7 @@
                     <table class="standings-table">
                         <thead>
                             <tr>
-                                <th title="Lag">Lag</th>
+                                <th id="team-cell-header"title="Lag">Lag</th>
                                 <th title="Matcher">M</th><th title="Vinster">V</th><th title="Oavgjorda">O</th><th title="Förluster">F</th>
                                 <th title="Gjorda Mål">GM</th><th title="Insläppta Mål">IM</th><th title="Målskillnad">MS</th>
                                 <th title="Poäng">P</th><th title="Nästa Match">Nästa</th>
