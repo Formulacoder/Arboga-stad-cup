@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arboga Stad Cup - Samarbetspartners</title>
+    <title>Arboga Stad Cup - Välkommen</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS83LWSY7E"></script>
@@ -22,6 +22,8 @@
         }
 
         /* --- New Navigation Styles --- */
+        /* ------------------------------ */
+        /* ------------------------------ */
         .main-header {
             background-color: #034159;
             color: white;
@@ -312,7 +314,6 @@
 
         .content-container {
             max-width: 1200px;
-            /* Wider for sponsors grid */
             width: 100%;
             background-color: #ffffff;
             border-radius: 0.75rem;
@@ -322,102 +323,40 @@
             flex-grow: 1;
         }
 
-        #sponsor-list {
-            width: 100%;
+
+        .section {
+            padding: 2rem 0;
         }
 
-        .sponsor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            justify-content: center;
-        }
-
-        .sponsor-card {
-            background-color: #fff;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid #e2e8f0;
-        }
-
-        .sponsor-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .sponsor-logo {
-            max-height: 8rem;
-            max-width: 100%;
-            object-fit: contain;
-            margin-bottom: 1.5rem;
-        }
-
-        .sponsor-website {
-            color: #034159;
-            /* New Color */
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            display: inline-block;
-        }
-
-        .sponsor-website:hover {
-            text-decoration: underline;
-            color: #F29849;
-            /* New Color */
-        }
-
-        .category-heading {
-            width: 100%;
-            text-align: center;
-            font-size: 2.25rem;
+        .section-title {
+            font-size: 3.5rem;
             font-weight: 800;
-            color: #1a202c;
-            margin-top: 2.5rem;
+            color: #034159;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a5269;
+            margin-bottom: 1rem;
+        }
+
+        .section-text {
+            font-size: 1.75rem;
+            color: #4a5568;
+            line-height: 1.6;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
         }
 
-        .category-heading:first-of-type {
-            margin-top: 0;
-        }
-
-        .footer {
-            width: 100%;
-            background-color: #034159;
-            /* New Color */
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .footer-logo {
-            max-width: 100%;
-            height: 6rem;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 640px) {
-            .navbar {
-                justify-content: center;
-                padding: 1rem;
-            }
-
-            .navbar-logo-link {
-                margin-bottom: 0.5rem;
-            }
+        .section-small-text {
+            font-size: 1.25rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
-
 
 <body class="bg-gray-100">
     <header class="main-header">
@@ -496,16 +435,96 @@
     <main>
         <!-- Your existing page content goes here -->
         <div class="content-container">
-            <header class="text-center mb-8">
-                <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Våra Samarbetspartners</h1>
-                <p class="text-lg text-gray-600">Ett stort tack till alla som möjliggör cupen!</p>
-            </header>
+            <section class="section">
+                <h1 class="section-title">Regler och riktlinjer</h1>
 
-            <div id="sponsor-list">
-                <div class="text-center text-gray-500 p-8">Laddar samarbetspartners...</div>
-            </div>
-        </div>
+                <h2 class="section-subtitle">Först och främst - Fairplay</h2>
+                <ul class="section-small-text">
+                    <li>🤝 Vi visar respekt och förståelse för alla, på och runt planen. Det gäller även publiken,
+                        ledningen,
+                        styrelsen och kommunen.</li>
+                    <li>🫡Domaren dömer, respektera det och alla spelares tid. Det är korta matcher!</li>
+                    <li>⚽Spela schysst och hederligt, hårt spel och mycket känslor är en del av fotboll, men fullt spel
+                        har
+                        ingenting på planen att göra.</li>
+                    <li>🗣️👂 Låt oss kommunicera - Prata med oss och varandra om något fungerar dåligt eller om du sett
+                        någon
+                        bli
+                        orättvist behandlad.</li>
+                    <li>🚫 0 tolerans för hot & våld - Fysiskt våld leder till en direkt avstängning från cupen.</li>
+                </ul>
+
+                <h3 class="section-subtitle">🏟 Spelformat</h3>
+                <ul class="section-small-text">
+                    <li>Antal spelare: 1 målvakt och 6 utespelare</li>
+                    <li>Matchtid: 1 period á 15 minuter</li>
+                    <li>Bollstorlek: Storlek 5</li>
+                    <li>Målstorlek: 5x2 meter</li>
+                </ul>
+
+                <h3 class="section-subtitle">📋 Spelregler</h3>
+                <ul class="section-small-text">
+                    <li>Ingen offside</li>
+                    <li>Inkast: kasta bollen med båda händerna bakom och över huvudet, och båda fötterna måste vara på
+                        marken.
+                    </li>
+                    <li>Frisparkar: Begär frisparksläggaren avstånd ska domaren räkna ut 7 meter från boll för
+                        motståndarens
+                        eventuella mur.</li>
+                    <li>Straffar: Slås från 7 meters avstånd</li>
+                    <li>Byten: Fria byten gäller och sker vid lagets area som kommer vara markerad</li>
+                    <li>Hemåtpass: Målvakten får inte ta upp bollen med händerna vid hemåtpass från medspelare, detta
+                        resulterar
+                        indirekt frispark.</li>
+                    <li>Indirekt frispark: Kräver att bollen rör en annan spelare innan mål kan göras.</li>
+                </ul>
+
+                <h3 class="section-subtitle">🚨 Disciplinära regler</h3>
+                <ul class="section-small-text">
+                    <li>2 gula kort i samma match = rött kort → Utvisning resten av matchen + avstängd nästa match
+                    </li>
+                    <li>Direkt rött kort → Utvisning resten av matchen + avstängd nästa match</li>
+                    <li>3 gula kort över flera matcher leder till avstängning i nästa match.</li>
+                    <li>Fysiskt våld (slag, sparkar m.m.) → Avstängning resten av turneringen</li>
+                    <li>Domaren rapporterar samtliga kort till tävlingsledningen</li>
+                </ul>
+
+                <h3 class="section-subtitle">⏱ Matchgenomförande</h3>
+                <p class="section-small-text">Ingen förlängning eller straffar i gruppspel</p>
+                <p class="section-small-text">Om två lag har samma poäng i gruppspelet och tävlar om avancemang, avgörs
+                    placeringen genom följande kriterier. (1 väger mest osv)</p>
+                <ol class="section-small-text">
+                    <li><strong>Inbördes möte</strong> – Det lag som vann den direkta matchen mellan de två går
+                        före.
+                    </li>
+                    <li><strong>Målskillnad</strong> – Laget med bäst målskillnad (gjorda mål minus insläppta mål)
+                        rankas högre.
+                    </li>
+                    <li><strong>Flest gjorda mål</strong> – Om målskillnaden är lika, går laget med flest gjorda mål
+                        vidare.
+                    </li>
+                    <li><strong>Flest segrar</strong> – Laget med flest vinster i gruppspelet får fördel.</li>
+                    <li><strong>Disciplinära poäng</strong> – Laget med färre gula och röda kort kan få fördel.</li>
+                </ol>
+                <p class="section-small-text">Vid slutspel avgörs oavgjorda matcher direkt med straffsparksläggning (3
+                    straffar/lag)</p>
+
+                <p class="section-small-text">Med respekt för att vi inte kan mest och vet bäst skickar vi med en
+                    inbjudan att diskutera det man tycker är fel, saknas eller kan bli bättre. Det är ni som kommer
+                    påverkas så varmt välkomna att höra av er-</p>
+                <p class="section-small-text">Tack för att ni bidrar till en positiv fotbollsdag ⚽</p>
+
+                <div class="section-small-text">
+                    <p class="section-small-text">Vänliga hälsningar</p>
+                    <p><strong>Johan Ponce Paez</strong><br>Sportslig ledning<br>M: 070 300 34 83<br>E: <a
+                            href="mailto:johan.ponce@arbogastadsk.se">johan.ponce@arbogastadsk.se</a></p>
+                    <p><strong>Daniel Porath</strong><br>Vice Ordförande<br>M: 079 342 64 29<br>E: <a
+                            href="mailto:Daniel.Porath@arbogastadsk.se">Daniel.Porath@arbogastadsk.se</a></p>
+                </div>
+
+
     </main>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Mobile Menu Logic ---
@@ -558,139 +577,6 @@
                     toggle.setAttribute('aria-expanded', 'false');
                 });
             }
-        })
-        document.addEventListener('DOMContentLoaded', () => {
-            const partnersCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1030318842&single=true&output=csv';
-            const sponsorListDiv = document.getElementById('sponsor-list');
-
-            async function fetchCsvData(url) {
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP Error! status: ${response.status}`);
-                    return await response.text();
-                } catch (error) {
-                    console.error('Fel vid hämtning av partner-data:', error);
-                    sponsorListDiv.innerHTML = `<div class="text-center text-red-600 font-bold col-span-full p-4">Kunde inte ladda partnerdata. Kontrollera att Google Sheet är korrekt publicerat som CSV.</div>`;
-                    throw error;
-                }
-            }
-
-            // *** THIS IS THE CORRECTED PARSING FUNCTION ***
-            function parseRobustCsv(csvText) {
-                if (!csvText) return [];
-                const allLines = csvText.split('\n').filter(line => line.trim() !== '');
-                if (allLines.length < 2) return [];
-
-                // This inner function will parse one line correctly, handling quoted commas
-                const parseLine = (line) => {
-                    const values = [];
-                    let inQuote = false;
-                    let currentField = '';
-                    for (let i = 0; i < line.length; i++) {
-                        const char = line[i];
-                        if (char === '"') {
-                            // If we're in a quote and the next character is also a quote, it's an escaped quote
-                            if (inQuote && line[i + 1] === '"') {
-                                currentField += '"';
-                                i++; // Skip the next character
-                            } else {
-                                inQuote = !inQuote;
-                            }
-                        } else if (char === ',' && !inQuote) {
-                            values.push(currentField);
-                            currentField = '';
-                        } else {
-                            currentField += char;
-                        }
-                    }
-                    values.push(currentField);
-                    // Trim and remove surrounding quotes from each final value
-                    return values.map(v => {
-                        v = v.trim();
-                        if (v.startsWith('"') && v.endsWith('"')) {
-                            return v.substring(1, v.length - 1).replace(/""/g, '"');
-                        }
-                        return v;
-                    });
-                };
-
-                // Parse header and rows
-                const header = parseLine(allLines[0]);
-                const rows = allLines.slice(1).map(parseLine);
-                // Map rows to objects
-                return rows.map(row => {
-                    const obj = {};
-                    header.forEach((key, idx) => {
-                        obj[key.trim()] = row[idx] !== undefined ? row[idx] : '';
-                    });
-                    return obj;
-                });
-            }
-
-            function isValidImageUrl(url) {
-                return url && (url.startsWith('http://') || url.startsWith('https://')) && (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
-            }
-
-            function renderSponsors(partners) {
-                sponsorListDiv.innerHTML = '';
-                if (partners.length === 0) {
-                    sponsorListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Inga samarbetspartners hittades.</div>`;
-                    return;
-                }
-
-                const groupedPartners = partners.reduce((acc, partner) => {
-                    const role = partner.role || 'Övriga Partners';
-                    if (!acc[role]) acc[role] = [];
-                    acc[role].push(partner);
-                    return acc;
-                }, {});
-
-                const categoryOrder = ['Huvudpartner', 'Officiell partner', 'Lagsponsor', 'Vän till Vallen', 'Övriga Partners'];
-                const existingRoles = Object.keys(groupedPartners);
-                const sortedRoles = categoryOrder.filter(role => existingRoles.includes(role))
-                    .concat(existingRoles.filter(role => !categoryOrder.includes(role)).sort());
-
-                sortedRoles.forEach(category => {
-                    const partnersInCategory = groupedPartners[category].sort((a, b) => a.partnerName.localeCompare(b.partnerName));
-
-                    const categoryHeading = document.createElement('h2');
-                    categoryHeading.className = 'category-heading';
-                    categoryHeading.textContent = category;
-                    sponsorListDiv.appendChild(categoryHeading);
-
-                    const grid = document.createElement('div');
-                    grid.className = 'sponsor-grid';
-
-                    partnersInCategory.forEach(partner => {
-                        const card = document.createElement('div');
-                        card.className = 'sponsor-card';
-
-                        const logoUrl = isValidImageUrl(partner.logo) ? partner.logo : 'https://placehold.co/200x100/eeeeee/333333?text=Sponsor';
-                        const website = partner.webUrl && partner.webUrl.startsWith('http') ? partner.webUrl : null;
-
-                        card.innerHTML = `
-                            <img src="${logoUrl}" alt="${partner.partnerName} Logo" class="sponsor-logo">
-                            <h3 class="text-xl font-bold text-gray-800">${partner.partnerName}</h3>
-                            ${partner.description ? `<p class="text-gray-600 text-sm mt-2">${partner.description}</p>` : ''}
-                            ${website ? `<a href="${website}" target="_blank" rel="noopener noreferrer" class="sponsor-website mt-auto pt-4">Besök webbsida</a>` : ''}
-                        `;
-                        grid.appendChild(card);
-                    });
-                    sponsorListDiv.appendChild(grid);
-                });
-            }
-
-            async function initializeSponsors() {
-                try {
-                    const csvText = await fetchCsvData(partnersCsvUrl);
-                    const partners = parseRobustCsv(csvText);
-                    renderSponsors(partners);
-                } catch (error) {
-                    console.error("Kunde inte initialisera sponsorsidan:", error);
-                }
-            }
-
-            initializeSponsors();
         });
     </script>
 </body>

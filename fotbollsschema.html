@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 
 <head>
     <meta charset="UTF-8">
@@ -13,290 +13,342 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-YS83LWSY7E');
     </script>
     <style>
+        /* --- Base Styles --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
-            /* Ljusgrå bakgrund */
             min-height: 100vh;
-            /* Säkerställer att bakgrunden täcker hela sidan */
-            display: flex;
-            flex-direction: column;
-            /* För att navbaren ska ligga överst */
-            align-items: center;
-            justify-content: flex-start;
-            /* Justera för navbar */
-            padding: 0;
-            /* Ta bort padding från body */
         }
 
-        .navbar {
-            width: 100%;
-            background-color: #1a202c;
+        /* --- New Navigation Styles --- */
+        .main-header {
+            background-color: #034159;
             color: white;
             padding: 1rem 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
-        .navbar-home-logo {
-            height: 2.5rem;
-            margin-right: 1.5rem;
-            cursor: pointer;
-            border-radius: 9999px;
-            transition: transform 0.2s ease-in-out;
-            flex-shrink: 0;
-        }
-
-        .navbar-home-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .navbar-links-wrapper {
+        .nav-logo a {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- Desktop Navigation --- */
+        #desktop-nav {
+            display: none;
+            /* Hidden on mobile */
+        }
+
+        @media (min-width: 724px) {
+            #desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        #desktop-nav>ul {
+            display: flex;
             gap: 0.5rem;
-            flex-grow: 1;
-            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 0.8rem;
+        #desktop-nav .menu-item {
+            position: relative;
+        }
+
+        #desktop-nav .menu-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
             border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out;
+            background-color: transparent;
+            color: white;
             font-weight: 500;
-            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .navbar a:hover {
-            background-color: #4a5568;
+        #desktop-nav .menu-button:hover,
+        #desktop-nav .menu-item.is-active .menu-button {
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
+        #desktop-nav .chevron {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 2px;
+            transition: transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .mega-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            color: #1a202c;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+            width: 500px;
+            /* Adjust width as needed */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mega-menu-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .mega-menu-column h3 {
+            font-weight: 700;
+            color: #034159;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mega-menu-column a {
+            color: #4a5568;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .mega-menu-column a:hover {
+            color: #F29849;
+        }
+
+        /* --- Mobile Navigation --- */
+        #mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        #mobile-menu-toggle .icon-menu,
+        #mobile-menu-toggle .icon-close {
+            display: block;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .icon-menu {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .icon-close {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .is-mobile-menu-open .icon-menu {
+            display: none;
+        }
+
+        .is-mobile-menu-open .icon-close {
+            display: block;
+        }
+
+        body:not(.is-mobile-menu-open) .icon-close {
+            display: none;
+        }
+
+        @media (min-width: 724px) {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        #mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #034159;
+            padding: 1.5rem;
+            padding-top: 6rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 998;
+        }
+
+        .is-mobile-menu-open #mobile-nav {
+            transform: translateX(0);
+        }
+
+        #mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #mobile-nav .menu-item>a,
+        #mobile-nav .menu-item>button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        #mobile-nav .sub-menu {
+            list-style: none;
+            color: white;
+            padding-left: 1rem;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        #mobile-nav .sub-menu a {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        #mobile-nav .menu-item.is-active>.sub-menu {
+            max-height: 500px;
+            /* Large enough to show all items */
+        }
+
+        #mobile-nav .chevron {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #mobile-nav .menu-item.is-active>button>.chevron {
+            transform: rotate(90deg);
+        }
+
+        #menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 997;
+        }
+
+        .is-mobile-menu-open #menu-overlay {
+            display: block;
+        }
+
+        /* ------------------------------ */
+        /* ------------------------------ */
+        /* --- New Navigation END --- */
         .content-container {
-            max-width: 960px;
-            /* max-w-4xl är ca 960px */
+            max-width: 1100px;
+            /* Increased for 3-column layout */
             width: 100%;
             background-color: #ffffff;
             border-radius: 0.75rem;
-            /* rounded-xl */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             padding: 2rem 1.5rem;
-            /* Justerad padding */
-            margin-top: 2rem;
-            /* Marginal från navbar */
-            margin-bottom: 2rem;
+            margin: 2rem auto;
             flex-grow: 1;
-            /* Låter innehållskontainern växa och pressa ner footern */
         }
 
-        /* Anpassade stilar för matchraderna */
-        .game-row {
-            background-color: #ffffff;
-            border-radius: 0.75rem;
-            /* rounded-lg */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            /* Subtil skugga */
-            padding: 1.5rem;
-            /* Ökat padding för luftigare känsla */
-            margin-bottom: 1rem;
-            /* Avstånd mellan rader */
-            display: flex;
-            flex-direction: column;
-            /* För liten skärm */
-            align-items: center;
-            /* Center items on mobile */
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .game-row:hover {
-            transform: translateY(-3px);
-            /* Subtil lyft vid hover */
-        }
-
-        .team-logo {
-            width: 3.5rem;
-            /* Increased from 3rem */
-            height: 3.5rem;
-            /* Increased from 3rem */
-            border-radius: 9999px;
-            object-fit: cover;
-            margin-right: 0.75rem;
-            flex-shrink: 0;
-            border: 2px solid #e2e8f0;
-            /* Optional: adds a light border */
-        }
-
-        .highlighted-game {
-            border: 2px solid #3b82f6;
-            /* Blå kantlinje för markerade spel */
-            background-color: #eff6ff;
-            /* Ljusare blå bakgrund */
-        }
-
-        .highlighted-team-text {
-            /* För att markera texten för laget */
-            color: #1d4ed8;
-            /* Mörkare blå text */
-        }
-
-        .game-time-venue {
-            font-size: 1.125rem;
-            /* text-lg */
-            font-weight: 600;
-            /* semi-bold */
-            color: #4a5568;
-            /* grå text */
-        }
-
-        .game-group-note {
-            font-size: 0.875rem;
-            /* text-sm */
-            color: #6b7280;
-            /* mörkare grå */
-        }
-
-        .game-result {
-            font-size: 1.25rem;
-            /* text-xl */
-            font-weight: 700;
-            /* font-bold */
-            color: #2d3748;
-            /* dark grey text */
-            margin-top: 0.5rem;
-        }
-
-        /* NEW styles for columnar layout on medium screens and up */
-        @media (min-width: 768px) {
-            .game-row {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .game-matchup-column {
-                /* Container for Team1 vs Team2 */
-                flex: 3;
-                /* Takes more space for teams */
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                /* Distribute Team1, vs, Team2 */
-            }
-
-            .game-info-column {
-                /* Container for game details */
-                flex: 2;
-                /* Takes less space for details */
-                text-align: right;
-                padding-left: 1rem;
-                /* Add some space between matchup and info */
-            }
-
-            .team-display-container {
-                /* Wrapper for individual team logo + name */
-                display: flex;
-                align-items: center;
-                flex-basis: 40%;
-                /* Approx width for each team part */
-                min-width: 150px;
-                /* Ensure some minimum space */
-            }
-
-            .team-display-container.team1 {
-                justify-content: flex-start;
-            }
-
-            .team-display-container.team2 {
-                justify-content: flex-start;
-            }
-
-
-            .vs-separator {
-                flex-basis: 10%;
-                /* Approx width for 'vs' */
-                text-align: center;
-                font-size: 1.125rem;
-                /* text-lg */
-                color: #4a5568;
-                font-weight: 600;
-            }
-        }
-
-        .team-logo {
-            /* Kept this as it's used inside game cells */
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 9999px;
-            object-fit: cover;
-            margin-right: 0.5rem;
-            /* Reduced margin slightly */
-            flex-shrink: 0;
-            border: 1px solid #e2e8f0;
-        }
-
-        .highlighted-game-cell {
-            /* New: for highlighting a specific game cell */
-            border: 2px solid #3b82f6 !important;
-            /* Blue border for highlighted game */
-            background-color: #eff6ff !important;
-            /* Lighter blue background */
-        }
-
-        .highlighted-team-text {
-            color: #1d4ed8;
-            /* Darker blue text for highlighted team */
-        }
-
-        /* NEW Styles for 3-Column Schedule Layout */
+        /* Schedule Grid Styling */
         .schedule-grid-header {
-            display: none;
-            /* Hidden by default, shown on md+ */
+            display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 1rem;
             margin-bottom: 0.5rem;
             padding: 0.75rem 1.5rem;
-            /* Match game-cell-card padding */
             font-weight: 700;
-            color: #1a202c;
-            background-color: #e2e8f0;
+            color: #034159;
+            /* New Color */
+            background-color: #f0f2f5;
             border-radius: 0.5rem;
-        }
-
-        .schedule-grid-header>div {
             text-align: center;
         }
-
-
-        /* md breakpoint */
-        .schedule-grid-header {
-            display: grid;
-        }
-
 
         .time-slot-container {
             margin-bottom: 2rem;
             border: 1px solid #e0e0e0;
             border-radius: 0.75rem;
             overflow: hidden;
-            /* To contain rounded corners of children */
         }
 
         .time-slot-header {
             background-color: #f7fafc;
             padding: 0.75rem 1.5rem;
             font-size: 1.25rem;
-            /* text-xl */
             font-weight: 700;
             color: #2d3748;
             text-align: center;
@@ -308,55 +360,19 @@
             grid-template-columns: 1fr 1fr 1fr;
             /* Single column for mobile */
             gap: 0;
-            /* No gap, border handles separation */
-        }
-
-        @media (min-width: 768px) {
-
-            /* md breakpoint */
-            .games-in-time-slot {
-                grid-template-columns: 1fr 1fr 1fr;
-                /* 3 columns for desktop */
-                gap: 0;
-                /* No gap, border handles separation */
-            }
         }
 
         .venue-column {
             padding: 1rem;
             background-color: #ffffff;
-            border-bottom: 1px solid #e8e8e8;
-            /* Horizontal separator for mobile */
+            border-bottom: none;
+            border-right: 1px solid #e8e8e8;
         }
 
-        @media (min-width: 768px) {
 
-            /* md breakpoint */
-            .venue-column {
-                border-bottom: none;
-                /* Remove horizontal for desktop */
-                border-right: 1px solid #e8e8e8;
-                /* Vertical separator for desktop */
-            }
-
-            .venue-column:last-child {
-                border-right: none;
-            }
+        .venue-column:last-child {
+            border-right: none;
         }
-
-        .venue-column:empty {
-            /* Style for empty venue slots */
-            background-color: #f9fafb;
-            /* Slightly different background for empty */
-            min-height: 100px;
-            /* Ensure empty slots have some height */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #9ca3af;
-            font-style: italic;
-        }
-
 
         .game-cell-card {
             display: flex;
@@ -364,23 +380,23 @@
             align-items: center;
             text-align: center;
             min-height: 150px;
-            /* Ensure cards have a decent height */
             justify-content: space-between;
-            /* Pushes details to bottom if space */
         }
 
-        .game-cell-teams {
-            margin-bottom: 0.5rem;
+        .team-logo {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid #e2e8f0;
         }
 
         .game-cell-teams .team-name {
             font-weight: 600;
             font-size: 1rem;
-            /* text-base */
             margin-top: 0.25rem;
-            /* Space after logo */
             display: block;
-            /* Ensure name is on new line */
         }
 
         .game-cell-teams .vs-separator-cell {
@@ -389,154 +405,254 @@
             margin: 0.25rem 0;
         }
 
-
         .game-cell-details {
             font-size: 0.8rem;
-            /* text-xs */
             color: #6b7280;
             margin-top: auto;
-            /* Push details to the bottom */
         }
 
-        .game-cell-details .group-info {
-            display: block;
+        /* Highlighting */
+        .highlighted-game-cell {
+            border: 2px solid #F29849 !important;
+            /* New Color */
+            background-color: rgba(242, 152, 73, 0.08) !important;
         }
 
-        .game-cell-details .status-info {
-            display: block;
-            font-style: italic;
+        .highlighted-team-text {
+            color: #034159;
+            /* New Color */
+            font-weight: 700;
         }
 
-        /* Ensure .content-container can contain the wider grid */
-        .content-container {
-            max-width: 1100px;
-            /* Increased max-width for 3 columns */
+        /* Controls */
+        .control-button {
+            flex: 1;
+            padding: 0.75rem 1.25rem;
+            background-color: #034159;
+            /* New Color */
+            color: white;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
         }
 
-        /* ... rest of your existing styles (navbar, footer, etc.) ... */
+        .control-button:hover {
+            background-color: #023047;
+            /* Darker shade */
+        }
 
-        /* Footer styling */
+        .team-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+
         .footer {
             width: 100%;
-            background-color: #1a202c;
-            /* Mörk bakgrund för footer */
+            background-color: #034159;
+            /* New Color */
             padding: 1.5rem;
             text-align: center;
-            margin-top: auto;
-            /* Trycker ner footern till botten */
         }
 
         .footer-logo {
             max-width: 100%;
-            /* Anpassa till skärmbredden */
             height: 6rem;
-            /* FAST HÖJD FÖR FOTLOGOTYPEN, ÖKAD FRÅN 4REM TILL 6REM */
             object-fit: contain;
-            /* Behåll proportioner, se till att hela bilden syns */
             display: block;
-            /* Centrera bilden */
             margin: 0 auto;
-            /* Centrera bilden horisontellt */
         }
 
-        /* Responsive justeringar */
         @media (max-width: 640px) {
-
-            /* --- MOBILE STYLES START --- */
             .navbar {
-                padding: 0.75rem 1rem;
+                justify-content: center;
+                padding: 1rem;
             }
 
-            .navbar-home-logo {
-                height: 2rem;
-                margin-right: 1rem;
-                margin-bottom: 0;
-            }
-
-            .navbar-links-wrapper {
-                gap: 0.25rem;
-            }
-
-            .navbar a {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.9rem;
-            }
-
-            .game-matchup-column,
-            .game-info-column {
-                text-align: center;
+            .navbar-logo-link {
+                margin-bottom: 0.5rem;
             }
         }
     </style>
 </head>
 
-<body class="flex flex-col">
-    <!-- Global Navigationsmeny -->
-    <nav class="navbar">
-        <div class="navbar-links-wrapper">
-            <a href="index.html">Startsida</a>
-            <a href="fotbollsschema.html">Spelschema</a>
-            <a href="lagregister.html">Lagen</a>
-            <a href="tabeller.html">Tabell & resultat</a>
-            <a href="Leaderboards.html">Rekord</a>
-            <a href="sponsorer.html">Partners</a>
+<body class="bg-gray-100">
+    <header class="main-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" title="Arboga Stad Cup">
+                    <img src="https://raw.githubusercontent.com/Formulacoder/Arboga-stad-cup/refs/heads/main/Assets/images/StadenBranding/StadenLogoLayingGreen.png"
+                        alt="Arboga Stad Cup Logotyp">
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav id="desktop-nav">
+                <ul>
+                    <li class="menu-item">
+                        <a href="index.html" class="menu-button">Startsida</a>
+                    </li>
+                    <li class="menu-item">
+                        <button class="menu-button desktop-dropdown-toggle" aria-expanded="false"
+                            aria-controls="desktop-menu-cupinfo">
+                            <span>Cupinformation</span>
+                            <svg class="chevron" fill="none" viewBox="0 0 24 24">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </button>
+                        <div class="mega-menu" id="desktop-menu-cupinfo">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h3>Tävling</h3>
+                                    <ul>
+                                        <li><a href="fotbollsschema.html">Spelschema</a></li>
+                                        <li><a href="lagregister.html">Anmälda Lag</a></li>
+                                        <li><a href="regler.html">Regler</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Statistik</h3>
+                                    <ul>
+                                        <li><a href="tabeller.html">Tabell & Resultat</a></li>
+                                        <li><a href="Leaderboards.html">Rekord</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="sponsorer.html" class="menu-button">Partners</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobile-nav">
+                <span class="icon-menu"></span>
+                <span class="icon-close"></span>
+            </button>
         </div>
-    </nav>
+    </header>
 
-    <div class="content-container">
-        <!-- Rubriksektion -->
-        <header class="text-center mb-8 relative">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Fotbollscup Schema</h1>
-            <p class="text-lg text-gray-600">Hitta dina matcher snabbt och enkelt.</p>
-        </header>
-
-        <!-- Kontrollsektion -->
-        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
-            <div class="w-full sm:w-1/2">
-                <label for="team-select" class="block text-gray-700 text-sm font-medium mb-2">Välj ditt lag:</label>
-                <select id="team-select"
-                    class="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800 appearance-none bg-white">
-                    <option value="All Teams">Alla lag</option>
-                    <!-- Lag kommer att fyllas i här av JavaScript -->
-                </select>
-            </div>
-            <div class="flex space-x-3 w-full sm:w-auto">
-                <button id="view-all-btn"
-                    class="flex-1 px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200">
-                    Visa alla matcher
-                </button>
-            </div>
-        </div>
-
-        <!-- Informations-/instruktionsmeddelande -->
-        <p id="info-message" class="text-center text-gray-600 mb-8 p-3 bg-blue-50 rounded-lg border border-blue-200">
-            Visar alla schemalagda matcher. Välj ditt lag för att filtrera.
-        </p>
-
-        <!-- Spelschema sektion -->
-        <div id="schedule-sections"> <!-- New container for different schedule sections -->
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Pågående matcher</h2>
-            <div id="ongoing-games-list" class="flex flex-col gap-4">
-                <!-- Pågående spelkorten kommer att renderas här av JavaScript -->
-                <div class="text-center text-gray-500 p-8">Laddar pågående matcher...</div>
-            </div>
-
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Kommande matcher</h2>
-            <div id="upcoming-games-list" class="flex flex-col gap-4">
-                <!-- Kommande spelkorten kommer att renderas här av JavaScript -->
-                <div class="text-center text-gray-500 p-8">Laddar kommande matcher...</div>
-            </div>
-        </div>
+    <!-- Mobile Navigation Panel -->
+    <div id="mobile-nav" role="navigation">
+        <ul>
+            <li class="menu-item"><a href="index.html">Startsida</a></li>
+            <li class="menu-item"><a href="lagregister.html">Anmälda Lag</a></li>
+            <li class="menu-item"><a href="fotbollsschema.html">Spelschema</a></li>
+            <li class="menu-item"><a href="tabeller.html">Tabell & Resultat</a></li>
+            <li class="menu-item"><a href="Leaderboards.html">Rekord</a></li>
+            <li class="menu-item"><a href="regler.html">Regler</a></li>
+            <li class="menu-item"><a href="sponsorer.html">Partners</a></li>
+        </ul>
     </div>
+    <div id="menu-overlay"></div>
 
-    <!-- Global Footer -->
-    <footer class="footer">
-        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
-    </footer>
+
+    <main>
+        <!-- Your existing page content goes here -->
+        <div class="content-container">
+            <!-- Rubriksektion -->
+            <header class="text-center mb-8">
+                <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Spelschema</h1>
+                <p class="text-lg text-gray-600">Hitta dina matcher snabbt och enkelt.</p>
+            </header>
+
+            <!-- Kontrollsektion -->
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="w-full sm:w-1/2">
+                    <label for="team-select" class="block text-gray-700 text-sm font-medium mb-2">Välj ditt lag:</label>
+                    <select id="team-select"
+                        class="team-select block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#034159] focus:border-[#034159] text-gray-800 bg-white">
+                        <option value="All Teams">Alla lag</option>
+                    </select>
+                </div>
+                <div class="flex space-x-3 w-full sm:w-auto">
+                    <button id="view-all-btn" class="control-button">
+                        Visa alla matcher
+                    </button>
+                </div>
+            </div>
+
+            <!-- Informationsmeddelande -->
+            <p id="info-message"
+                class="text-center text-gray-600 mb-8 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                Visar alla schemalagda matcher. Välj ditt lag för att filtrera.
+            </p>
+
+            <!-- Spelschema sektion -->
+            <div id="schedule-sections">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Pågående matcher</h2>
+                <div id="ongoing-games-list">
+                    <div class="text-center text-gray-500 p-8">Laddar pågående matcher...</div>
+                </div>
+
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 mt-8">Kommande matcher</h2>
+                <div id="upcoming-games-list">
+                    <div class="text-center text-gray-500 p-8">Laddar kommande matcher...</div>
+                </div>
+            </div>
+        </div>
+    </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed for fotbollsschema.html');
+            // --- Mobile Menu Logic ---
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const body = document.body;
 
+            const toggleMobileMenu = () => {
+                const isMenuOpen = body.classList.toggle('is-mobile-menu-open');
+                mobileMenuToggle.setAttribute('aria-expanded', isMenuOpen);
+            };
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+
+            if (menuOverlay) {
+                menuOverlay.addEventListener('click', toggleMobileMenu);
+            }
+
+
+            // --- Desktop Dropdown Logic ---
+            const desktopDropdownToggles = document.querySelectorAll('.desktop-dropdown-toggle');
+
+            desktopDropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling up to the document
+                    const parentItem = toggle.parentElement;
+                    const wasActive = parentItem.classList.contains('is-active');
+
+                    // Close all other menus first
+                    closeAllDesktopMenus();
+
+                    // If it wasn't already active, open it
+                    if (!wasActive) {
+                        parentItem.classList.add('is-active');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+
+            // Click outside to close desktop menus
+            document.addEventListener('click', (e) => {
+                closeAllDesktopMenus();
+            });
+
+            function closeAllDesktopMenus() {
+                desktopDropdownToggles.forEach(toggle => {
+                    toggle.parentElement.classList.remove('is-active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+        })
+        document.addEventListener('DOMContentLoaded', () => {
             const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
             const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
 
@@ -551,25 +667,15 @@
             let currentFilterTeam = 'All Teams';
 
             // --- VENUE CONFIGURATION ---
-            // IMPORTANT: Adjust these strings to EXACTLY match (or be contained within)
-            // the venue names in your "PUB_GROUP_SCHEDULE" CSV's "Plansponsor" column.
-            const VENUE_1_KEY = "AB Karl Hedin"; // For Column 1
-            const VENUE_2_KEY = "ICA Asplunds"; // For Column 2
-            const VENUE_3_KEY = "Plan 3";       // For Column 3 (e.g., if it's "Plan 3", "Ekbacken", etc.)
+            const VENUE_1_KEY = "AB Karl Hedin";
+            const VENUE_2_KEY = "ICA Asplunds";
+            const VENUE_3_KEY = "Plan 3";
             // --- END VENUE CONFIGURATION ---
 
-
             async function fetchCsvData(url) {
-                // ... (fetchCsvData function remains the same)
-                console.log(`Attempting to fetch CSV from: ${url}`);
                 try {
                     const response = await fetch(url);
-                    if (!response.ok) {
-                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}`;
-                        console.error(errorMsg);
-                        throw new Error(errorMsg);
-                    }
-                    console.log(`Successfully fetched CSV from: ${url}`);
+                    if (!response.ok) throw new Error(`HTTP Error! status: ${response.status} fetching ${url}`);
                     return await response.text();
                 } catch (error) {
                     console.error(`Error fetching CSV data from: ${url}`, error);
@@ -578,11 +684,12 @@
             }
 
             function parseRobustCsv(csvText) {
-                // ... (parseRobustCsv function remains the same)
                 const rows = [];
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
                 if (lines.length === 0) return [];
-                for (let i = 0; i < lines.length; i++) {
+                const headers = lines[0].split(',').map(h => h.trim());
+
+                for (let i = 1; i < lines.length; i++) {
                     const line = lines[i];
                     const values = [];
                     let inQuote = false;
@@ -605,257 +712,151 @@
                     values.push(currentField.trim());
                     rows.push(values);
                 }
-                return rows.slice(1);
+                return rows;
             }
 
             function parseScheduleCsv(csvText) {
-                // ... (parseScheduleCsv function remains the same)
                 const rawRows = parseRobustCsv(csvText);
                 if (rawRows.length === 0) return [];
-                const games = [];
-                const headers = ['matchId', 'time', 'team1', 'team2', 'venue', 'group', 'result', 'matchStatus'];
-                rawRows.forEach((values, index) => {
-                    if (values.length >= headers.length) {
-                        games.push({
-                            matchId: values[0]?.trim() || 'N/A', time: values[1]?.trim() || 'N/A',
-                            team1: values[2]?.trim() || 'N/A', team2: values[3]?.trim() || 'N/A',
-                            venue: values[4]?.trim() || 'N/A', group: values[5]?.trim() || 'N/A',
-                            result: values[6]?.trim() || 'N/A', matchStatus: values[7]?.trim() || 'N/A'
-                        });
-                    } else {
+                return rawRows.map((values, index) => {
+                    if (values.length < 8) {
                         console.warn(`Skipping invalid schedule row ${index + 2}: Not enough columns. Row: "${values.join(',')}"`);
+                        return null;
                     }
-                });
-                return games;
+                    return {
+                        matchId: values[0] || 'N/A', time: values[1] || 'N/A',
+                        team1: values[2] || 'N/A', team2: values[3] || 'N/A',
+                        venue: values[4] || 'N/A', group: values[5] || 'N/A',
+                        result: values[6] || 'N/A', matchStatus: values[7] || 'N/A'
+                    };
+                }).filter(Boolean); // Filter out null values from skipped rows
             }
 
             function parseTeamsCsv(csvText) {
-                // ... (parseTeamsCsv function remains the same)
                 const rawRows = parseRobustCsv(csvText);
                 if (rawRows.length === 0) return [];
-                const teams = [];
-                // const headers = ['teamName', 'logo', /* ... other headers up to 15 ... */ 'betStats'];
-                rawRows.forEach((values, index) => {
-                    if (values.length >= 15) { // Ensure all 15 columns are present
-                        teams.push({
-                            teamName: values[0]?.trim() || 'N/A',
-                            logo: values[1]?.trim() || 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
-                        });
-                    } else {
+                return rawRows.map((values, index) => {
+                    if (values.length < 2) {
                         console.warn(`Skipping invalid team row ${index + 2}: Not enough columns. Row: "${values.join(',')}"`);
+                        return null;
                     }
-                });
-                return teams;
+                    return {
+                        teamName: values[0] || 'N/A',
+                        logo: values[1] || 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
+                    };
+                }).filter(Boolean);
             }
 
             function getTeamLogo(teamName) {
-                // ... (getTeamLogo function remains the same)
                 const team = allTeamsData.find(t => t.teamName === teamName);
-                return (team && team.logo && isValidImageUrl(team.logo)) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';
-            }
-
-            function isValidImageUrl(url) {
-                // ... (isValidImageUrl function remains the same)
-                if (!url || typeof url !== 'string') return false;
-                return (url.startsWith('http://') || url.startsWith('https://')) &&
-                    (/\.(jpeg|jpg|gif|png|webp|svg)(\?raw=true)?$/i.test(url));
+                return (team && team.logo && team.logo.startsWith('http')) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Logo';
             }
 
             function populateTeamDropdown() {
-                // ... (populateTeamDropdown function remains the same, ensure it uses allTeamsData for actual team names)
-                if (!allTeamsData || allTeamsData.length === 0) {
-                    console.warn("Team data (allTeamsData) not available for populating dropdown.");
-                }
-                const actualTeamNamesFromRegister = new Set(allTeamsData.map(t => t.teamName));
                 const teamsInSchedule = new Set();
-
                 allGames.forEach(game => {
-                    if (game.team1 && game.team1 !== 'N/A' && actualTeamNamesFromRegister.has(game.team1)) {
-                        teamsInSchedule.add(game.team1);
-                    }
-                    if (game.team2 && game.team2 !== 'N/A' && actualTeamNamesFromRegister.has(game.team2)) {
-                        teamsInSchedule.add(game.team2);
-                    }
+                    if (game.team1 && game.team1 !== 'N/A') teamsInSchedule.add(game.team1);
+                    if (game.team2 && game.team2 !== 'N/A') teamsInSchedule.add(game.team2);
                 });
+
                 teamSelect.innerHTML = '<option value="All Teams">Alla lag</option>';
                 Array.from(teamsInSchedule).sort().forEach(team => {
                     const option = document.createElement('option');
-                    option.value = team; option.textContent = team;
+                    option.value = team;
+                    option.textContent = team;
                     teamSelect.appendChild(option);
                 });
-                console.log('Team dropdown populated with actual registered teams from schedule.');
             }
 
-            /**
-             * Creates HTML content for a single game cell within a venue column.
-             * @param {Object} game - The game object.
-             * @param {string} filterTeam - The currently selected filter team for highlighting.
-             * @returns {string} HTML string for the game cell.
-             */
             function createGameCellContent(game, filterTeam) {
-                if (!game) return ''; // Return empty string if no game for this cell
+                if (!game) return '';
 
                 const team1Logo = getTeamLogo(game.team1);
                 const team2Logo = getTeamLogo(game.team2);
                 const isTeam1Highlighted = filterTeam !== 'All Teams' && game.team1 === filterTeam;
                 const isTeam2Highlighted = filterTeam !== 'All Teams' && game.team2 === filterTeam;
+                const isGameHighlighted = isTeam1Highlighted || isTeam2Highlighted;
 
                 return `
-												<div class="game-cell-card ${(isTeam1Highlighted || isTeam2Highlighted) ? 'highlighted-game-cell' : ''}">
-																<div class="game-cell-teams">
-																				<img src="${team1Logo}" alt="${game.team1} Logo" class="team-logo mx-auto">
-																				<span class="team-name ${isTeam1Highlighted ? 'highlighted-team-text' : ''}">${game.team1 || 'N/A'}</span>
-																				<div class="vs-separator-cell">vs</div>
-																				<img src="${team2Logo}" alt="${game.team2} Logo" class="team-logo mx-auto">
-																				<span class="team-name ${isTeam2Highlighted ? 'highlighted-team-text' : ''}">${game.team2 || 'N/A'}</span>
-																</div>
-																<div class="game-cell-details">
-																				<span class="group-info">Grupp: ${game.group || 'N/A'}</span>
-																				${game.matchStatus && game.matchStatus !== 'N/A' && game.matchStatus !== 'blank/null' ? `<span class="status-info">Status: ${game.matchStatus}</span>` : ''}
-																</div>
-												</div>
-								`;
+                    <div class="game-cell-card ${isGameHighlighted ? 'highlighted-game-cell' : ''}">
+                        <div class="game-cell-teams">
+                            <img src="${team1Logo}" alt="${game.team1} Logo" class="team-logo mx-auto">
+                            <span class="team-name ${isTeam1Highlighted ? 'highlighted-team-text' : ''}">${game.team1 || 'N/A'}</span>
+                            <div class="vs-separator-cell">vs</div>
+                            <img src="${team2Logo}" alt="${game.team2} Logo" class="team-logo mx-auto">
+                            <span class="team-name ${isTeam2Highlighted ? 'highlighted-team-text' : ''}">${game.team2 || 'N/A'}</span>
+                        </div>
+                        <div class="game-cell-details">
+                            <span class="group-info">Grupp: ${game.group || 'N/A'}</span>
+                            ${game.matchStatus && !['N/A', 'blank/null', ''].includes(game.matchStatus) ? `<span class="status-info">Status: ${game.matchStatus}</span>` : ''}
+                        </div>
+                    </div>
+                `;
             }
 
-            /**
-             * Renders the game schedule in a 3-column layout based on time slots and venues.
-             */
             function renderSchedule() {
-                console.log('renderSchedule (3-column layout) called. Filter:', currentFilterTeam);
-                ongoingGameListDiv.innerHTML = '';
-                upcomingGameListDiv.innerHTML = '';
-
-                if (allGames.length === 0) {
-                    infoMessage.textContent = 'Ingen speldata tillgänglig.';
-                    ongoingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Inga matcher att visa.</div>`;
-                    upcomingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Inga matcher att visa.</div>`;
-                    return;
-                }
-
-                // Add the grid header programmatically
-                const gridHeaderHtml = `
-												<div class="schedule-grid-header">
-																<div>${VENUE_1_KEY}</div>
-																<div>${VENUE_2_KEY}</div>
-																<div>${VENUE_3_KEY}</div>
-												</div>`;
-
-                // Filter games that are not yet slutrapporterad
+                // Filter games to show: not 'Slutrapporterad' and no definitive result
                 const relevantGames = allGames.filter(game =>
                     !(game.matchStatus && game.matchStatus.toLowerCase() === 'slutrapporterad') &&
-                    (game.result === 'N/A' || game.result === '' || game.result === ' - ' || game.result === '-')
+                    ['N/A', '', ' - ', '-'].includes(game.result)
                 );
 
-                let ongoingGamesToday = relevantGames.filter(game => game.matchStatus === 'Pågående');
-                let upcomingGamesToday = relevantGames.filter(game =>
-                    (game.matchStatus === 'Kommande' || game.matchStatus === 'blank/null' || game.matchStatus === '' || game.matchStatus === ' - ' || game.matchStatus === '-')
-                );
-
-                // Apply team filter
-                let filteredOngoing = ongoingGamesToday;
-                let filteredUpcoming = upcomingGamesToday;
+                const ongoingGames = relevantGames.filter(g => g.matchStatus === 'Pågående');
+                const upcomingGames = relevantGames.filter(g => !['Pågående', 'Slutrapporterad'].includes(g.matchStatus));
 
                 if (currentFilterTeam !== 'All Teams') {
-                    filteredOngoing = ongoingGamesToday.filter(g => g.team1 === currentFilterTeam || g.team2 === currentFilterTeam);
-                    filteredUpcoming = upcomingGamesToday.filter(g => g.team1 === currentFilterTeam || g.team2 === currentFilterTeam);
                     infoMessage.textContent = `Visar matcher för "${currentFilterTeam}".`;
                 } else {
                     infoMessage.textContent = 'Visar alla kommande och pågående matcher. Välj ditt lag för att filtrera.';
                 }
 
-                // Helper function to render a list of games (either ongoing or upcoming)
-                const renderTimeSlots = (gamesToRender, targetDiv) => {
-                    if (gamesToRender.length === 0) {
-                        targetDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga matcher att visa i denna kategori ${currentFilterTeam !== 'All Teams' ? 'för ' + currentFilterTeam : ''}.</div>`;
-                        return;
-                    }
-                    targetDiv.innerHTML = gridHeaderHtml; // Add header for each section
+                renderSection(ongoingGames, ongoingGameListDiv, "pågående");
+                renderSection(upcomingGames, upcomingGameListDiv, "kommande");
+            }
 
-                    const gamesByTime = gamesToRender.reduce((acc, game) => {
-                        const time = game.time || 'Okänd tid';
-                        if (!acc[time]) acc[time] = [];
-                        acc[time].push(game);
-                        return acc;
-                    }, {});
-
-                    const sortedTimes = Object.keys(gamesByTime).sort();
-
-                    sortedTimes.forEach(time => {
-                        const timeSlotContainer = document.createElement('div');
-                        timeSlotContainer.className = 'time-slot-container';
-
-                        const timeSlotHeader = document.createElement('div');
-                        timeSlotHeader.className = 'time-slot-header';
-                        timeSlotHeader.textContent = `Avspark: ${time}`;
-                        timeSlotContainer.appendChild(timeSlotHeader);
-
-                        const gamesGrid = document.createElement('div');
-                        gamesGrid.className = 'games-in-time-slot';
-
-                        const gamesAtThisTime = gamesByTime[time];
-
-                        // Find games for each venue
-                        const gameVenue1 = gamesAtThisTime.find(g => g.venue && g.venue.includes(VENUE_1_KEY));
-                        const gameVenue2 = gamesAtThisTime.find(g => g.venue && g.venue.includes(VENUE_2_KEY));
-                        const gameVenue3 = gamesAtThisTime.find(g => g.venue && g.venue.includes(VENUE_3_KEY));
-
-                        const venueCol1 = document.createElement('div');
-                        venueCol1.className = 'venue-column';
-                        venueCol1.innerHTML = createGameCellContent(gameVenue1, currentFilterTeam);
-                        gamesGrid.appendChild(venueCol1);
-
-                        const venueCol2 = document.createElement('div');
-                        venueCol2.className = 'venue-column';
-                        venueCol2.innerHTML = createGameCellContent(gameVenue2, currentFilterTeam);
-                        gamesGrid.appendChild(venueCol2);
-
-                        const venueCol3 = document.createElement('div');
-                        venueCol3.className = 'venue-column';
-                        venueCol3.innerHTML = createGameCellContent(gameVenue3, currentFilterTeam);
-                        gamesGrid.appendChild(venueCol3);
-
-                        // If filtering by team, and no games for this team in this timeslot, maybe skip?
-                        // For now, it shows the timeslot but cells might be empty or not highlighted.
-                        if (currentFilterTeam !== 'All Teams') {
-                            const hasFilteredTeamInSlot = [gameVenue1, gameVenue2, gameVenue3].some(g => g && (g.team1 === currentFilterTeam || g.team2 === currentFilterTeam));
-                            if (!hasFilteredTeamInSlot) return; // Skip this time slot if filtered team isn't playing
-                        }
-
-                        timeSlotContainer.appendChild(gamesGrid);
-                        targetDiv.appendChild(timeSlotContainer);
-                    });
-                };
-
-                // Render Ongoing Games
-                // For "Ongoing", we might want to be more specific, e.g., only the *current* timeslot.
-                // For simplicity now, it lists all marked as "Pågående".
-                // If currentFilterTeam is active, render only if the team is in filteredOngoing
-                let gamesForOngoingSection = (currentFilterTeam === 'All Teams') ? ongoingGamesToday : filteredOngoing;
-                if (currentFilterTeam !== 'All Teams' && filteredOngoing.length === 0) {
-                    // If filtering and no ongoing games for that team, check if there are *any* ongoing games
-                    // to decide if we show "No ongoing for Team X" vs "No ongoing at all"
-                    if (ongoingGamesToday.length > 0 && filteredOngoing.length === 0) {
-                        ongoingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga pågående matcher för ${currentFilterTeam}.</div>`;
-                    } else {
-                        renderTimeSlots([], ongoingGameListDiv); // Will show "Inga matcher att visa..."
-                    }
-                } else {
-                    renderTimeSlots(gamesForOngoingSection, ongoingGameListDiv);
+            function renderSection(games, targetDiv, categoryName) {
+                let filteredGames = games;
+                if (currentFilterTeam !== 'All Teams') {
+                    filteredGames = games.filter(g => g.team1 === currentFilterTeam || g.team2 === currentFilterTeam);
                 }
 
-
-                // Render Upcoming Games
-                let gamesForUpcomingSection = (currentFilterTeam === 'All Teams') ? upcomingGamesToday : filteredUpcoming;
-
-                if (currentFilterTeam !== 'All Teams' && filteredUpcoming.length === 0) {
-                    if (upcomingGamesToday.length > 0 && filteredUpcoming.length === 0) {
-                        upcomingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga kommande matcher för ${currentFilterTeam}.</div>`;
-                    } else {
-                        renderTimeSlots([], upcomingGameListDiv);
+                if (filteredGames.length === 0) {
+                    let message = `Inga ${categoryName} matcher att visa`;
+                    if (games.length > 0 && currentFilterTeam !== 'All Teams') {
+                        message = `Inga ${categoryName} matcher för ${currentFilterTeam}.`;
                     }
-                } else {
-                    renderTimeSlots(gamesForUpcomingSection, upcomingGameListDiv);
+                    targetDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">${message}</div>`;
+                    return;
                 }
+
+                const gridHeaderHtml = `
+                    <div class="schedule-grid-header">
+                        <div>${VENUE_1_KEY}</div>
+                        <div>${VENUE_2_KEY}</div>
+                        <div>${VENUE_3_KEY}</div>
+                    </div>`;
+                targetDiv.innerHTML = gridHeaderHtml;
+
+                const gamesByTime = filteredGames.reduce((acc, game) => {
+                    const time = game.time || 'Okänd tid';
+                    if (!acc[time]) acc[time] = [];
+                    acc[time].push(game);
+                    return acc;
+                }, {});
+
+                Object.keys(gamesByTime).sort().forEach(time => {
+                    const timeSlotContainer = document.createElement('div');
+                    timeSlotContainer.className = 'time-slot-container';
+                    timeSlotContainer.innerHTML = `
+                        <div class="time-slot-header">Avspark: ${time}</div>
+                        <div class="games-in-time-slot">
+                            <div class="venue-column">${createGameCellContent(gamesByTime[time].find(g => g.venue?.includes(VENUE_1_KEY)), currentFilterTeam)}</div>
+                            <div class="venue-column">${createGameCellContent(gamesByTime[time].find(g => g.venue?.includes(VENUE_2_KEY)), currentFilterTeam)}</div>
+                            <div class="venue-column">${createGameCellContent(gamesByTime[time].find(g => g.venue?.includes(VENUE_3_KEY)), currentFilterTeam)}</div>
+                        </div>
+                    `;
+                    targetDiv.appendChild(timeSlotContainer);
+                });
             }
 
 
@@ -871,26 +872,23 @@
             });
 
             async function initializeSchedule() {
-                // ... (initial loading messages)
-                ongoingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Laddar pågående matcher...</div>`;
-                upcomingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Laddar kommande matcher...</div>`;
+                ongoingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Laddar...</div>`;
+                upcomingGameListDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Laddar...</div>`;
                 try {
-                    const teamsCsvText = await fetchCsvData(teamsCsvUrl);
+                    const [teamsCsvText, scheduleCsvText] = await Promise.all([fetchCsvData(teamsCsvUrl), fetchCsvData(csvUrl)]);
+
                     allTeamsData = parseTeamsCsv(teamsCsvText);
-                    const scheduleCsvText = await fetchCsvData(csvUrl);
                     allGames = parseScheduleCsv(scheduleCsvText);
+
                     populateTeamDropdown();
                     renderSchedule();
                 } catch (error) {
-                    console.error("Error initializing schedule:", error);
-                    const errorHtml = `<div class="text-center text-red-600 font-bold col-span-full p-4">
-																Kunde inte ladda schema eller lagdata. Kontrollera att Google Sheets är korrekt publicerade som CSV.
-																<br><a href="https://support.google.com/docs/answer/183950?hl=sv" target="_blank" class="text-blue-600 hover:underline">Publiceringsguide</a>
-												</div>`;
+                    const errorHtml = `<div class="text-center text-red-600 font-bold col-span-full p-4">Kunde inte ladda schema. Kontrollera att Google Sheets är publicerade som CSV.</div>`;
                     ongoingGameListDiv.innerHTML = errorHtml;
-                    upcomingGameListDiv.innerHTML = ''; // Clear other list on error
+                    upcomingGameListDiv.innerHTML = "";
                 }
             }
+
             initializeSchedule();
         });
     </script>

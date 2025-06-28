@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arboga Stad Cup - Tabeller</title>
-    <!-- Tailwind CSS CDN för styling -->
+    <title>Arboga Stad Cup - Tabeller & Resultat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS83LWSY7E"></script>
@@ -13,80 +12,316 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-YS83LWSY7E');
     </script>
     <style>
+        /* --- Base Styles --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0;
         }
 
-        .navbar {
-            width: 100%;
-            background-color: #1a202c;
+        /* --- New Navigation Styles --- */
+        .main-header {
+            background-color: #034159;
             color: white;
             padding: 1rem 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
-        .navbar-home-logo {
-            height: 2.5rem;
-            margin-right: 1.5rem;
-            cursor: pointer;
-            border-radius: 9999px;
-            transition: transform 0.2s ease-in-out;
-            flex-shrink: 0;
-        }
-
-        .navbar-home-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .navbar-links-wrapper {
+        .nav-logo a {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- Desktop Navigation --- */
+        #desktop-nav {
+            display: none;
+            /* Hidden on mobile */
+        }
+
+        @media (min-width: 724px) {
+            #desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        #desktop-nav>ul {
+            display: flex;
             gap: 0.5rem;
-            flex-grow: 1;
-            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 0.8rem;
+        #desktop-nav .menu-item {
+            position: relative;
+        }
+
+        #desktop-nav .menu-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
             border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out;
+            background-color: transparent;
+            color: white;
             font-weight: 500;
-            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .navbar a:hover {
-            background-color: #4a5568;
+        #desktop-nav .menu-button:hover,
+        #desktop-nav .menu-item.is-active .menu-button {
+            background-color: rgba(255, 255, 255, 0.15);
         }
+
+        #desktop-nav .chevron {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 2px;
+            transition: transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .mega-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            color: #1a202c;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+            width: 500px;
+            /* Adjust width as needed */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mega-menu-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .mega-menu-column h3 {
+            font-weight: 700;
+            color: #034159;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mega-menu-column a {
+            color: #4a5568;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .mega-menu-column a:hover {
+            color: #F29849;
+        }
+
+        /* --- Mobile Navigation --- */
+        #mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        #mobile-menu-toggle .icon-menu,
+        #mobile-menu-toggle .icon-close {
+            display: block;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .icon-menu {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .icon-close {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .is-mobile-menu-open .icon-menu {
+            display: none;
+        }
+
+        .is-mobile-menu-open .icon-close {
+            display: block;
+        }
+
+        body:not(.is-mobile-menu-open) .icon-close {
+            display: none;
+        }
+
+        @media (min-width: 724px) {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        #mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #034159;
+            padding: 1.5rem;
+            padding-top: 6rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 998;
+        }
+
+        .is-mobile-menu-open #mobile-nav {
+            transform: translateX(0);
+        }
+
+        #mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #mobile-nav .menu-item>a,
+        #mobile-nav .menu-item>button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        #mobile-nav .sub-menu {
+            list-style: none;
+            color: white;
+            padding-left: 1rem;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        #mobile-nav .sub-menu a {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        #mobile-nav .menu-item.is-active>.sub-menu {
+            max-height: 500px;
+            /* Large enough to show all items */
+        }
+
+        #mobile-nav .chevron {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #mobile-nav .menu-item.is-active>button>.chevron {
+            transform: rotate(90deg);
+        }
+
+        #menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 997;
+        }
+
+        .is-mobile-menu-open #menu-overlay {
+            display: block;
+        }
+
+        /* ------------------------------ */
+        /* ------------------------------ */
+        /* --- New Navigation END --- */
+        /* ------------------------------ */
+        /* ------------------------------ */
+        /* --- Countdown Styles --- */
 
         .content-container {
-            max-width: 960px;
+            max-width: 1000px;
+            /* Wider for tables */
             width: 100%;
             background-color: #ffffff;
             border-radius: 0.75rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             padding: 2rem 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            margin: 2rem auto;
             flex-grow: 1;
         }
 
@@ -94,279 +329,103 @@
             font-size: 2.25rem;
             font-weight: 800;
             color: #1a202c;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             margin-bottom: 1.5rem;
             text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
         }
 
-        .group-heading {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #1a202c;
-            margin-bottom: 1.5rem;
-            text-align: center;
+        .section-heading:first-of-type {
+            margin-top: 0;
         }
 
         .table-container {
-            background-color: #ffffff;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            overflow-x: auto;
         }
 
-        .standings-table,
-        .results-table,
-        .top-scorer-table {
+        .standings-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
-            line-height: 1.5;
-            table-layout: fixed;
-            /* Helps with consistent column widths */
         }
 
         .standings-table th,
-        .standings-table td,
-        .results-table th,
-        .results-table td,
-        .top-scorer-table th,
-        .top-scorer-table td {
-            padding: 0.75rem 0.5rem;
+        .standings-table td {
+            padding: 0.75rem;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
-            word-break: break-word;
+            white-space: nowrap;
         }
 
-        .standings-table th,
-        .results-table th,
-        .top-scorer-table th {
-            background-color: #f0f4f8;
+        .standings-table th {
+            background-color: #f7fafc;
             color: #4a5568;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
+            font-size: 0.75rem;
         }
 
-        .standings-table tbody tr:hover,
-        .results-table tbody tr:hover,
-        .top-scorer-table tbody tr:hover {
-            background-color: #f7fafc;
-        }
-
-        .team-cell {
+        .standings-table td.team-cell {
             font-weight: 600;
             display: flex;
             align-items: center;
+            white-space: normal;
         }
 
         .team-logo-small {
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 9999px;
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
             object-fit: cover;
-            margin-right: 0.5rem;
+            margin-right: 0.75rem;
             flex-shrink: 0;
         }
 
-        .points-cell,
-        .goals-cell {
+        .points-cell {
             font-weight: 700;
-            color: #3b82f6;
+            color: #034159;
+            /* New Color */
+            text-align: center;
         }
 
-        /* DESKTOP Column Widths */
-        /* Logo */
-        .standings-table th:nth-child(1),
-        .standings-table td:nth-child(1) {
-            width: 10%;
+        .standings-table td,
+        .results-table td {
+            text-align: center;
         }
 
-        /* Lag */
-        .standings-table th:nth-child(2),
-        .standings-table td:nth-child(2) {
-            width: 15%;
-        }
-
-        /* M */
-        .standings-table th:nth-child(3),
-        .standings-table td:nth-child(3) {
-            width: 7%;
-        }
-
-        /* V */
-        .standings-table th:nth-child(4),
-        .standings-table td:nth-child(4) {
-            width: 7%;
-        }
-
-        /* O */
-        .standings-table th:nth-child(5),
-        .standings-table td:nth-child(5) {
-            width: 7%;
-        }
-
-        /* F */
-        .standings-table th:nth-child(6),
-        .standings-table td:nth-child(6) {
-            width: 7%;
-        }
-
-        /* GM */
-        .standings-table th:nth-child(7),
-        .standings-table td:nth-child(7) {
-            width: 7%;
-        }
-
-        /* IM */
-        .standings-table th:nth-child(8),
-        .standings-table td:nth-child(8) {
-            width: 7%;
-        }
-
-        /* MS */
-        .standings-table th:nth-child(9),
-        .standings-table td:nth-child(9) {
-            width: 7%;
-        }
-
-        /* P */
-        .standings-table th:nth-child(10),
-        .standings-table td:nth-child(10) {
-            width: 7%;
-        }
-
-        /* Nästa */
-        .standings-table th:nth-child(11),
-        .standings-table td:nth-child(11) {
-            width: 25%;
-        }
-
-        /* Matchid */
-        .results-table th:nth-child(1),
-        .results-table td:nth-child(1) {
-            width: 5%;
-        }
-
-        /* Tid */
-        .results-table th:nth-child(2),
-        .results-table td:nth-child(2) {
-            width: 15%;
-        }
-
-        /* Hemma */
-        .results-table th:nth-child(3),
-        .results-table td:nth-child(3) {
-            width: 20%;
-        }
-
-        /* Borta */
-        .results-table th:nth-child(4),
+        .standings-table td:first-child,
+        .results-table td:nth-child(2),
         .results-table td:nth-child(4) {
-            width: 20%;
-        }
-
-        /* Resultat */
-        .results-table th:nth-child(5),
-        .results-table td:nth-child(5) {
-            width: 15%;
-        }
-
-        /* Anmärkning */
-        .results-table th:nth-child(6),
-        .results-table td:nth-child(6) {
-            display: none;
-        }
-
-
-
-        .top-scorer-table th:nth-child(1),
-        .top-scorer-table td:nth-child(1) {
-            width: 10%;
-        }
-
-        /* Rank */
-        .top-scorer-table th:nth-child(2),
-        .top-scorer-table td:nth-child(2) {
-            width: 40%;
-        }
-
-        /* Namn */
-        .top-scorer-table th:nth-child(3),
-        .top-scorer-table td:nth-child(3) {
-            width: 30%;
-        }
-
-        /* Lag */
-        .top-scorer-table th:nth-child(4),
-        .top-scorer-table td:nth-child(4) {
-            width: 20%;
-        }
-
-        /* Mål */
-
-
-        .qualified-teams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .qualified-team-card {
-            background-color: #ebf8ff;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            font-weight: 600;
-            color: #2b6cb0;
-            border: 1px solid #90cdf4;
-        }
-
-        .footer {
-            width: 100%;
-            background-color: #1a202c;
-            padding: 1.5rem;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        .footer-logo {
-            max-width: 100%;
-            height: 6rem;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
+            text-align: left;
         }
 
         .tab-buttons {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             margin-bottom: 1.5rem;
         }
 
         .tab-button {
-            padding: 0.75rem 1.25rem;
+            padding: 0.6rem 1.2rem;
             background-color: #e2e8f0;
             color: #4a5568;
             font-weight: 600;
-            border-radius: 0.5rem;
+            border: none;
+            border-radius: 9999px;
+            /* Pill shape */
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-            flex-grow: 1;
-            text-align: center;
-            min-width: 100px;
+            transition: all 0.2s ease-in-out;
         }
 
         .tab-button.active {
-            background-color: #3b82f6;
+            background-color: #F29849;
+            /* New Color */
             color: white;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 2px 8px rgba(242, 152, 73, 0.4);
+            transform: translateY(-2px);
         }
 
         .tab-button:hover:not(.active) {
@@ -381,698 +440,531 @@
             display: block;
         }
 
-        .tournament-bracket {
-            background-color: #ffffff;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 2rem 1.5rem;
-            margin-bottom: 2rem;
+        .qualified-teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
         }
 
-        .bracket-stages {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
+        .qualified-team-card {
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #034159;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+
+        .footer {
             width: 100%;
-            max-width: 1000px;
+            background-color: #034159;
+            /* New Color */
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            max-width: 100%;
+            height: 6rem;
+            object-fit: contain;
+            display: block;
             margin: 0 auto;
         }
 
-        .bracket-stage {
-            flex: 1;
+        /* Bracket Styles */
+        .bracket-stages {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 1rem;
-            align-items: center;
+            gap: 2rem;
         }
 
-        .bracket-stage:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
+        .bracket-stage {
+            text-align: center;
+        }
+
+        .bracket-stage-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 1rem;
+        }
+
+        .bracket-matches {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
 
         .match-card {
-            background-color: #f0f4f8;
+            background-color: #f8f9fa;
+            border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
             width: 100%;
-            max-width: 250px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 70px;
+            max-width: 280px;
         }
 
         .match-card .team-name {
             font-weight: 600;
-            color: #2d3748;
-            padding: 0.2rem 0;
-        }
-
-        .match-card .score {
-            font-weight: 700;
-            color: #3b82f6;
-            margin-top: 0.25rem;
-            font-size: 1.1rem;
         }
 
         .match-card .vs-separator {
             font-size: 0.8rem;
             color: #718096;
-            margin: -0.2rem 0;
+            margin: 0.1rem 0;
+        }
+
+        .match-card .score {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #034159;
+            margin-top: 0.25rem;
         }
 
         .winner-display {
-            background-color: #d6e8ff;
-            border: 2px solid #3b82f6;
+            background-color: #F29849;
+            color: white;
             padding: 1rem;
-            border-radius: 0.75rem;
-            margin-top: 2rem;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #1a202c;
-            text-align: center;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .team-description-card {
-            background-color: #e0f2fe;
-            border: 1px solid #90cdf4;
-            padding: 1rem;
-            margin-bottom: 1rem;
             border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .team-description-card.alt-bg {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-        }
-
-        .team-description-card h4 {
-            font-size: 1.1rem;
+            margin-top: 1rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 0.5rem;
         }
 
         @media (min-width: 768px) {
             .bracket-stages {
                 flex-direction: row;
+                justify-content: space-around;
                 align-items: flex-start;
             }
 
             .bracket-stage {
-                border-bottom: none;
-                border-right: 1px solid #e2e8f0;
-                padding-right: 2rem;
-                padding-left: 2rem;
-                margin-bottom: 0;
+                flex: 1;
+            }
+
+            .bracket-stage .bracket-matches {
                 justify-content: space-around;
-                height: auto;
-            }
-
-            .bracket-stage:first-child {
-                padding-left: 0;
-            }
-
-            .bracket-stage:last-child {
-                border-right: none;
-                padding-right: 0;
-            }
-
-            .bracket-stage:nth-child(2) {
-                margin-top: 4rem;
-                margin-bottom: 4rem;
-            }
-
-            .bracket-stage:nth-child(3) {
-                margin-top: 8rem;
-                margin-bottom: 8rem;
+                height: 100%;
             }
         }
 
+
         @media (max-width: 640px) {
-
-            /* --- MOBILE STYLES START --- */
             .navbar {
-                padding: 0.75rem 1rem;
+                justify-content: center;
+                padding: 1rem;
             }
 
-            .navbar-home-logo {
-                height: 2rem;
-                margin-right: 1rem;
-                margin-bottom: 0;
+            .navbar-logo-link {
+                margin-bottom: 0.5rem;
             }
 
-            .navbar-links-wrapper {
-                gap: 0.25rem;
-            }
-
-            .navbar a {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.9rem;
-            }
-
-            .standings-table,
-            .results-table,
-            .top-scorer-table {
-                font-size: 0.8rem;
-            }
-
-            .standings-table th,
-            .standings-table td,
-            .results-table th,
-            .results-table td,
-            .top-scorer-table th,
-            .top-scorer-table td {
-                padding: 0.6rem 0.3rem;
-                vertical-align: middle;
-                /* Better alignment */
-            }
-
-            .team-logo-small {
-                width: 1.25rem;
-                height: 1.25rem;
-                margin-right: 0.3rem;
-            }
-
-            /* Span for team name text within .team-cell for nowrap and ellipsis */
-            .team-cell .team-name-text {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                flex-grow: 1;
-                min-width: 0;
-                /* Important for ellipsis in flex child */
-            }
-
-            /* Standings Table (.standings-table) - Mobile Column Visibility & Widths */
-            /* Visible: Lag, M, V, O, F, MS, P */
-            /* Hidden: GM(7), IM(8), Nästa(11) */
-            .standings-table th:nth-child(7),
-            .standings-table td:nth-child(7),
-            /* GM */
-            .standings-table th:nth-child(8),
-            .standings-table td:nth-child(8),
-            /* IM */
-            .standings-table th:nth-child(11),
-            .standings-table td:nth-child(11) {
-                /* Nästa */
-                display: none;
-            }
-
-            /* Logo */
-            .standings-table th:nth-child(1),
-            .standings-table td:nth-child(1) {
-                width: 10%;
-            }
-
-            /* Lag */
-            .standings-table th:nth-child(2),
-            .standings-table td:nth-child(2) {
-                width: 15%;
-            }
-
-            /* M */
-            .standings-table th:nth-child(3),
-            .standings-table td:nth-child(3),
-            /* V */
-            .standings-table th:nth-child(4),
-            .standings-table td:nth-child(4),
-            /* O */
-            .standings-table th:nth-child(5),
-            .standings-table td:nth-child(5) {
-                width: 9%;
-                text-align: center;
-                white-space: nowrap;
-            }
-
-            /* F */
             .standings-table th:nth-child(6),
-            .standings-table td:nth-child(6) {
-                width: 9%;
-                text-align: center;
-                white-space: nowrap;
-            }
-
-            /* MS */
-            .standings-table th:nth-child(9),
-            .standings-table td:nth-child(9) {
-                width: 10%;
-                text-align: center;
-                white-space: nowrap;
-            }
-
-            /* P */
+            /* F */
+            .standings-table td:nth-child(6),
+            .standings-table th:nth-child(7),
+            /* GM */
+            .standings-table td:nth-child(7),
+            .standings-table th:nth-child(8),
+            /* IM */
+            .standings-table td:nth-child(8),
             .standings-table th:nth-child(10),
+            /* Nästa */
             .standings-table td:nth-child(10) {
-                width: 10%;
-                text-align: center;
-                white-space: nowrap;
-            }
-
-
-            /* Results Table (.results-table) - Mobile Column Visibility & Widths */
-            .results-table th:nth-child(1),
-            .results-table td:nth-child(1),
-            /* Matchid */
-            .results-table th:nth-child(2),
-            .results-table td:nth-child(2),
-            /* Tid */
-            .results-table th:nth-child(6),
-            .results-table td:nth-child(6) {
-                /* Anmärkning */
                 display: none;
             }
 
-            .results-table th:nth-child(3),
-            .results-table td:nth-child(3) {
-                width: 40%;
+            .content-container {
+                padding: 1.5rem 1rem;
             }
 
-            /* Hemma */
-            .results-table th:nth-child(4),
-            .results-table td:nth-child(4) {
-                width: 40%;
+            .section-heading {
+                font-size: 1.75rem;
             }
-
-            /* Borta */
-            .results-table th:nth-child(5),
-            .results-table td:nth-child(5) {
-                width: 20%;
-                text-align: center;
-                white-space: nowrap;
-            }
-
-            /* Resultat */
-            /* If Hemma/Borta use .team-cell, the .team-name-text style will apply if JS wraps the name in a span */
-
-
-            /* Top Scorer Table (.top-scorer-table) - Mobile Column Visibility & Widths */
-            /* Rank */
-            .top-scorer-table th:nth-child(1),
-            .top-scorer-table td:nth-child(1) {
-                display: none;
-            }
-
-            /* Lag */
-            .top-scorer-table th:nth-child(3),
-            .top-scorer-table td:nth-child(3),
-            /* {
-                display: none;
-            } */
-
-            /* Namn */
-            .top-scorer-table th:nth-child(2),
-            .top-scorer-table td:nth-child(2) {
-                width: 70%;
-            }
-
-
-            /* If Namn needs ellipsis: wrap in span in JS, add styles similar to .team-name-text */
-            /* Mål */
-            .top-scorer-table th:nth-child(4),
-            .top-scorer-table td:nth-child(4) {
-                width: 30%;
-                text-align: center;
-                white-space: nowrap;
-            }
-
-
-            /* If Lag column in top scorers used .team-cell, it would also need the JS span wrapping for .team-name-text */
-
-
-            @media (max-width: 480px) {
-
-                /* For very small screens */
-                .tab-button {
-                    width: 100%;
-                    flex-grow: 0;
-                }
-
-                .tab-buttons {
-                    gap: 0.5rem;
-                }
-            }
-
-            /* --- MOBILE STYLES END --- */
         }
     </style>
 </head>
 
-<body class="flex flex-col">
-    <!-- Global Navigationsmeny -->
 
-    <nav class="navbar">
-        <div class="navbar-links-wrapper">
-            <a href="index.html">Startsida</a>
-            <a href="fotbollsschema.html">Spelschema</a>
-            <a href="lagregister.html">Lagen</a>
-            <a href="tabeller.html">Tabell & resultat</a>
-            <a href="Leaderboards.html">Rekord</a>
-            <a href="sponsorer.html">Partners</a>
+<body class="bg-gray-100">
+    <header class="main-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" title="Arboga Stad Cup">
+                    <img src="https://raw.githubusercontent.com/Formulacoder/Arboga-stad-cup/refs/heads/main/Assets/images/StadenBranding/StadenLogoLayingGreen.png"
+                        alt="Arboga Stad Cup Logotyp">
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav id="desktop-nav">
+                <ul>
+                    <li class="menu-item">
+                        <a href="index.html" class="menu-button">Startsida</a>
+                    </li>
+                    <li class="menu-item">
+                        <button class="menu-button desktop-dropdown-toggle" aria-expanded="false"
+                            aria-controls="desktop-menu-cupinfo">
+                            <span>Cupinformation</span>
+                            <svg class="chevron" fill="none" viewBox="0 0 24 24">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </button>
+                        <div class="mega-menu" id="desktop-menu-cupinfo">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h3>Tävling</h3>
+                                    <ul>
+                                        <li><a href="fotbollsschema.html">Spelschema</a></li>
+                                        <li><a href="lagregister.html">Anmälda Lag</a></li>
+                                        <li><a href="regler.html">Regler</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Statistik</h3>
+                                    <ul>
+                                        <li><a href="tabeller.html">Tabell & Resultat</a></li>
+                                        <li><a href="Leaderboards.html">Rekord</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="sponsorer.html" class="menu-button">Partners</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobile-nav">
+                <span class="icon-menu"></span>
+                <span class="icon-close"></span>
+            </button>
         </div>
-    </nav>
+    </header>
 
-    <div class="content-container">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Resultat och Tabeller</h1>
-        </header>
-
-        <h2 class="section-heading">Grupptabeller</h2>
-        <div class="tab-buttons" id="group-tab-buttons"></div>
-        <div id="standings-tabs-content"></div>
-
-        <h2 class="section-heading">Just nu klara för slutspel</h2>
-        <div id="qualified-teams-list" class="table-container">
-            <div class="text-center text-gray-500 p-4">Laddar kvalificerade lag...</div>
-        </div>
-
-        <h2 class="section-heading">Alla Matchresultat</h2>
-        <div id="match-results-list" class="table-container">
-            <div class="text-center text-gray-500 p-4">Laddar matchresultat...</div>
-        </div>
+    <!-- Mobile Navigation Panel -->
+    <div id="mobile-nav" role="navigation">
+        <ul>
+            <li class="menu-item"><a href="index.html">Startsida</a></li>
+            <li class="menu-item"><a href="lagregister.html">Anmälda Lag</a></li>
+            <li class="menu-item"><a href="fotbollsschema.html">Spelschema</a></li>
+            <li class="menu-item"><a href="tabeller.html">Tabell & Resultat</a></li>
+            <li class="menu-item"><a href="Leaderboards.html">Rekord</a></li>
+            <li class="menu-item"><a href="regler.html">Regler</a></li>
+            <li class="menu-item"><a href="sponsorer.html">Partners</a></li>
+        </ul>
     </div>
+    <div id="menu-overlay"></div>
 
-    <footer class="footer">
-        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
-    </footer>
+
+    <main>
+        <!-- Your existing page content goes here -->
+        <div class="content-container">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Resultat och Tabeller</h1>
+            </header>
+
+            <section id="group-stage-section">
+                <h2 class="section-heading">Gruppspel & Slutspel</h2>
+                <div class="tab-buttons" id="group-tab-buttons"></div>
+                <div id="tabs-content-area" class="table-container"></div>
+            </section>
+
+            <section id="qualified-section">
+                <h2 class="section-heading">Just nu klara för slutspel</h2>
+                <div id="qualified-teams-list">
+                    <div class="text-center text-gray-500 p-4">Laddar kvalificerade lag...</div>
+                </div>
+            </section>
+
+            <section id="results-section">
+                <h2 class="section-heading">Alla Matchresultat</h2>
+                <div id="match-results-list" class="table-container">
+                    <div class="text-center text-gray-500 p-4">Laddar matchresultat...</div>
+                </div>
+            </section>
+        </div>
+    </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed for tabeller.html');
+            // --- Mobile Menu Logic ---
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const body = document.body;
 
+            const toggleMobileMenu = () => {
+                const isMenuOpen = body.classList.toggle('is-mobile-menu-open');
+                mobileMenuToggle.setAttribute('aria-expanded', isMenuOpen);
+            };
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+
+            if (menuOverlay) {
+                menuOverlay.addEventListener('click', toggleMobileMenu);
+            }
+
+
+            // --- Desktop Dropdown Logic ---
+            const desktopDropdownToggles = document.querySelectorAll('.desktop-dropdown-toggle');
+
+            desktopDropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling up to the document
+                    const parentItem = toggle.parentElement;
+                    const wasActive = parentItem.classList.contains('is-active');
+
+                    // Close all other menus first
+                    closeAllDesktopMenus();
+
+                    // If it wasn't already active, open it
+                    if (!wasActive) {
+                        parentItem.classList.add('is-active');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+
+            // Click outside to close desktop menus
+            document.addEventListener('click', (e) => {
+                closeAllDesktopMenus();
+            });
+
+            function closeAllDesktopMenus() {
+                desktopDropdownToggles.forEach(toggle => {
+                    toggle.parentElement.classList.remove('is-active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+        })
+        document.addEventListener('DOMContentLoaded', async () => {
             const standingsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1900542434&single=true&output=csv';
-            const groupScheduleCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
+            const scheduleCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
             const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
 
-            const standingsTabsContentDiv = document.getElementById('standings-tabs-content');
+            const tabsContentArea = document.getElementById('tabs-content-area');
             const matchResultsListDiv = document.getElementById('match-results-list');
             const qualifiedTeamsListDiv = document.getElementById('qualified-teams-list');
             const groupTabButtonsDiv = document.getElementById('group-tab-buttons');
 
-            let allStandingsData = [];
-            let allGamesData = [];
-            let allTeamsData = [];
-            let availableGroups = [];
-
-            async function fetchCsvData(url, errorDisplayElement, sectionName) {
-                console.log(`Attempting to fetch CSV from: ${url} for ${sectionName}`);
+            const fetchCsvData = async (url) => {
                 try {
                     const response = await fetch(url);
-                    if (!response.ok) {
-                        const errorMessage = `Kunde inte ladda data för ${sectionName}. (HTTP Status: ${response.status})`;
-                        console.error(errorMessage, url);
-                        errorDisplayElement.innerHTML = `<div class="text-center text-red-600 font-bold p-4">${errorMessage}</div>`;
-                        return '';
-                    }
-                    console.log(`Successfully fetched CSV from: ${url} for ${sectionName}`);
-                    const decodedText = await response.text();
-                    return decodedText;
+                    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+                    return await response.text();
                 } catch (error) {
-                    const errorMessage = `Nätverksfel vid laddning av data för ${sectionName}.`;
-                    console.error(errorMessage, url, error);
-                    errorDisplayElement.innerHTML = `<div class="text-center text-red-600 font-bold p-4">${errorMessage}</div>`;
-                    return '';
+                    console.error(`Failed to fetch CSV from ${url}:`, error);
+                    return null;
                 }
-            }
-
-            function parseRobustCsv(csvText) {
-                const rows = [];
-                const lines = csvText.split('\n').filter(line => line.trim() !== '');
-                if (lines.length === 0) return [];
-                for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i];
-                    const values = [];
-                    let inQuote = false;
-                    let currentField = '';
-                    for (let j = 0; j < line.length; j++) {
-                        const char = line[j];
-                        const nextChar = line[j + 1];
-                        if (char === '"') {
-                            if (inQuote && nextChar === '"') { currentField += char; j++; }
-                            else { inQuote = !inQuote; }
-                        } else if (char === ',' && !inQuote) {
-                            values.push(currentField.trim()); currentField = '';
-                        } else { currentField += char; }
-                    }
-                    values.push(currentField.trim());
-                    rows.push(values);
-                }
-                return rows.slice(1);
-            }
-
-            function parseStandingsCsv(csvText) {
-                const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) { console.warn("Standings CSV är tom."); return []; }
-                const standings = [];
-                const headers = ['teamName', 'group', 'matchesPlayed', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points', 'nextMatch', 'goalDifferencePerGame'];
-                rawRows.forEach((values, index) => {
-                    if (values.length >= headers.length) {
-                        const entry = {};
-                        headers.forEach((header, colIndex) => {
-                            let value = values[colIndex] ? values[colIndex].trim() : 'N/A';
-                            if (['matchesPlayed', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].includes(header)) {
-                                entry[header] = parseInt(value) || 0;
-                            } else { entry[header] = value; }
-                        });
-                        standings.push(entry);
-                    } else { console.warn(`Hoppar över tabellrad ${index + 2}. Rad: "${values.join(',')}"`); }
-                });
-                return standings;
-            }
-
-            function parseGroupScheduleCsv(csvText) {
-                const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) { console.warn("Group Schedule CSV är tom."); return []; }
-                const games = [];
-                const headers = ['matchId', 'time', 'team1', 'team2', 'venue', 'group', 'result', 'matchStatus'];
-                rawRows.forEach((values, index) => {
-                    if (values.length >= headers.length) {
-                        const game = {};
-                        headers.forEach((header, colIndex) => { game[header] = values[colIndex] ? values[colIndex].trim() : 'N/A'; });
-                        games.push(game);
-                    } else { console.warn(`Hoppar över schemarad ${index + 2}. Rad: "${values.join(',')}"`); }
-                });
-                return games;
-            }
-
-            function parseTeamsCsv(csvText) {
-                const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) { console.warn("Teams CSV är tom."); return []; }
-                const teams = [];
-                const headersCount = 15;
-                rawRows.forEach((values, index) => {
-                    if (values.length >= headersCount) {
-                        const team = {
-                            teamName: values[0] ? values[0].trim() : 'N/A',
-                            logo: (values[1] && isValidImageUrl(values[1])) ? values[1].trim() : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo',
-                            captainName: values[2] ? values[2].trim() : 'N/A',
-                            group: values[3] ? values[3].trim() : 'N/A',
-                            teamDescription: values[4] ? values[4].trim() : 'N/A',
-                            teamStyle: values[5] ? values[5].trim() : 'N/A',
-                            secretWeapon: values[6] ? values[6].trim() : 'N/A',
-                            highlightOps: values[7] ? values[7].trim() : 'N/A',
-                            groupThreat: values[8] ? values[8].trim() : 'N/A',
-                            teamExp: values[9] ? values[9].trim() : 'N/A',
-                            celebration: values[10] ? values[10].trim() : 'N/A',
-                            motto: values[11] ? values[11].trim() : 'N/A',
-                            playersRaw: values[12] ? values[12].trim() : '',
-                            sponsor: values[13] ? values[13].trim() : 'N/A',
-                            sponsorLogo: (values[14] && isValidImageUrl(values[14])) ? values[14].trim() : 'N/A'
-                        };
-                        teams.push(team);
-                    } else { console.warn(`Hoppar över lagrad ${index + 2}. Rad: "${values.join(',')}"`); }
-                });
-                return teams;
-            }
-
-            function getTeamLogo(teamName) {
-                const team = allTeamsData.find(t => t.teamName === teamName);
-                return (team && team.logo && isValidImageUrl(team.logo)) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';
-            }
-
-            function isValidImageUrl(url) {
-                return (url && (url.startsWith('http://') || url.startsWith('https://'))) &&
-                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
-            }
-
-            function renderGroupStandings(groupName) {
-                const groupContainerId = `standings-tab-${groupName.replace(/\s+/g, '-')}`;
-                let groupSection = document.getElementById(groupContainerId);
-
-                if (!groupSection) {
-                    groupSection = document.createElement('div');
-                    groupSection.id = groupContainerId;
-                    groupSection.className = 'tab-content table-container';
-                    standingsTabsContentDiv.appendChild(groupSection);
-                }
-
-                const teamsInGroup = allStandingsData.filter(team => team.group === groupName);
-                teamsInGroup.sort((a, b) => {
-                    if (b.points !== a.points) return b.points - a.points;
-                    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
-                    return b.goalsFor - a.goalsFor;
-                });
-
-                groupSection.innerHTML = `
-                    <h3 class="group-heading">Grupp ${groupName}</h3>
-                    <div class="overflow-x-auto rounded-lg shadow-md">
-                        <table class="standings-table">
-                            <thead>
-                                <tr>
-                                    <th></th><th>Lag</th><th title="Matcher">M</th><th title="Vinster">V</th><th title="Oavgjorda">O</th><th title="Förluster">F</th>
-                                    <th title="Gjorda Mål">GM</th><th title="Insläppta Mål">IM</th><th title="Målskillnad">MS</th><th title="Poäng">P</th><th title="Nästa">Nästa</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${teamsInGroup.map(team => `
-                                    <tr>
-                                        <td >
-                                            <img src="${getTeamLogo(team.teamName)}" alt="${team.teamName} Logo" class="team-logo-small" onerror="this.onerror=null; this.src='https://placehold.co/100x100/aabbcc/ffffff?text=Lag+Logo';">
-                                        </td><td>${team.teamName}</td>
-                                        <td>${team.matchesPlayed}</td><td>${team.wins}</td><td>${team.draws}</td><td>${team.losses}</td>
-                                        <td>${team.goalsFor}</td><td>${team.goalsAgainst}</td><td>${team.goalDifference}</td><td class="points-cell">${team.points}</td><td>${team.nextMatch || 'N/A'}</td>
-                                    </tr>`).join('')}
-                            </tbody>
-                        </table>
-                    </div>`;
-                console.log(`Standings rendered for group: ${groupName}`);
-            }
-
-            function renderTournamentBracket() {
-                const bracketContainerId = 'standings-tab-Slutspelsträdet';
-                let bracketSection = document.getElementById(bracketContainerId);
-                if (!bracketSection) {
-                    bracketSection = document.createElement('div');
-                    bracketSection.id = bracketContainerId;
-                    bracketSection.className = 'tab-content tournament-bracket';
-                    standingsTabsContentDiv.appendChild(bracketSection);
-                }
-                const groupWinners = {}; const groupRunnersUp = {};
-                const groupedByGroup = allStandingsData.reduce((acc, team) => {
-                    const group = team.group || 'Okänd Grupp'; if (!acc[group]) { acc[group] = []; }
-                    acc[group].push(team); return acc;
-                }, {});
-                Object.keys(groupedByGroup).sort().forEach(groupName => {
-                    const teamsInGroup = groupedByGroup[groupName];
-                    teamsInGroup.sort((a, b) => (b.points - a.points) || (b.goalDifference - a.goalDifference) || (b.goalsFor - a.goalsFor));
-                    if (teamsInGroup.length > 0) groupWinners[groupName] = teamsInGroup[0];
-                    if (teamsInGroup.length > 1) groupRunnersUp[groupName] = teamsInGroup[1];
-                });
-                const qfMatches = [
-                    { id: 'QF1', team1: groupWinners['A']?.teamName || 'Vinnare A', team2: groupRunnersUp['B']?.teamName || 'Tvåa B', result: '? - ?' },
-                    { id: 'QF2', team1: groupWinners['B']?.teamName || 'Vinnare B', team2: groupRunnersUp['A']?.teamName || 'Tvåa A', result: '? - ?' },
-                    { id: 'QF3', team1: groupWinners['C']?.teamName || 'Vinnare C', team2: groupRunnersUp['D']?.teamName || 'Tvåa D', result: '? - ?' },
-                    { id: 'QF4', team1: groupWinners['D']?.teamName || 'Vinnare D', team2: groupRunnersUp['C']?.teamName || 'Tvåa C', result: '? - ?' }
-                ];
-                bracketSection.innerHTML = `
-                    <h3 class="group-heading">Slutspelsträdet</h3>
-                    <div class="bracket-stages">
-                        <div class="bracket-stage"><h4 class="text-xl font-bold text-gray-700 mb-4">Kvartsfinaler</h4>${qfMatches.map(m => `<div class="match-card"><span class="team-name">${m.team1}</span><span class="vs-separator">vs</span><span class="team-name">${m.team2}</span><span class="score">${m.result}</span></div>`).join('')}</div>
-                        <div class="bracket-stage"><h4 class="text-xl font-bold text-gray-700 mb-4">Semifinaler</h4><div class="match-card"><span class="team-name">Vinnare QF1</span><span class="vs-separator">vs</span><span class="team-name">Vinnare QF2</span><span class="score">? - ?</span></div><div class="match-card"><span class="team-name">Vinnare QF3</span><span class="vs-separator">vs</span><span class="team-name">Vinnare QF4</span><span class="score">? - ?</span></div></div>
-                        <div class="bracket-stage"><h4 class="text-xl font-bold text-gray-700 mb-4">Final</h4><div class="match-card"><span class="team-name">Vinnare SF1</span><span class="vs-separator">vs</span><span class="team-name">Vinnare SF2</span><span class="score">? - ?</span></div><div class="winner-display">Vinnare: <br>[Mästare]</div></div>
-                    </div>`;
-                console.log('Tournament bracket rendered.');
-            }
-
-            function showTab(tabId) {
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                const activeTab = document.getElementById(tabId);
-                if (activeTab) activeTab.classList.add('active');
-                const activeButton = document.querySelector(`.tab-button[data-tab-id="${tabId}"]`);
-                if (activeButton) activeButton.classList.add('active');
-                console.log(`Tab "${tabId}" active.`);
-            }
-
-            function renderGroupTabButtons() {
-                groupTabButtonsDiv.innerHTML = '';
-                const uniqueGroups = new Set(allStandingsData.map(team => team.group).filter(g => g && g !== 'N/A'));
-                availableGroups = Array.from(uniqueGroups).sort();
-                availableGroups.forEach(group => {
-                    const btn = document.createElement('button');
-                    btn.className = 'tab-button'; btn.textContent = group;
-                    btn.setAttribute('data-tab-id', `standings-tab-${group.replace(/\s+/g, '-')}`);
-                    btn.addEventListener('click', () => { renderGroupStandings(group); showTab(`standings-tab-${group.replace(/\s+/g, '-')}`); });
-                    groupTabButtonsDiv.appendChild(btn);
-                });
-                const bracketBtn = document.createElement('button');
-                bracketBtn.className = 'tab-button'; bracketBtn.textContent = 'Slutspelsträdet';
-                bracketBtn.setAttribute('data-tab-id', 'standings-tab-Slutspelsträdet');
-                bracketBtn.addEventListener('click', () => { renderTournamentBracket(); showTab('standings-tab-Slutspelsträdet'); });
-                groupTabButtonsDiv.appendChild(bracketBtn);
-                if (availableGroups.length > 0) { renderGroupStandings(availableGroups[0]); showTab(`standings-tab-${availableGroups[0].replace(/\s+/g, '-')}`); }
-                else { if (bracketBtn) { renderTournamentBracket(); showTab('standings-tab-Slutspelsträdet'); } else { standingsTabsContentDiv.innerHTML = `<div class="text-center text-gray-500 p-8">Inga grupper.</div>`; } }
-                console.log('Group tab buttons rendered.');
-            }
-
-            function renderQualifiedTeams() {
-                qualifiedTeamsListDiv.innerHTML = '';
-                if (allStandingsData.length === 0) { qualifiedTeamsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Ingen data.</div>`; return; }
-                const grouped = allStandingsData.reduce((acc, team) => {
-                    const group = team.group || 'Okänd'; if (!acc[group]) { acc[group] = []; }
-                    acc[group].push(team); return acc;
-                }, {});
-                let qualified = [];
-                Object.keys(grouped).sort().forEach(groupName => {
-                    const teams = grouped[groupName];
-                    teams.sort((a, b) => (b.points - a.points) || (b.goalDifference - a.goalDifference) || (b.goalsFor - a.goalsFor));
-                    qualified.push(...teams.slice(0, 2));
-                });
-                if (qualified.length === 0) { qualifiedTeamsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Inga lag kvalificerade.</div>`; return; }
-                qualifiedTeamsListDiv.innerHTML = `<div class="qualified-teams-grid">${qualified.map(t => `<div class="qualified-team-card">${t.teamName} (${t.group})</div>`).join('')}</div>`;
-                console.log(`Rendered ${qualified.length} qualified teams.`);
-            }
-
-            function renderMatchResults() {
-                matchResultsListDiv.innerHTML = '';
-                if (allGamesData.length === 0) { matchResultsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Inga resultat.</div>`; return; }
-                const completed = allGamesData.filter(g => g.matchStatus === 'Slutrapporterad');
-                completed.sort((a, b) => (a.time.replace(':', '')) - (b.time.replace(':', '')));
-                // If teams in match results also use logo + name and need ellipsis, you'd wrap team1 and team2 in spans too.
-                // For simplicity, current rendering just uses the name.
-                matchResultsListDiv.innerHTML = `
-                    <div class="overflow-x-auto rounded-lg shadow-md">
-                        <table class="results-table">
-                            <thead><tr><th>#</th><th>Tid</th><th>Hemma</th><th>Borta</th><th>Resultat</th><th>Anm.</th></tr></thead>
-                            <tbody>${completed.map(g => `<tr><td>${g.matchId}</td><td>${g.time}</td><td>${g.team1}</td><td>${g.team2}</td><td class="font-bold">${g.result}</td><td>${g.matchStatus !== 'N/A' ? g.matchStatus : ''}</td></tr>`).join('')}</tbody>
-                        </table>
-                    </div>`;
-                console.log('Match results rendered.');
             };
 
-            async function initializeTablesPage() {
-                qualifiedTeamsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar...</div>`;
-                matchResultsListDiv.innerHTML = `<div class="text-center text-gray-500 p-4">Laddar...</div>`;
-                groupTabButtonsDiv.innerHTML = '';
+            const parseCsv = (csvText) => {
+                if (!csvText) return [];
+                const allLines = csvText.split('\n').filter(line => line.trim() !== '');
+                if (allLines.length < 2) return [];
 
-                const [standingsCsv, scheduleCsv, playerStatsCsv, teamsCsv] = await Promise.all([
-                    fetchCsvData(standingsCsvUrl, standingsTabsContentDiv, "Tabeller"),
-                    fetchCsvData(groupScheduleCsvUrl, matchResultsListDiv, "Resultat"),
-                    fetchCsvData(teamsCsvUrl, standingsTabsContentDiv, "Laginfo")
-                ]);
-                allStandingsData = standingsCsv ? parseStandingsCsv(standingsCsv) : [];
-                allGamesData = scheduleCsv ? parseGroupScheduleCsv(scheduleCsv) : [];
-                allTeamsData = teamsCsv ? parseTeamsCsv(teamsCsv) : [];
+                const parseLine = (line) => {
+                    const values = [];
+                    let inQuote = false, currentField = '';
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        if (char === '"') {
+                            if (inQuote && line[i + 1] === '"') { currentField += '"'; i++; }
+                            else { inQuote = !inQuote; }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField); currentField = '';
+                        } else { currentField += char; }
+                    }
+                    values.push(currentField);
+                    return values.map(v => {
+                        v = v.trim();
+                        if (v.startsWith('"') && v.endsWith('"')) return v.substring(1, v.length - 1).replace(/""/g, '"');
+                        return v;
+                    });
+                };
 
-                renderQualifiedTeams(); renderGroupTabButtons(); renderMatchResults();
-                console.log('Tables page init.');
-                if (!allStandingsData.length && !allGamesData.length) {
-                    console.error("All data sources empty/failed.");
-                    standingsTabsContentDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8">Kunde inte ladda data.</div>`;
-                    qualifiedTeamsListDiv.innerHTML = ''; matchResultsListDiv.innerHTML = ''; groupTabButtonsDiv.innerHTML = '';
+                const headers = parseLine(allLines[0]);
+                const data = [];
+                for (let i = 1; i < allLines.length; i++) {
+                    const values = parseLine(allLines[i]);
+                    if (values.length < headers.length) continue;
+                    const obj = {};
+                    headers.forEach((header, index) => obj[header] = values[index] || '');
+                    data.push(obj);
                 }
+                return data;
+            };
+
+            const getTeamLogo = (teamName, allTeams) => {
+                const team = allTeams.find(t => t.teamName === teamName);
+                return (team && team.logo && team.logo.startsWith('http')) ? team.logo : 'https://placehold.co/100x100/aabbcc/ffffff?text=Logo';
+            };
+
+            const renderGroupStandings = (group, standingsData, teamsData) => {
+                const teamsInGroup = standingsData.filter(team => team.group === group)
+                    .sort((a, b) => (b.points - a.points) || (b.gDiff - a.gDiff) || (b.gFor - a.gFor));
+
+                tabsContentArea.innerHTML = `
+                    <table class="standings-table">
+                        <thead>
+                            <tr>
+                                <th title="Lag">Lag</th>
+                                <th title="Matcher">M</th><th title="Vinster">V</th><th title="Oavgjorda">O</th><th title="Förluster">F</th>
+                                <th title="Gjorda Mål">GM</th><th title="Insläppta Mål">IM</th><th title="Målskillnad">MS</th>
+                                <th title="Poäng">P</th><th title="Nästa Match">Nästa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${teamsInGroup.map(team => `
+                                <tr>
+                                    <td class="team-cell">
+                                        <img src="${getTeamLogo(team.teamName, teamsData)}" alt="${team.teamName} Logo" class="team-logo-small">
+                                        ${team.teamName}
+                                    </td>
+                                    <td>${team.M}</td><td>${team.W}</td><td>${team.D}</td><td>${team.L}</td>
+                                    <td>${team.gFor}</td><td>${team.gAgainst}</td><td>${team.gDiff}</td>
+                                    <td class="points-cell">${team.points}</td><td>${team.nextM || 'N/A'}</td>
+                                </tr>`).join('')}
+                        </tbody>
+                    </table>`;
+            };
+
+            const renderTournamentBracket = (standingsData) => {
+                const groupWinners = {}, groupRunnersUp = {};
+                const grouped = standingsData.reduce((acc, team) => {
+                    (acc[team.group] = acc[team.group] || []).push(team);
+                    return acc;
+                }, {});
+
+                Object.keys(grouped).sort().forEach(groupName => {
+                    const teams = grouped[groupName];
+                    teams.sort((a, b) => (b.points - a.points) || (b.gDiff - a.gDiff) || (b.gFor - a.gFor));
+                    if (teams.length > 0) groupWinners[groupName] = teams[0];
+                    if (teams.length > 1) groupRunnersUp[groupName] = teams[1];
+                });
+
+                const qfMatches = [
+                    { team1: groupWinners['A']?.teamName || 'Vinnare A', team2: groupRunnersUp['B']?.teamName || 'Tvåa B' },
+                    { team1: groupWinners['B']?.teamName || 'Vinnare B', team2: groupRunnersUp['A']?.teamName || 'Tvåa A' },
+                    { team1: groupWinners['C']?.teamName || 'Vinnare C', team2: groupRunnersUp['D']?.teamName || 'Tvåa D' },
+                    { team1: groupWinners['D']?.teamName || 'Vinnare D', team2: groupRunnersUp['C']?.teamName || 'Tvåa C' }
+                ];
+
+                tabsContentArea.innerHTML = `
+                    <div class="bracket-stages">
+                        <div class="bracket-stage">
+                            <h3 class="bracket-stage-title">Kvartsfinaler</h3>
+                            <div class="bracket-matches">
+                                ${qfMatches.map(m => `
+                                    <div class="match-card">
+                                        <div class="team-name">${m.team1}</div>
+                                        <div class="vs-separator">vs</div>
+                                        <div class="team-name">${m.team2}</div>
+                                    </div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="bracket-stage">
+                            <h3 class="bracket-stage-title">Semifinaler</h3>
+                            <div class="bracket-matches">
+                                <div class="match-card"><div class="team-name">Vinnare QF1</div><div class="vs-separator">vs</div><div class="team-name">Vinnare QF2</div></div>
+                                <div class="match-card"><div class="team-name">Vinnare QF3</div><div class="vs-separator">vs</div><div class="team-name">Vinnare QF4</div></div>
+                            </div>
+                        </div>
+                        <div class="bracket-stage">
+                            <h3 class="bracket-stage-title">Final</h3>
+                            <div class="bracket-matches">
+                                <div class="match-card"><div class="team-name">Vinnare SF1</div><div class="vs-separator">vs</div><div class="team-name">Vinnare SF2</div></div>
+                                <div class="winner-display">🏆 Vinnare 🏆</div>
+                            </div>
+                        </div>
+                    </div>`;
+            };
+
+            const renderAllResults = (gamesData) => {
+                const completed = gamesData.filter(g => g.matchStatus === 'Slutrapporterad')
+                    .sort((b, a) => (a.time.localeCompare(b.time)) || (a.matchId - b.matchId));
+                if (completed.length === 0) return `<p class="text-center text-gray-500">Inga slutförda matcher än.</p>`;
+                return `
+                    <table class="standings-table results-table">
+                        <thead><tr><th>Tid</th><th>Hemma</th><th>Resultat</th><th>Borta</th></tr></thead>
+                        <tbody>
+                            ${completed.map(g => `
+                                <tr>
+                                    <td>${g.time}</td>
+                                    <td class="team-cell">${g.team1}</td>
+                                    <td class="font-bold">${g.resultM}</td>
+                                    <td class="team-cell">${g.team2}</td>
+                                </tr>`).join('')}
+                        </tbody>
+                    </table>`;
+            };
+
+            const renderQualifiedTeams = (standingsData) => {
+                const grouped = standingsData.reduce((acc, team) => {
+                    (acc[team.group] = acc[team.group] || []).push(team);
+                    return acc;
+                }, {});
+
+                let qualified = [];
+                Object.values(grouped).forEach(teams => {
+                    const sorted = teams.sort((a, b) => (b.points - a.points) || (b.gDiff - a.gDiff) || (b.gFor - a.gFor));
+                    qualified.push(...sorted.slice(0, 2));
+                });
+                if (qualified.length === 0) return `<p class="text-center text-gray-500">Väntar på att gruppspelet ska slutföras.</p>`;
+                return `
+                    <div class="qualified-teams-grid">
+                        ${qualified.map(t => `<div class="qualified-team-card">${t.teamName} (Grupp ${t.group})</div>`).join('')}
+                    </div>`;
+            };
+
+            try {
+                const [standingsCsv, scheduleCsv, teamsCsv] = await Promise.all([
+                    fetchCsvData(standingsCsvUrl),
+                    fetchCsvData(scheduleCsvUrl),
+                    fetchCsvData(teamsCsvUrl)
+                ]);
+                if (!standingsCsv || !scheduleCsv || !teamsCsv) throw new Error("One or more data sources failed to load.");
+
+                const allStandings = parseCsv(standingsCsv);
+                const allGames = parseCsv(scheduleCsv);
+                const allTeams = parseCsv(teamsCsv);
+
+                matchResultsListDiv.innerHTML = renderAllResults(allGames);
+                qualifiedTeamsListDiv.innerHTML = renderQualifiedTeams(allStandings);
+
+                const groups = [...new Set(allStandings.map(s => s.group).filter(Boolean))].sort();
+
+                // Setup tab buttons
+                groupTabButtonsDiv.innerHTML = groups.map(group => `<button class="tab-button" data-type="group" data-id="${group}">Grupp ${group}</button>`).join('');
+                groupTabButtonsDiv.innerHTML += `<button class="tab-button" data-type="bracket" data-id="slutspel">Slutspel</button>`;
+
+                const tabButtons = groupTabButtonsDiv.querySelectorAll('.tab-button');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        if (button.dataset.type === 'group') {
+                            renderGroupStandings(button.dataset.id, allStandings, allTeams);
+                        } else if (button.dataset.type === 'bracket') {
+                            renderTournamentBracket(allStandings);
+                        }
+                    });
+                });
+
+                if (tabButtons.length > 0) tabButtons[0].click();
+                else tabsContentArea.innerHTML = `<p class="text-center text-gray-500">Inga grupper eller slutspel att visa.</p>`;
+
+            } catch (error) {
+                console.error("Failed to initialize tables page:", error);
+                document.body.innerHTML = `<div class="text-center text-red-600 font-bold p-8">Kunde inte ladda sidans data. Försök igen senare.</div>`;
             }
-            initializeTablesPage();
         });
     </script>
 </body>

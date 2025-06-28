@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lagregister</title>
-    <!-- Tailwind CSS CDN för styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS83LWSY7E"></script>
@@ -13,106 +12,322 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-YS83LWSY7E');
     </script>
     <style>
+        /* --- Base Styles --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
-            /* Ljusgrå bakgrund */
-            min-height: 100vh;
-            /* Säkerställer att bakgrunden täcker hela sidan */
-            display: flex;
-            flex-direction: column;
-            /* För att navbaren ska ligga överst */
-            align-items: center;
-            justify-content: flex-start;
-            /* Justera för navbar */
-            padding: 0;
-            /* Ta bort padding från body */
         }
 
-        .navbar {
-            width: 100%;
-            background-color: #1a202c;
+        /* --- New Navigation Styles --- */
+        .main-header {
+            background-color: #034159;
             color: white;
             padding: 1rem 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
-        .navbar-home-logo {
-            height: 2.5rem;
-            margin-right: 1.5rem;
-            cursor: pointer;
-            border-radius: 9999px;
-            transition: transform 0.2s ease-in-out;
-            flex-shrink: 0;
-        }
-
-        .navbar-home-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .navbar-links-wrapper {
+        .nav-logo a {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- Desktop Navigation --- */
+        #desktop-nav {
+            display: none;
+            /* Hidden on mobile */
+        }
+
+        @media (min-width: 724px) {
+            #desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        #desktop-nav>ul {
+            display: flex;
             gap: 0.5rem;
-            flex-grow: 1;
-            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 0.8rem;
+        #desktop-nav .menu-item {
+            position: relative;
+        }
+
+        #desktop-nav .menu-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
             border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out;
+            background-color: transparent;
+            color: white;
             font-weight: 500;
-            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .navbar a:hover {
-            background-color: #4a5568;
+        #desktop-nav .menu-button:hover,
+        #desktop-nav .menu-item.is-active .menu-button {
+            background-color: rgba(255, 255, 255, 0.15);
         }
+
+        #desktop-nav .chevron {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 2px;
+            transition: transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .mega-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            color: #1a202c;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+            width: 500px;
+            /* Adjust width as needed */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mega-menu-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .mega-menu-column h3 {
+            font-weight: 700;
+            color: #034159;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mega-menu-column a {
+            color: #4a5568;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .mega-menu-column a:hover {
+            color: #F29849;
+        }
+
+        /* --- Mobile Navigation --- */
+        #mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        #mobile-menu-toggle .icon-menu,
+        #mobile-menu-toggle .icon-close {
+            display: block;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .icon-menu {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .icon-close {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .is-mobile-menu-open .icon-menu {
+            display: none;
+        }
+
+        .is-mobile-menu-open .icon-close {
+            display: block;
+        }
+
+        body:not(.is-mobile-menu-open) .icon-close {
+            display: none;
+        }
+
+        @media (min-width: 724px) {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        #mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #034159;
+            padding: 1.5rem;
+            padding-top: 6rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 998;
+        }
+
+        .is-mobile-menu-open #mobile-nav {
+            transform: translateX(0);
+        }
+
+        #mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #mobile-nav .menu-item>a,
+        #mobile-nav .menu-item>button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        #mobile-nav .sub-menu {
+            list-style: none;
+            color: white;
+            padding-left: 1rem;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        #mobile-nav .sub-menu a {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        #mobile-nav .menu-item.is-active>.sub-menu {
+            max-height: 500px;
+            /* Large enough to show all items */
+        }
+
+        #mobile-nav .chevron {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #mobile-nav .menu-item.is-active>button>.chevron {
+            transform: rotate(90deg);
+        }
+
+        #menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 997;
+        }
+
+        .is-mobile-menu-open #menu-overlay {
+            display: block;
+        }
+
+        /* ------------------------------ */
+        /* ------------------------------ */
+        /* --- New Navigation END --- */
 
         .content-container {
-            max-width: 960px;
-            /* max-w-4xl är ca 960px */
+            max-width: 1200px;
+            /* Wider for team cards */
             width: 100%;
             background-color: #ffffff;
             border-radius: 0.75rem;
-            /* rounded-xl */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             padding: 2rem 1.5rem;
-            /* Justerad padding */
-            margin-top: 2rem;
-            /* Marginal från navbar */
-            margin-bottom: 2rem;
+            margin: 2rem auto;
             flex-grow: 1;
-            /* Låter innehållskontainern växa och pressa ner footern */
         }
 
-        /* ... (keep existing body, navbar, content-container, footer styles) ... */
-
-        /* Group Filter Buttons - no changes needed from previous state */
         .group-filter-buttons-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 0.75rem;
             margin-bottom: 2rem;
-            padding: 1rem;
-            background-color: #f7fafc;
-            border-radius: 0.75rem;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         }
 
         .group-filter-button {
@@ -120,19 +335,17 @@
             background-color: #e2e8f0;
             color: #4a5568;
             font-weight: 600;
-            border-radius: 0.5rem;
+            border-radius: 9999px;
+            /* Pill shape */
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.1s ease-in-out;
-            flex-grow: 1;
-            text-align: center;
-            min-width: 80px;
-            white-space: nowrap;
+            transition: all 0.2s ease-in-out;
         }
 
         .group-filter-button.active {
-            background-color: #3b82f6;
+            background-color: #034159;
+            /* New Color */
             color: white;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 2px 8px rgba(3, 65, 89, 0.3);
             transform: translateY(-2px);
         }
 
@@ -140,513 +353,324 @@
             background-color: #cbd5e0;
         }
 
-        /* Team Card Grid */
         #team-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            /* Min width slightly increased */
             gap: 1.5rem;
         }
 
-        /* INDIVIDUAL TEAM CARD STYLING */
-        .team-list-item {
-            /* The main card container */
+        .team-card {
             background-color: #ffffff;
-            /* Brighter card background */
             border-radius: 0.75rem;
             border: 1px solid #e2e8f0;
             padding: 1.25rem;
-            /* Increased padding */
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            min-height: 280px;
-            /* Ensure a minimum height for consistency */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .team-list-item:hover {
+        .team-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
-        /* Row 1: Logo/Group + Name/Captain */
-        .team-card-row1 {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            /* Align items to the top of the row */
-            margin-bottom: 1rem;
-            gap: 1rem;
-        }
-
-        .team-card-row1-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* Center logo and group tag */
-            flex-shrink: 0;
-        }
-
         .team-logo-card {
-            /* Specific for this card's logo */
             width: 70px;
-            /* Larger logo */
             height: 70px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #e2e8f0;
-            margin-bottom: 0.5rem;
-            /* Space before group tag */
-        }
-
-        .team-list-group-card {
-            /* Group tag specific for card */
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            /* Smaller group tag text */
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Group specific colors will be added via JS */
-        .group-a {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
-
-        /* Light Red */
-        .group-b {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-
-        /* Light Blue */
-        .group-c {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-
-        /* Light Green */
-        .group-d {
-            background-color: #fef3c7;
-            color: #b45309;
-        }
-
-        /* Light Yellow/Amber */
-        .group-default {
-            background-color: #e5e7eb;
-            color: #4b5563;
-        }
-
-        /* Light Gray */
-
-
-        .team-card-row1-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            /* Align text to the left */
-            flex-grow: 1;
-            min-width: 0;
-            /* Allows text to wrap properly */
         }
 
         .team-name-card {
-            font-size: 1.6rem;
-            /* Larger team name */
+            font-size: 1.5rem;
             font-weight: 800;
             color: #1a202c;
             line-height: 1.2;
-            margin-bottom: 0.1rem;
-        }
-
-        .team-captain-card {
-            font-size: 0.85rem;
-            color: #4a5568;
-        }
-
-        /* Row 2: Info - Players, Style, Motto, ShortDesc */
-        .team-card-row2 {
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            color: #374151;
-            text-align: left;
-            border-top: 1px solid #e2e8f0;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0.75rem 0;
-        }
-
-        .team-card-row2 p {
-            margin-bottom: 0.35rem;
-        }
-
-        .team-card-row2 strong {
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .short-description-card {
-            font-style: italic;
-            color: #4b5563;
-            max-height: 4.5em;
-            /* approx 3 lines */
-            overflow: hidden;
-            text-overflow: ellipsis;
-            /* Note: Pure CSS ellipsis on multi-line is tricky, JS might be needed for perfect "..." */
-        }
-
-        .short-description-card .read-more-link {
-            font-weight: 600;
-            color: #3b82f6;
-            text-decoration: none;
-            font-style: normal;
-        }
-
-        .short-description-card .read-more-link:hover {
-            text-decoration: underline;
-        }
-
-
-        /* Row 3: Sponsor / Hub Link */
-        .team-card-row3 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            /* Pushes this row to the bottom of the card */
-            padding-top: 0.75rem;
-        }
-
-        .sponsor-info-card {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: #6b7280;
-            flex-grow: 1;
-            /* Allows sponsor info to take available space */
-        }
-
-        .sponsor-logo-small-card {
-            height: 1.5rem;
-            /* Slightly larger sponsor logo */
-            max-width: 70px;
-            /* Max width for sponsor logo */
-            object-fit: contain;
         }
 
         .team-hub-link-card {
-            /* Specific for card button */
-            background-color: #3b82f6;
+            background-color: #034159;
+            /* New Color */
             color: white;
             padding: 0.6rem 1rem;
             border-radius: 0.5rem;
             font-weight: 600;
             text-decoration: none;
-            transition: background-color 0.2s ease-in-out;
-            white-space: nowrap;
-            flex-shrink: 0;
-            /* Prevent button from shrinking */
+            transition: background-color 0.2s;
+            text-align: center;
         }
 
         .team-hub-link-card:hover {
-            background-color: #2563eb;
+            background-color: #023047;
+            /* Darker shade */
         }
 
-        .team-hub-link-card.full-width {
-            width: 100%;
-            text-align: center;
+        .sponsor-logo-small-card {
+            height: 1.75rem;
+            max-width: 80px;
+            object-fit: contain;
         }
 
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            /* ... (navbar responsive styles remain the same) ... */
-
-            #team-list {
-                grid-template-columns: 1fr;
-                /* Single column for mobile */
-            }
-
-            .team-card-row1 {
-                flex-direction: column;
-                /* Stack left and right on mobile */
-                align-items: center;
-                /* Center items in the column */
-                text-align: center;
-            }
-
-            .team-card-row1-right {
-                align-items: center;
-                /* Center team name and captain */
-            }
-
-            .team-card-row2 {
-                text-align: center;
-            }
-
-            .team-card-row3 {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .team-hub-link-card.full-width,
-            .team-hub-link-card {
-                width: 100%;
-                text-align: center;
-            }
-
-            .sponsor-info-card {
-                justify-content: center;
-            }
+        /* Group colors */
+        .group-a {
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
 
-        /* Footer styling */
+        .group-b {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .group-c {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .group-d {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        .group-default {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .team-list-group-card {
+            padding: 0.2rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
         .footer {
             width: 100%;
-            background-color: #1a202c;
-            /* Mörk bakgrund för footer */
+            background-color: #034159;
+            /* New Color */
             padding: 1.5rem;
             text-align: center;
-            margin-top: auto;
-            /* Trycker ner footern till botten */
         }
 
         .footer-logo {
             max-width: 100%;
-            /* Anpassa till skärmbredden */
             height: 6rem;
-            /* FAST HÖJD FÖR FOTLOGOTYPEN, ÖKAD FRÅN 4REM TILL 6REM */
             object-fit: contain;
-            /* Behåll proportioner, se till att hela bilden syns */
             display: block;
-            /* Centrera bilden */
             margin: 0 auto;
-            /* Centrera bilden horisontellt */
         }
 
-        /* Responsive adjustments */
         @media (max-width: 640px) {
-
-            /* --- MOBILE STYLES START --- */
             .navbar {
-                padding: 0.75rem 1rem;
+                justify-content: center;
+                padding: 1rem;
             }
 
-            .navbar-home-logo {
-                height: 2rem;
-                margin-right: 1rem;
-                margin-bottom: 0;
-            }
-
-            .navbar-links-wrapper {
-                gap: 0.25rem;
-            }
-
-            .navbar a {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.9rem;
-            }
-
-            /* Team List adjustments for mobile */
-            #team-list {
-                grid-template-columns: 1fr;
-                /* Enkel kolumn för mobil */
-            }
-
-            .team-list-item {
-                /* Ytterligare justeringar för mobila listobjekt */
-                flex-direction: column;
-                /* Stapla detaljer vertikalt på mobil */
-                align-items: flex-start;
-                padding: 0.75rem 1rem;
-            }
-
-            .team-summary {
-                /* Säkerställ att sammanfattningsdelen staplas vertikalt på mobil */
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .team-main-info {
-                width: 100%;
-                justify-content: flex-start;
-                margin-bottom: 0;
-                min-width: unset;
-            }
-
-            .team-list-group {
-                margin-left: 0;
-                width: 100%;
-                text-align: left;
-                min-width: unset;
-            }
-
-            .team-list-details-summary {
-                /* Full bredd på mobil */
-                width: 100%;
-                margin-left: 0;
-                text-align: left;
-                /* Justera till vänster på mobil */
-                margin-top: 0.5rem;
-                justify-content: flex-start;
-                /* Justera detaljer till vänster */
-            }
-
-            .team-list-details-summary .sponsor-display {
-                justify-content: flex-start;
-                /* Justera vänster på mobil */
-            }
-
-            /* Säkerställ att textetiketter är synliga på mobil */
-            .team-list-stat-item span.md\:hidden {
-                display: inline;
-            }
-        }
-
-        @media (min-width: 641px) {
-
-            /* Justera md:hidden beteende för desktop */
-            .team-list-stat-item span.md\:hidden {
-                display: none;
+            .navbar-logo-link {
+                margin-bottom: 0.5rem;
             }
         }
     </style>
 </head>
 
+<body class="bg-gray-100">
+    <header class="main-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" title="Arboga Stad Cup">
+                    <img src="https://raw.githubusercontent.com/Formulacoder/Arboga-stad-cup/refs/heads/main/Assets/images/StadenBranding/StadenLogoLayingGreen.png"
+                        alt="Arboga Stad Cup Logotyp">
+                </a>
+            </div>
 
-<body>
-    <!-- Global Navigationsmeny -->
-    <nav class="navbar">
-        <div class="navbar-links-wrapper">
-            <a href="index.html">Startsida</a>
-            <a href="fotbollsschema.html">Spelschema</a>
-            <a href="lagregister.html">Lagen</a>
-            <a href="tabeller.html">Tabell & resultat</a>
-            <a href="Leaderboards.html">Rekord</a>
-            <a href="sponsorer.html">Partners</a>
+            <!-- Desktop Navigation -->
+            <nav id="desktop-nav">
+                <ul>
+                    <li class="menu-item">
+                        <a href="index.html" class="menu-button">Startsida</a>
+                    </li>
+                    <li class="menu-item">
+                        <button class="menu-button desktop-dropdown-toggle" aria-expanded="false"
+                            aria-controls="desktop-menu-cupinfo">
+                            <span>Cupinformation</span>
+                            <svg class="chevron" fill="none" viewBox="0 0 24 24">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </button>
+                        <div class="mega-menu" id="desktop-menu-cupinfo">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h3>Tävling</h3>
+                                    <ul>
+                                        <li><a href="fotbollsschema.html">Spelschema</a></li>
+                                        <li><a href="lagregister.html">Anmälda Lag</a></li>
+                                        <li><a href="regler.html">Regler</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Statistik</h3>
+                                    <ul>
+                                        <li><a href="tabeller.html">Tabell & Resultat</a></li>
+                                        <li><a href="Leaderboards.html">Rekord</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="sponsorer.html" class="menu-button">Partners</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobile-nav">
+                <span class="icon-menu"></span>
+                <span class="icon-close"></span>
+            </button>
         </div>
-    </nav>
+    </header>
 
-    <div class="content-container">
-        <!-- Rubriksektion -->
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Lagregister</h1>
-            <p class="text-lg text-gray-600">En översikt över alla deltagande lag i cupen.</p>
-        </header>
-
-        <!-- Gruppfilterknappar sektion -->
-        <div id="group-filter-buttons" class="group-filter-buttons-container">
-            <!-- Knappar kommer att fyllas i av JS -->
-            <div class="text-center text-gray-500 p-2">Laddar filterknappar...</div>
-        </div>
-
-        <!-- Laglistningssektion -->
-        <div id="team-list">
-            <div class="text-center text-gray-500 p-8 col-span-full">Laddar lagdata...</div>
-        </div>
+    <!-- Mobile Navigation Panel -->
+    <div id="mobile-nav" role="navigation">
+        <ul>
+            <li class="menu-item"><a href="index.html">Startsida</a></li>
+            <li class="menu-item"><a href="lagregister.html">Anmälda Lag</a></li>
+            <li class="menu-item"><a href="fotbollsschema.html">Spelschema</a></li>
+            <li class="menu-item"><a href="tabeller.html">Tabell & Resultat</a></li>
+            <li class="menu-item"><a href="Leaderboards.html">Rekord</a></li>
+            <li class="menu-item"><a href="regler.html">Regler</a></li>
+            <li class="menu-item"><a href="sponsorer.html">Partners</a></li>
+        </ul>
     </div>
+    <div id="menu-overlay"></div>
 
-    <!-- Global Footer -->
-    <footer class="footer">
-        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
-    </footer>
+
+    <main>
+        <!-- Your existing page content goes here -->
+        <div class="content-container">
+            <!-- Rubriksektion -->
+            <header class="text-center mb-8">
+                <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Lagregister</h1>
+                <p class="text-lg text-gray-600">En översikt över alla deltagande lag i cupen.</p>
+            </header>
+
+            <!-- Gruppfilterknappar sektion -->
+            <div id="group-filter-buttons" class="group-filter-buttons-container">
+                <div class="text-center text-gray-500 p-2">Laddar filter...</div>
+            </div>
+
+            <!-- Laglistningssektion -->
+            <div id="team-list">
+                <div class="text-center text-gray-500 p-8 col-span-full">Laddar lagdata...</div>
+            </div>
+        </div>
+    </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded and parsed for lagregister.html');
+            // --- Mobile Menu Logic ---
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const body = document.body;
 
-            // !!! VIKTIGT: DATAKÄLLOR !!!
-            // teamsCsvUrl: Denna URL pekar på ditt Google Sheet för laginformation (PUB_TEAMINFO).
-            // Se till att ditt Google Sheet är publicerat som "Comma-separated values (.csv)".
-            // Guide: https://support.google.com/docs/answer/183950?hl=en (Välj "Kommaavgränsade värden (.csv)")
+            const toggleMobileMenu = () => {
+                const isMenuOpen = body.classList.toggle('is-mobile-menu-open');
+                mobileMenuToggle.setAttribute('aria-expanded', isMenuOpen);
+            };
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+
+            if (menuOverlay) {
+                menuOverlay.addEventListener('click', toggleMobileMenu);
+            }
+
+
+            // --- Desktop Dropdown Logic ---
+            const desktopDropdownToggles = document.querySelectorAll('.desktop-dropdown-toggle');
+
+            desktopDropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling up to the document
+                    const parentItem = toggle.parentElement;
+                    const wasActive = parentItem.classList.contains('is-active');
+
+                    // Close all other menus first
+                    closeAllDesktopMenus();
+
+                    // If it wasn't already active, open it
+                    if (!wasActive) {
+                        parentItem.classList.add('is-active');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                });
+            });
+
+            // Click outside to close desktop menus
+            document.addEventListener('click', (e) => {
+                closeAllDesktopMenus();
+            });
+
+            function closeAllDesktopMenus() {
+                desktopDropdownToggles.forEach(toggle => {
+                    toggle.parentElement.classList.remove('is-active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+        })
+        document.addEventListener('DOMContentLoaded', () => {
             const teamsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
 
             const teamListDiv = document.getElementById('team-list');
             const groupFilterButtonsContainer = document.getElementById('group-filter-buttons');
 
-            let allTeams = []; // Lagrar rådata för lag
-            let currentGroupFilter = 'All'; // Tillståndsvariabel för aktuellt filter
+            let allTeams = [];
+            let currentGroupFilter = 'All';
 
-            /**
-             * Hämtar CSV-data från den angivna URL:en.
-             * Visar ett felmeddelande på sidan om hämtningen misslyckas.
-             * @param {string} url URL:en till CSV-filen.
-             * @returns {Promise<string>} Ett löfte som löser med den avkodade CSV-texten.
-             */
             async function fetchCsvData(url) {
-                console.log(`Attempting to fetch CSV from: ${url}`);
                 try {
                     const response = await fetch(url);
-                    if (!response.ok) {
-                        const errorMsg = `HTTP Error! status: ${response.status} fetching ${url}. Kontrollera att Google Sheet är publicerat korrekt som CSV.`;
-                        console.error(errorMsg);
-                        teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8 col-span-full">${errorMsg}</div>`;
-                        throw new Error(errorMsg);
-                    }
-                    console.log(`Successfully fetched CSV from: ${url}`);
+                    if (!response.ok) throw new Error(`HTTP Error! status: ${response.status} fetching ${url}`);
                     return await response.text();
                 } catch (error) {
-                    console.error('Fel vid hämtning av CSV-data från:', url, error);
-                    teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8 col-span-full">Nätverksfel eller fel vid laddning av lagdata. Kontrollera din internetanslutning och Google Sheet URL.</div>`;
+                    console.error('Fel vid hämtning av CSV-data:', error);
+                    teamListDiv.innerHTML = `<div class="text-center text-red-600 font-bold p-8 col-span-full">Nätverksfel eller fel vid laddning av lagdata. Kontrollera din anslutning och Google Sheet URL.</div>`;
                     throw error;
                 }
             }
 
-            /**
-             * En robust CSV-parserfunktion som hanterar fält med kommatecken och citationstecken.
-             * Förutsätter att fält som innehåller kommatecken är omslutna av dubbla citationstecken.
-             * Hanterar även dubbla citationstecken inom citerade fält (genom att fördubbla dem, t.ex. "He said ""Hello""").
-             * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Array<string>>} En array av rader, där varje rad är en array av strängvärden.
-             */
             function parseRobustCsv(csvText) {
                 const rows = [];
                 const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                if (lines.length <= 1) return [];
+                const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
 
-                if (lines.length === 0) { // Tom CSV eller endast rader med mellanslag
-                    return [];
-                }
-
-                // Bearbeta dataraderna (hoppa över rubrikraden för intern parsning)
-                for (let i = 0; i < lines.length; i++) { // Loopar över alla rader, inklusive den första raden som rubriker
+                for (let i = 1; i < lines.length; i++) {
                     const line = lines[i];
                     const values = [];
-                    let inQuote = false;
-                    let currentField = '';
-
+                    let inQuote = false, currentField = '';
                     for (let j = 0; j < line.length; j++) {
-                        const char = line[j];
-                        const nextChar = line[j + 1];
-
+                        const char = line[j], nextChar = line[j + 1];
                         if (char === '"') {
-                            if (inQuote && nextChar === '"') { // Hantera dubbla citationstecken inuti ett citerat fält ("" blir ")
-                                currentField += char;
-                                j++; // Hoppa över nästa citationstecken
-                            } else {
-                                inQuote = !inQuote; // Växla in/ut ur citerat läge
-                            }
+                            if (inQuote && nextChar === '"') { currentField += char; j++; }
+                            else { inQuote = !inQuote; }
                         } else if (char === ',' && !inQuote) {
-                            values.push(currentField.trim());
-                            currentField = '';
-                        } else {
-                            currentField += char;
-                        }
+                            values.push(currentField.trim()); currentField = '';
+                        } else { currentField += char; }
                     }
-                    values.push(currentField.trim()); // Lägg till det sista fältet på raden
-                    rows.push(values);
+                    values.push(currentField.trim());
+                    const rowObject = {};
+                    headers.forEach((header, index) => rowObject[header] = values[index] || '');
+                    rows.push(rowObject);
                 }
-                console.log(`Parsed ${rows.length - 1} data rows.`);
-                return rows.slice(1); // Returnera alla rader utom rubrikraden
+                return rows;
             }
-            /**
-             * NEW: Helper function to assign a color class based on group name.
-             * @param {string} groupName The name of the group (e.g., "A", "B").
-             * @returns {string} Tailwind CSS class for background and text color.
-             */
+
             function getGroupColorClass(groupName) {
                 if (!groupName || groupName === 'N/A') return 'group-default';
                 const group = groupName.toUpperCase();
@@ -654,134 +678,43 @@
                 if (group.includes('B')) return 'group-b';
                 if (group.includes('C')) return 'group-c';
                 if (group.includes('D')) return 'group-d';
-                // Add more cases if you have more than 4 groups with specific colors
-                return 'group-default'; // Fallback
-            }
-            /**
-             * Parsar CSV-text till en array av lagobjekt.
-             * Förutsatt kolumnordning (viktigt!):
-             * teamName|logo|captainName|group|teamDescription|teamStyle|secretWeapon|highlightOps|groupThreat|teamExp|celebration|motto|playersRaw|sponsor|sponsorLogo
-             * @param {string} csvText CSV-innehållet som en sträng.
-             * @returns {Array<Object>} En array av lagobjekt.
-             */
-            function parseTeamsCsv(csvText) {
-                const rawRows = parseRobustCsv(csvText);
-                if (rawRows.length === 0) {
-                    console.warn("Teams CSV är tom eller parsning resulterade i ingen data.");
-                    return [];
-                }
-                const teams = [];
-                const expectedColumns = 15;
-
-                rawRows.forEach((values, index) => {
-                    if (values.length > 0) { // Process only if row is not completely empty
-                        const team = {
-                            teamName: values[0]?.trim() || 'N/A',
-                            logo: (values[1] && isValidImageUrl(values[1].trim())) ? values[1].trim() : 'https://placehold.co/70x70/aabbcc/ffffff?text=Logo',
-                            captainName: values[2]?.trim() || 'N/A',
-                            group: values[3]?.trim() || 'N/A',
-                            teamDescription: values[4]?.trim() || 'Ingen beskrivning tillgänglig.', // For hub
-                            teamStyle: values[5]?.trim() || 'N/A',
-                            // secretWeapon etc. can be added if needed for the card, otherwise N/A for now
-                            motto: values[11]?.trim() || 'N/A',
-                            playersRaw: values[12]?.trim() || '',
-                            shortDescription: values[13]?.trim() || '', // New field
-                            sponsorInfoRaw: values[14]?.trim() || 'N/A', // Combined sponsor field
-                        };
-
-                        // Fallback for shortDescription
-                        if (!team.shortDescription || team.shortDescription.toLowerCase() === 'n/a') {
-                            if (team.teamDescription && team.teamDescription.toLowerCase() !== 'n/a') {
-                                team.shortDescription = team.teamDescription.substring(0, 100); // Truncate long desc
-                                if (team.teamDescription.length > 100) team.shortDescription += "...";
-                            } else {
-                                team.shortDescription = "Mer information kommer snart.";
-                            }
-                        }
-
-                        // Parse sponsorInfoRaw
-                        team.sponsorName = 'N/A';
-                        team.sponsorLogoUrl = null;
-                        if (team.sponsorInfoRaw && team.sponsorInfoRaw.toLowerCase() !== 'n/a') {
-                            const parts = team.sponsorInfoRaw.split(';');
-                            team.sponsorName = parts[0]?.trim() || 'N/A';
-                            if (parts.length > 1 && parts[1]?.trim() && isValidImageUrl(parts[1].trim())) {
-                                team.sponsorLogoUrl = parts[1].trim();
-                            }
-                        }
-
-                        teams.push(team);
-
-                        if (values.length < expectedColumns) { // Warn if not enough columns
-                            console.warn(`[TEAMS CSV PARSE WARNING] Rad ${index + 2}: Förväntade ${expectedColumns} kolumner, men hittade ${values.length}. Rad: "${values.join(' | ')}"`);
-                        }
-                    }
-                });
-                return teams;
+                return 'group-default';
             }
 
-
-            /**
-             * Kontrollerar om en URL ser ut som en giltig bild-URL.
-             * @param {string} url
-             * @returns {boolean}
-             */
             function isValidImageUrl(url) {
-                return (url && (url.startsWith('http://') || url.startsWith('https://')) &&
-                    (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url)));
+                return url && (url.startsWith('http://') || url.startsWith('https://')) && (/\.(jpeg|jpg|gif|png|webp|svg)$/i.test(url));
             }
 
-            /**
-             * Fyller gruppfilterknapparna baserat på unika grupper från lagdatan.
-             */
             function populateGroupFilterButtons() {
-                const uniqueGroups = new Set(allTeams.map(team => team.group).filter(g => g && g !== 'N/A'));
-                const sortedGroups = Array.from(uniqueGroups).sort();
+                const uniqueGroups = [...new Set(allTeams.map(team => team.group).filter(g => g && g !== 'N/A'))].sort();
 
-                groupFilterButtonsContainer.innerHTML = ''; // Rensa laddningsmeddelandet
+                groupFilterButtonsContainer.innerHTML = '';
 
-                // Lägg till "Alla" -knapp
-                const allButton = document.createElement('button');
-                allButton.className = 'group-filter-button active'; // Standard aktiv
-                allButton.textContent = 'Alla Grupper';
-                allButton.addEventListener('click', () => {
-                    currentGroupFilter = 'All';
-                    renderTeams();
-                    activateButton(allButton);
-                });
+                const allButton = createFilterButton('Alla Grupper', 'All');
+                allButton.classList.add('active');
                 groupFilterButtonsContainer.appendChild(allButton);
 
-                // Lägg till knappar för varje unik grupp
-                sortedGroups.forEach(group => {
-                    const button = document.createElement('button');
-                    button.className = 'group-filter-button';
-                    button.textContent = `Grupp ${group}`;
-                    button.addEventListener('click', () => {
-                        currentGroupFilter = group;
-                        renderTeams();
-                        activateButton(button);
-                    });
+                uniqueGroups.forEach(group => {
+                    const button = createFilterButton(`Grupp ${group}`, group);
                     groupFilterButtonsContainer.appendChild(button);
                 });
-                console.log('Gruppfilterknappar har fyllts i.');
             }
 
-            /**
-             * Aktiverar den klickade knappen och avaktiverar andra.
-             * @param {HTMLElement} activeButton Knappen som ska aktiveras.
-             */
-            function activateButton(activeButton) {
-                document.querySelectorAll('.group-filter-button').forEach(button => {
-                    button.classList.remove('active');
+            function createFilterButton(text, group) {
+                const button = document.createElement('button');
+                button.className = 'group-filter-button';
+                button.textContent = text;
+                button.dataset.group = group;
+                button.addEventListener('click', () => {
+                    currentGroupFilter = group;
+                    renderTeams();
+                    document.querySelectorAll('.group-filter-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
                 });
-                activeButton.classList.add('active');
+                return button;
             }
 
-            /**
-             * Rendrar laglistan baserat på aktuellt filter.
-             */
             function renderTeams() {
-                console.log('renderTeams kallad med filter:', currentGroupFilter);
                 teamListDiv.innerHTML = '';
 
                 const filteredTeams = currentGroupFilter === 'All'
@@ -789,101 +722,56 @@
                     : allTeams.filter(team => team.group === currentGroupFilter);
 
                 if (filteredTeams.length === 0) {
-                    teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga lag att visa för ${currentGroupFilter === 'All' ? 'alla grupper' : 'Grupp ' + currentGroupFilter}.</div>`;
+                    teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Inga lag att visa.</div>`;
                     return;
                 }
 
-                filteredTeams.sort((a, b) => a.teamName.localeCompare(b.teamName));
-
-                filteredTeams.forEach(team => {
-                    const teamListItem = document.createElement('div');
-                    teamListItem.className = 'team-list-item';
-
-                    const groupColorClass = getGroupColorClass(team.group);
-                    const numPlayers = team.playersRaw.split('/').filter(player => player.trim() !== '').length || 0;
+                filteredTeams.sort((a, b) => a.teamName.localeCompare(b.teamName)).forEach(team => {
+                    const teamCard = document.createElement('div');
+                    teamCard.className = 'team-card';
 
                     const hubLink = `laghub.html?team=${encodeURIComponent(team.teamName)}`;
+                    const groupColorClass = getGroupColorClass(team.group);
 
-                    // Short description handling
-                    let displayShortDescription = team.shortDescription;
-                    const shortDescMaxLength = 70; // Max chars before "read more" hint
-                    let readMoreHtml = "";
-                    if (displayShortDescription.length > shortDescMaxLength) {
-                        displayShortDescription = displayShortDescription.substring(0, shortDescMaxLength) + "... ";
-                        readMoreHtml = `<a href="${hubLink}" class="read-more-link">läs mer</a>`;
+                    let sponsorHtml = '';
+                    if (team.partnerInfoRaw && team.partnerInfoRaw.toLowerCase() !== 'n/a') {
+                        const [sponsorName, sponsorLogo] = team.partnerInfoRaw.split(';').map(s => s.trim());
+                        sponsorHtml = `
+                            <div class="flex items-center gap-2 text-xs text-gray-600">
+                                ${sponsorLogo && isValidImageUrl(sponsorLogo) ? `<img src="${sponsorLogo}" alt="${sponsorName} Logo" class="sponsor-logo-small-card">` : ''}
+                                <span>${sponsorName}</span>
+                            </div>`;
                     }
 
-
-                    // Row 3: Sponsor & Hub Link content
-                    let row3Content = '';
-                    const hasSponsor = team.sponsorName && team.sponsorName.toLowerCase() !== 'n/a';
-
-                    if (hasSponsor) {
-                        row3Content = `
-                            <div class="sponsor-info-card">
-                                ${team.sponsorLogoUrl ? `<img src="${team.sponsorLogoUrl}" alt="${team.sponsorName} Logo" class="sponsor-logo-small-card" onerror="this.style.display='none';">` : ''}
-                                <span>${team.sponsorName}</span>
-                            </div>
-                            <a href="${hubLink}" class="team-hub-link-card">Visa Lag-Hubb</a>
-                        `;
-                    } else {
-                        row3Content = `
-                            <a href="${hubLink}" class="team-hub-link-card full-width">Visa Lag-Hubb</a>
-                        `;
-                    }
-
-                    teamListItem.innerHTML = `
-                        <!-- Row 1: Logo/Group + Name/Captain -->
-                        <div class="team-card-row1">
-                            <div class="team-card-row1-left">
-                                <img src="${team.logo}" alt="${team.teamName} Logo" class="team-logo-card" onerror="this.onerror=null; this.src='https://placehold.co/70x70/aabbcc/ffffff?text=Logo';">
-                                <span class="team-list-group-card ${groupColorClass}">
-                                    ${team.group !== 'N/A' ? 'Grupp ' + team.group : 'Okänd Grupp'}
-                                </span>
-                            </div>
-                            <div class="team-card-row1-right">
-                                <h2 class="team-name-card">${team.teamName}</h2>
-                                <p class="team-captain-card">Lagkapten: ${team.captainName || 'N/A'}</p>
+                    teamCard.innerHTML = `
+                        <div class="flex items-start gap-4 mb-4">
+                            <img src="${isValidImageUrl(team.logo) ? team.logo : 'https://placehold.co/70x70/aabbcc/ffffff?text=Logo'}" alt="${team.teamName} Logo" class="team-logo-card">
+                            <div class="flex-grow">
+                                <span class="team-list-group-card ${groupColorClass}">${team.group !== 'N/A' ? 'Grupp ' + team.group : 'Okänd'}</span>
+                                <h2 class="team-name-card mt-1">${team.teamName}</h2>
+                                <p class="text-sm text-gray-500">Kapten: ${team.captainName || 'N/A'}</p>
                             </div>
                         </div>
 
-                        <!-- Row 2: Info - Players, Style, Motto, ShortDesc -->
-                        <div class="team-card-row2">
-                            <p><strong>Antal spelare:</strong> ${numPlayers}</p>
-                            ${team.teamStyle && team.teamStyle.toLowerCase() !== 'n/a' ? `<p><strong>Spelstil:</strong> ${team.teamStyle}</p>` : ''}
-                            ${team.motto && team.motto.toLowerCase() !== 'n/a' ? `<p><strong>Motto:</strong> "${team.motto}"</p>` : ''}
-                            <p class="short-description-card">${displayShortDescription}${readMoreHtml}</p>
-                        </div>
+                        <p class="text-sm text-gray-600 italic mb-4 flex-grow">"${team.motto && team.motto.toLowerCase() !== 'n/a' ? team.motto : '-'}"</p>
 
-                        <!-- Row 3: Sponsor / Hub Link -->
-                        <div class="team-card-row3">
-                            ${row3Content}
+                        <div class="mt-auto pt-4 border-t border-gray-200 flex justify-between items-center gap-4">
+                            ${sponsorHtml}
+                            <a href="${hubLink}" class="team-hub-link-card ml-auto">Visa Lag-Hubb</a>
                         </div>
                     `;
-                    teamListDiv.appendChild(teamListItem);
+                    teamListDiv.appendChild(teamCard);
                 });
             }
 
-            // getTeamLogo is not needed here as team.logo is directly used.
-
             async function initializeTeamRegister() {
-                // ... (initial loading messages remain)
-                console.log('initializeTeamRegister kallad.');
-                teamListDiv.innerHTML = `<div class="text-center text-gray-500 p-8 col-span-full">Laddar lagdata...</div>`;
-                groupFilterButtonsContainer.innerHTML = `<div class="text-center text-gray-500 p-2">Laddar filterknappar...</div>`;
-
                 try {
-                    console.time('Hämtar Lag CSV');
                     const teamsCsvText = await fetchCsvData(teamsCsvUrl);
-                    allTeams = parseTeamsCsv(teamsCsvText); // Uses the updated parser
-                    console.timeEnd('Hämtar Lag CSV');
-                    console.log('allTeams laddade:', allTeams.length, 'lag');
-
+                    allTeams = parseRobustCsv(teamsCsvText);
                     populateGroupFilterButtons();
-                    renderTeams(); // Uses the updated renderer
-                    console.log('Lagregistret initialiserat och renderat framgångsrikt.');
+                    renderTeams();
                 } catch (error) {
-                    console.error("Felsökning: Ett fel uppstod vid initialisering av lagregistret.", error);
+                    console.error("Kunde inte initialisera lagregistret:", error);
                 }
             }
 

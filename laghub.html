@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 
 <head>
     <meta charset="UTF-8">
@@ -12,91 +12,332 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-YS83LWSY7E');
     </script>
     <style>
+        /* --- Base Styles --- */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 0;
         }
 
-        .navbar {
-            width: 100%;
-            background-color: #1a202c;
+        /* --- New Navigation Styles --- */
+        .main-header {
+            background-color: #034159;
             color: white;
             padding: 1rem 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            flex-wrap: wrap;
+            justify-content: space-between;
         }
 
-        .navbar-home-logo {
-            height: 2.5rem;
-            margin-right: 1.5rem;
-            cursor: pointer;
-            border-radius: 9999px;
-            transition: transform 0.2s ease-in-out;
-            flex-shrink: 0;
-        }
-
-        .navbar-home-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .navbar-links-wrapper {
+        .nav-logo a {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-logo img {
+            height: 5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- Desktop Navigation --- */
+        #desktop-nav {
+            display: none;
+            /* Hidden on mobile */
+        }
+
+        @media (min-width: 724px) {
+            #desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        #desktop-nav>ul {
+            display: flex;
             gap: 0.5rem;
-            flex-grow: 1;
-            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 0.8rem;
+        #desktop-nav .menu-item {
+            position: relative;
+        }
+
+        #desktop-nav .menu-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
             border-radius: 0.375rem;
-            transition: background-color 0.2s ease-in-out;
+            background-color: transparent;
+            color: white;
             font-weight: 500;
-            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
-        .navbar a:hover {
-            background-color: #4a5568;
+        #desktop-nav .menu-button:hover,
+        #desktop-nav .menu-item.is-active .menu-button {
+            background-color: rgba(255, 255, 255, 0.15);
         }
+
+        #desktop-nav .chevron {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 2px;
+            transition: transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .mega-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            color: #1a202c;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+            width: 500px;
+            /* Adjust width as needed */
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        #desktop-nav .menu-item.is-active .mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mega-menu-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .mega-menu-column h3 {
+            font-weight: 700;
+            color: #034159;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .mega-menu-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mega-menu-column a {
+            color: #4a5568;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+            transition: color 0.2s ease;
+        }
+
+        .mega-menu-column a:hover {
+            color: #F29849;
+        }
+
+        /* --- Mobile Navigation --- */
+        #mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        #mobile-menu-toggle .icon-menu,
+        #mobile-menu-toggle .icon-close {
+            display: block;
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .icon-menu {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .icon-close {
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/%3E%3C/svg%3E") no-repeat center;
+        }
+
+        .is-mobile-menu-open .icon-menu {
+            display: none;
+        }
+
+        .is-mobile-menu-open .icon-close {
+            display: block;
+        }
+
+        body:not(.is-mobile-menu-open) .icon-close {
+            display: none;
+        }
+
+        @media (min-width: 724px) {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        #mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: #034159;
+            padding: 1.5rem;
+            padding-top: 6rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 998;
+        }
+
+        .is-mobile-menu-open #mobile-nav {
+            transform: translateX(0);
+        }
+
+        #mobile-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #mobile-nav .menu-item>a,
+        #mobile-nav .menu-item>button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        #mobile-nav .sub-menu {
+            list-style: none;
+            color: white;
+            padding-left: 1rem;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        #mobile-nav .sub-menu a {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        #mobile-nav .menu-item.is-active>.sub-menu {
+            max-height: 500px;
+            /* Large enough to show all items */
+        }
+
+        #mobile-nav .chevron {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #mobile-nav .menu-item.is-active>button>.chevron {
+            transform: rotate(90deg);
+        }
+
+        #menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 997;
+        }
+
+        .is-mobile-menu-open #menu-overlay {
+            display: block;
+        }
+
+        /* ------------------------------ */
+        /* ------------------------------ */
+        /* --- New Navigation END --- */
+
 
         .content-container {
             max-width: 1000px;
-            /* Wider for hub */
             width: 100%;
             background-color: #ffffff;
             border-radius: 0.75rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             padding: 2rem 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            margin: 2rem auto;
             flex-grow: 1;
         }
 
         .team-hub-header {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            text-align: center;
             gap: 1.5rem;
             padding-bottom: 1.5rem;
             margin-bottom: 1.5rem;
             border-bottom: 2px solid #e2e8f0;
+        }
+
+        @media (min-width: 640px) {
+            .team-hub-header {
+                flex-direction: row;
+                text-align: left;
+            }
         }
 
         .team-hub-logo {
@@ -110,12 +351,8 @@
         .team-hub-name {
             font-size: 2.5rem;
             font-weight: 800;
-            color: #1a202c;
-        }
-
-        .team-hub-group {
-            font-size: 1.25rem;
-            color: #4a5568;
+            color: #034159;
+            /* New Color */
         }
 
         .hub-section {
@@ -129,56 +366,75 @@
         .hub-section-title {
             font-size: 1.75rem;
             font-weight: 700;
-            color: #2d3748;
+            color: #1a202c;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #cbd5e0;
         }
 
-        .player-list-item-hub {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .player-list-item-hub:last-child {
-            border-bottom: none;
-        }
-
         .match-item {
             background-color: #fff;
-            padding: 0.75rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 0.375rem;
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border: 1px solid #e2e8f0;
-            /* Added a subtle border */
+            border-left-width: 4px;
         }
 
         .match-item.upcoming {
-            border-left: 4px solid #fbbf24;
-            /* Amber for upcoming */
+            border-color: #F29849;
         }
 
+        /* New Color */
+        .match-item.ongoing {
+            border-color: #ef4444;
+        }
+
+        /* Red for ongoing */
         .match-item.past {
-            border-left: 4px solid #60a5fa;
-            /* Blue for past */
+            border-color: #6b7280;
             opacity: 0.9;
         }
 
-        .match-item strong {
+        /* Gray for past */
+
+        .mini-standings-table {
+            width: 100%;
+            font-size: 0.9rem;
+            border-collapse: collapse;
+        }
+
+        .mini-standings-table th,
+        .mini-standings-table td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mini-standings-table th {
+            background-color: #f0f2f5;
             font-weight: 600;
         }
 
+        .mini-standings-table .points-cell {
+            font-weight: 700;
+            color: #034159;
+        }
+
+        /* New Color */
+        .mini-standings-table .current-team-row {
+            background-color: rgba(242, 152, 73, 0.1);
+        }
+
+        /* Light orange highlight */
 
         .footer {
             width: 100%;
-            background-color: #1a202c;
+            background-color: #034159;
+            /* New Color */
             padding: 1.5rem;
             text-align: center;
-            margin-top: auto;
         }
 
         .footer-logo {
@@ -189,544 +445,376 @@
             margin: 0 auto;
         }
 
-        /* Responsive justeringar */
         @media (max-width: 640px) {
-
-            /* --- MOBILE STYLES START --- */
             .navbar {
-                padding: 0.75rem 1rem;
+                justify-content: center;
+                padding: 1rem;
             }
 
-            .navbar-home-logo {
-                height: 2rem;
-                margin-right: 1rem;
-                margin-bottom: 0;
+            .navbar-logo-link {
+                margin-bottom: 0.5rem;
             }
-
-            .navbar-links-wrapper {
-                gap: 0.25rem;
-            }
-
-            .navbar a {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.9rem;
-            }
-
-            .team-hub-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .overview-standings-container {
-                /* Ensure stacking on mobile */
-                flex-direction: column;
-            }
-        }
-
-        /* Overview section specific styles */
-        .overview-section {
-            flex-grow: 1;
-        }
-
-        /* Highlighted players styling */
-        .highlighted-player-info {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed #cbd5e0;
-        }
-
-        .highlighted-player-info p {
-            margin-bottom: 0.25rem;
-            font-size: 0.95rem;
-        }
-
-        .highlighted-player-info strong {
-            color: #2c5282;
-            /* Darker blue for emphasis */
-        }
-
-        .team-additional-info {
-            font-size: 0.9rem;
-            /* Slightly smaller text for these details */
-            color: #4a5568;
-        }
-
-        .team-additional-info p .font-semibold {
-            color: #2d3748;
-            /* Darker label */
-        }
-
-        /* Group standings table within Spelartrupp section */
-        .group-standings-in-hub {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .group-standings-in-hub h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #2d3748;
-            margin-bottom: 0.75rem;
-        }
-
-        .mini-standings-table {
-            width: 100%;
-            font-size: 0.85rem;
-            border-collapse: collapse;
-        }
-
-        .mini-standings-table th,
-        .mini-standings-table td {
-            padding: 0.4rem 0.6rem;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .mini-standings-table th {
-            background-color: #f7fafc;
-            font-weight: 600;
-        }
-
-        .mini-standings-table .team-name-cell {
-            font-weight: 600;
-        }
-
-        .mini-standings-table .points-cell {
-            font-weight: 700;
-            color: #3b82f6;
         }
     </style>
 </head>
 
-<body class="flex flex-col">
-    <!-- Global Navigationsmeny -->
-    <nav class="navbar">
-        <div class="navbar-links-wrapper">
-            <a href="index.html">Startsida</a>
-            <a href="fotbollsschema.html">Spelschema</a>
-            <a href="lagregister.html">Lagen</a>
-            <a href="tabeller.html">Tabell & resultat</a>
-            <a href="Leaderboards.html">Rekord</a>
-            <a href="sponsorer.html">Partners</a>
-        </div>
-    </nav>
 
-    <div class="content-container">
-        <header id="team-hub-header" class="team-hub-header">
-            <img id="team-logo-hub" src="https://placehold.co/80x80/aabbcc/ffffff?text=Lag" alt="Lag Logotyp"
-                class="team-hub-logo">
-            <div>
-                <h1 id="team-name-hub" class="team-hub-name">Laddar laginfo...</h1>
-                <p id="team-group-hub" class="team-hub-group">Grupp X</p>
+<body class="bg-gray-100">
+    <header class="main-header">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" title="Arboga Stad Cup">
+                    <img src="https://raw.githubusercontent.com/Formulacoder/Arboga-stad-cup/refs/heads/main/Assets/images/StadenBranding/StadenLogoLayingGreen.png"
+                        alt="Arboga Stad Cup Logotyp">
+                </a>
             </div>
-        </header>
 
-        <main id="team-hub-content">
-            <!-- Team Overview -->
-            <section class="hub-section overview-section">
-                <h2 class="hub-section-title">Översikt</h2>
-                <p id="team-description-hub" class="mb-2 text-gray-700">Lagbeskrivning laddas...</p>
+            <!-- Desktop Navigation -->
+            <nav id="desktop-nav">
+                <ul>
+                    <li class="menu-item">
+                        <a href="index.html" class="menu-button">Startsida</a>
+                    </li>
+                    <li class="menu-item">
+                        <button class="menu-button desktop-dropdown-toggle" aria-expanded="false"
+                            aria-controls="desktop-menu-cupinfo">
+                            <span>Cupinformation</span>
+                            <svg class="chevron" fill="none" viewBox="0 0 24 24">
+                                <path d="M6 9L12 15L18 9" />
+                            </svg>
+                        </button>
+                        <div class="mega-menu" id="desktop-menu-cupinfo">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h3>Tävling</h3>
+                                    <ul>
+                                        <li><a href="fotbollsschema.html">Spelschema</a></li>
+                                        <li><a href="lagregister.html">Anmälda Lag</a></li>
+                                        <li><a href="regler.html">Regler</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Statistik</h3>
+                                    <ul>
+                                        <li><a href="tabeller.html">Tabell & Resultat</a></li>
+                                        <li><a href="Leaderboards.html">Rekord</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
 
-                <div class="team-additional-info mt-3 pt-3 border-t border-gray-200">
-                    <p class="mb-1"><span class="font-semibold">Spelstil:</span> <span
-                            id="team-style-hub">Laddar...</span></p>
-                    <p class="mb-1"><span class="font-semibold">Hemligt Vapen:</span> <span
-                            id="team-secret-weapon-hub">Laddar...</span></p>
-                    <p class="mb-1"><span class="font-semibold">Motståndet:</span> <span
-                            id="team-highlight-ops-hub">Laddar...</span></p>
-                    <p class="mb-1"><span class="font-semibold">Största hotet i gruppen:</span> <span
-                            id="team-group-threat-hub">Laddar...</span></p>
-                    <p class="mb-1"><span class="font-semibold">Lagets erfarenhet:</span> <span
-                            id="team-exp-hub">Laddar...</span></p>
-                    <p class="mb-1"><span class="font-semibold">Ponera att ni vinner:</span> <span
-                            id="team-celebration-hub">Laddar...</span></p>
-                </div>
+                    <li class="menu-item">
+                        <a href="sponsorer.html" class="menu-button">Partners</a>
+                    </li>
+                </ul>
+            </nav>
 
-                <p class="mt-2 mb-1"><span class="font-semibold">Motto:</span> <span
-                        id="team-motto-hub">Laddar...</span></p>
-                <p class="mb-2"><span class="font-semibold">Lagkapten:</span> <span
-                        id="team-captain-hub">Laddar...</span></p>
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobile-nav">
+                <span class="icon-menu"></span>
+                <span class="icon-close"></span>
+            </button>
+        </div>
+    </header>
 
-                <div id="highlighted-players-hub" class="highlighted-player-info">
-                    <p><span class="font-semibold">Skyttekung:</span> <span id="hub-top-scorer-name">Laddar...</span>
-                    </p>
-                    <p><span class="font-semibold">Domarens Favorit:</span> <span
-                            id="hub-top-card-player-name">Laddar...</span></p>
-                </div>
-
-                <div id="team-sponsor-info-hub" class="mt-4">
-                    <h3 class="font-semibold text-gray-800">Sponsor:</h3>
-                    <p id="team-sponsor-name-hub">Laddar...</p>
-                    <img id="team-sponsor-logo-hub" src="" alt="Sponsor Logotyp" class="max-h-16 mt-2 hidden">
-                </div>
-            </section>
-
-            <!-- Merged Matches Section -->
-            <section class="hub-section">
-                <h2 class="hub-section-title">Matcher</h2>
-                <div id="all-matches-hub">
-                    <p class="text-gray-500">Laddar matcher...</p>
-                </div>
-            </section>
-
-            <!-- Player Roster & Stats -->
-            <section class="hub-section">
-                <h2 class="hub-section-title">Spelartrupp & Statistik</h2>
-                <div id="player-roster-hub">
-                    <p class="text-gray-500">Laddar spelartrupp...</p>
-                </div>
-                <div id="group-standings-in-hub-container" class="group-standings-in-hub">
-                    <!-- Group standings table will be inserted here by JS -->
-                </div>
-            </section>
-        </main>
+    <!-- Mobile Navigation Panel -->
+    <div id="mobile-nav" role="navigation">
+        <ul>
+            <li class="menu-item"><a href="index.html">Startsida</a></li>
+            <li class="menu-item"><a href="lagregister.html">Anmälda Lag</a></li>
+            <li class="menu-item"><a href="fotbollsschema.html">Spelschema</a></li>
+            <li class="menu-item"><a href="tabeller.html">Tabell & Resultat</a></li>
+            <li class="menu-item"><a href="Leaderboards.html">Rekord</a></li>
+            <li class="menu-item"><a href="regler.html">Regler</a></li>
+            <li class="menu-item"><a href="sponsorer.html">Partners</a></li>
+        </ul>
     </div>
+    <div id="menu-overlay"></div>
 
-    <footer class="footer">
-        <img src="https://i.imgur.com/9q8c3ab.png" alt="Cup Footer Logo" class="footer-logo">
-    </footer>
 
+    <main>
+        <!-- Your existing page content goes here -->
+        <div class="content-container">
+            <header id="team-hub-header" class="team-hub-header">
+                <img id="team-logo-hub" src="https://placehold.co/80x80/aabbcc/ffffff?text=Lag" alt="Lag Logotyp"
+                    class="team-hub-logo">
+                <div>
+                    <h1 id="team-name-hub" class="team-hub-name">Laddar laginfo...</h1>
+                    <p id="team-group-hub" class="text-lg text-gray-600">Grupp X</p>
+                </div>
+            </header>
+
+            <main id="team-hub-content" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Matches Section -->
+                    <section class="hub-section">
+                        <h2 class="hub-section-title">Matcher</h2>
+                        <div id="all-matches-hub">
+                            <p class="text-gray-500">Laddar matcher...</p>
+                        </div>
+                    </section>
+
+                    <!-- Player Roster & Group Standings -->
+                    <section class="hub-section">
+                        <h2 class="hub-section-title">Spelartrupp & Gruppställning</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div id="player-roster-hub">
+                                <p class="text-gray-500">Laddar spelartrupp...</p>
+                            </div>
+                            <div id="group-standings-in-hub-container"></div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- Team Overview -->
+                    <section class="hub-section">
+                        <h2 class="hub-section-title">Översikt</h2>
+                        <div id="team-overview-content" class="space-y-3 text-sm text-gray-700">
+                            <p><strong class="font-semibold text-gray-800">Motto:</strong> <span
+                                    id="team-motto-hub">-</span></p>
+                            <p><strong class="font-semibold text-gray-800">Lagkapten:</strong> <span
+                                    id="team-captain-hub">-</span></p>
+                            <p><strong class="font-semibold text-gray-800">Spelstil:</strong> <span
+                                    id="team-style-hub">-</span></p>
+                            <p><strong class="font-semibold text-gray-800">Hemligt Vapen:</strong> <span
+                                    id="team-secret-weapon-hub">-</span></p>
+                            <p><strong class="font-semibold text-gray-800">Största hotet:</strong> <span
+                                    id="team-group-threat-hub">-</span></p>
+                            <p class="pt-3 border-t border-gray-200"><strong
+                                    class="font-semibold text-gray-800">Beskrivning:</strong> <span
+                                    id="team-description-hub">Laddar...</span></p>
+                        </div>
+                        <div id="team-sponsor-info-hub" class="mt-4 pt-4 border-t border-gray-200">
+                            <h3 class="font-semibold text-gray-800 mb-2">Sponsor</h3>
+                            <p id="team-sponsor-name-hub">Laddar...</p>
+                            <img id="team-sponsor-logo-hub" src="" alt="Sponsor Logotyp" class="max-h-16 mt-2 hidden">
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </main>
     <script>
-        // URLs to your Google Sheets (ensure they are published as CSV)
-        const TEAMS_INFO_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
-        const SCHEDULE_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
-        const PLAYER_STATS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1809976994&single=true&output=csv';
-        const STANDINGS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1900542434&single=true&output=csv';
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Logic ---
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const body = document.body;
 
-        function parseRobustCsv(csvText) {
-            const rows = [];
-            const lines = csvText.split('\n').filter(line => line.trim() !== '');
-            if (lines.length <= 1) return [];
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i];
-                const values = [];
-                let inQuote = false;
-                let currentField = '';
-                for (let j = 0; j < line.length; j++) {
-                    const char = line[j];
-                    const nextChar = line[j + 1];
-                    if (char === '"') {
-                        if (inQuote && nextChar === '"') {
-                            currentField += char; j++;
-                        } else {
-                            inQuote = !inQuote;
-                        }
-                    } else if (char === ',' && !inQuote) {
-                        values.push(currentField.trim()); currentField = '';
-                    } else {
-                        currentField += char;
+            const toggleMobileMenu = () => {
+                const isMenuOpen = body.classList.toggle('is-mobile-menu-open');
+                mobileMenuToggle.setAttribute('aria-expanded', isMenuOpen);
+            };
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            }
+
+            if (menuOverlay) {
+                menuOverlay.addEventListener('click', toggleMobileMenu);
+            }
+
+
+            // --- Desktop Dropdown Logic ---
+            const desktopDropdownToggles = document.querySelectorAll('.desktop-dropdown-toggle');
+
+            desktopDropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling up to the document
+                    const parentItem = toggle.parentElement;
+                    const wasActive = parentItem.classList.contains('is-active');
+
+                    // Close all other menus first
+                    closeAllDesktopMenus();
+
+                    // If it wasn't already active, open it
+                    if (!wasActive) {
+                        parentItem.classList.add('is-active');
+                        toggle.setAttribute('aria-expanded', 'true');
                     }
-                }
-                values.push(currentField.trim());
-                rows.push(values);
+                });
+            });
+
+            // Click outside to close desktop menus
+            document.addEventListener('click', (e) => {
+                closeAllDesktopMenus();
+            });
+
+            function closeAllDesktopMenus() {
+                desktopDropdownToggles.forEach(toggle => {
+                    toggle.parentElement.classList.remove('is-active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
             }
-            return rows;
-        }
+        })
+        document.addEventListener('DOMContentLoaded', async () => {
+            const TEAMS_INFO_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=213368947&single=true&output=csv';
+            const SCHEDULE_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=894699500&single=true&output=csv';
+            const PLAYER_STATS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1809976994&single=true&output=csv';
+            const STANDINGS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSA5hxt_CRmSr2oUS4azErMtLNn70vBLm-n8uHSK4RgpJNccOat05jV9F02iDF0ViM4dPzsVhrjWZ2O/pub?gid=1900542434&single=true&output=csv';
 
-        function isValidImageUrl(url) {
-            if (!url || typeof url !== 'string') return false;
-            return (url.startsWith('http://') || url.startsWith('https://')) &&
-                (/\.(jpeg|jpg|gif|png|webp|svg)(\?raw=true)?$/i.test(url));
-        }
-
-        async function fetchCsvData(url) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP error ${response.status} for ${url}`);
-                return await response.text();
-            } catch (error) {
-                console.error(`Failed to fetch CSV from ${url}:`, error);
-                return null;
-            }
-        }
-
-        function parseTeamsInfo(csvText) {
-            const rawRows = parseRobustCsv(csvText);
-            return rawRows.map(values => {
-                if (values.length < 15) { // Expecting 15 columns from PUB_TEAMINFO for full details
-                    console.warn(`TeamInfo: Skipped row due to insufficient columns. Expected 15, got ${values.length}. Row: ${values.join('|')}`);
+            // --- Robust CSV Fetching and Parsing ---
+            async function fetchCsvData(url) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP error ${response.status} for ${url}`);
+                    return await response.text();
+                } catch (error) {
+                    console.error(`Failed to fetch CSV from ${url}:`, error);
                     return null;
                 }
-                const team = {
-                    teamName: values[0]?.trim() || 'N/A',
-                    logo: (values[1] && isValidImageUrl(values[1].trim())) ? values[1].trim() : 'https://placehold.co/80x80/aabbcc/ffffff?text=Lag',
-                    captainName: values[2]?.trim() || 'N/A',
-                    group: values[3]?.trim() || 'N/A',
-                    teamDescription: values[4]?.trim() || 'N/A',
-                    teamStyle: values[5]?.trim() || 'N/A',
-                    secretWeapon: values[6]?.trim() || 'N/A',
-                    highlightOps: values[7]?.trim() || 'N/A',
-                    groupThreat: values[8]?.trim() || 'N/A',
-                    teamExp: values[9]?.trim() || 'N/A',
-                    celebration: values[10]?.trim() || 'N/A',
-                    motto: values[11]?.trim() || 'N/A',
-                    playersRaw: values[12]?.trim() || '',
-                    shortDescription: values[13]?.trim() || '', // Parsed but not directly used in hub display here
-                    sponsorInfoRaw: values[14]?.trim() || 'N/A',
-                };
+            }
 
-                team.sponsorName = 'N/A';
-                team.sponsorLogoUrl = null;
-                if (team.sponsorInfoRaw && team.sponsorInfoRaw.toLowerCase() !== 'n/a') {
-                    const parts = team.sponsorInfoRaw.split(';');
-                    team.sponsorName = parts[0]?.trim() || 'N/A';
-                    if (parts.length > 1 && parts[1]?.trim() && isValidImageUrl(parts[1].trim())) {
-                        team.sponsorLogoUrl = parts[1].trim();
+            function parseRobustCsv(csvText) {
+                const rows = [];
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                if (lines.length <= 1) return [];
+                const headers = lines[0].split(',').map(h => h.trim());
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i];
+                    const values = [];
+                    let inQuote = false, currentField = '';
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j], nextChar = line[j + 1];
+                        if (char === '"') {
+                            if (inQuote && nextChar === '"') { currentField += char; j++; }
+                            else { inQuote = !inQuote; }
+                        } else if (char === ',' && !inQuote) {
+                            values.push(currentField.trim()); currentField = '';
+                        } else {
+                            currentField += char;
+                        }
                     }
+                    values.push(currentField.trim());
+                    const rowObject = {};
+                    headers.forEach((header, index) => rowObject[header] = values[index] || '');
+                    rows.push(rowObject);
                 }
-                return team;
-            }).filter(Boolean);
-        }
+                return rows;
+            }
 
-        function parseSchedule(csvText) {
-            const rawRows = parseRobustCsv(csvText);
-            return rawRows.map(values => {
-                if (values.length < 8) return null;
-                return {
-                    matchId: values[0]?.trim() || 'N/A',
-                    time: values[1]?.trim() || 'N/A',
-                    team1: values[2]?.trim() || 'N/A',
-                    team2: values[3]?.trim() || 'N/A',
-                    venue: values[4]?.trim() || 'N/A',
-                    group: values[5]?.trim() || 'N/A',
-                    result: values[6]?.trim() || 'N/A',
-                    matchStatus: values[7]?.trim() || 'N/A'
-                };
-            }).filter(Boolean);
-        }
-
-        function parsePlayerStats(csvText) {
-            const rawRows = parseRobustCsv(csvText);
-            return rawRows.map(values => {
-                if (values.length < 7) return null;
-                return {
-                    team: values[0]?.trim() || 'N/A',
-                    playerName: values[1]?.trim() || 'N/A',
-                    group: values[2]?.trim() || 'N/A',
-                    jerseyNumber: parseInt(values[3]) || 'N/A',
-                    goals: parseInt(values[4]) || 0,
-                    yellowCards: parseInt(values[5]) || 0,
-                    redCards: parseInt(values[6]) || 0
-                };
-            }).filter(Boolean);
-        }
-
-        function parseStandings(csvText) {
-            const rawRows = parseRobustCsv(csvText);
-            return rawRows.map(values => {
-                if (values.length < 12) return null;
-                const parseNumericWithMinus = (valStr) => {
-                    if (typeof valStr !== 'string') return parseInt(valStr) || 0;
-                    return parseInt(valStr.replace(/\s/g, '').replace('−', '-')) || 0;
-                };
-                return {
-                    teamName: values[0]?.trim() || 'N/A',
-                    group: values[1]?.trim() || 'N/A',
-                    matchesPlayed: parseNumericWithMinus(values[2]),
-                    wins: parseNumericWithMinus(values[3]),
-                    draws: parseNumericWithMinus(values[4]),
-                    losses: parseNumericWithMinus(values[5]),
-                    goalsFor: parseNumericWithMinus(values[6]),
-                    goalsAgainst: parseNumericWithMinus(values[7]),
-                    goalDifference: parseNumericWithMinus(values[8]),
-                    points: parseNumericWithMinus(values[9]),
-                    nextMatch: values[10]?.trim() || 'N/A',
-                    goalDifferenceHistory: parseNumericWithMinus(values[11])
-                };
-            }).filter(Boolean);
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
+            // --- Data Processing and Rendering ---
             const urlParams = new URLSearchParams(window.location.search);
             const teamNameQuery = urlParams.get('team');
 
             if (!teamNameQuery) {
                 document.getElementById('team-name-hub').textContent = 'Inget lag valt';
-                document.getElementById('team-hub-content').innerHTML = '<p class="text-red-500 text-center">Vänligen välj ett lag från lagregistret.</p>';
+                document.getElementById('team-hub-content').innerHTML = '<p class="text-red-500 text-center col-span-full">Vänligen välj ett lag från lagregistret.</p>';
                 return;
             }
 
-            document.title = `${teamNameQuery} - Lag-Hubb - Arboga Stad Cup`;
+            document.title = `${teamNameQuery} - Lag-Hubb`;
 
-            const [teamsInfoText, scheduleText, playerStatsText, standingsText] = await Promise.all([
-                fetchCsvData(TEAMS_INFO_CSV_URL),
-                fetchCsvData(SCHEDULE_CSV_URL),
-                fetchCsvData(PLAYER_STATS_CSV_URL),
-                fetchCsvData(STANDINGS_CSV_URL)
+            const [teamsInfo, schedule, playerStats, standings] = await Promise.all([
+                fetchCsvData(TEAMS_INFO_CSV_URL).then(text => text ? parseRobustCsv(text) : []),
+                fetchCsvData(SCHEDULE_CSV_URL).then(text => text ? parseRobustCsv(text) : []),
+                fetchCsvData(PLAYER_STATS_CSV_URL).then(text => text ? parseRobustCsv(text) : []),
+                fetchCsvData(STANDINGS_CSV_URL).then(text => text ? parseRobustCsv(text) : [])
             ]);
 
-            const allTeamsInfo = teamsInfoText ? parseTeamsInfo(teamsInfoText) : [];
-            const allScheduledGames = scheduleText ? parseSchedule(scheduleText) : [];
-            const allPlayerStats = playerStatsText ? parsePlayerStats(playerStatsText) : [];
-            const allStandings = standingsText ? parseStandings(standingsText) : [];
+            const currentTeam = teamsInfo.find(t => t.teamName === teamNameQuery);
 
-            const currentTeamInfo = allTeamsInfo.find(t => t.teamName === teamNameQuery);
-
-            if (!currentTeamInfo) {
+            if (!currentTeam) {
                 document.getElementById('team-name-hub').textContent = `Lag "${teamNameQuery}" hittades inte.`;
-                document.getElementById('team-hub-content').innerHTML = '<p class="text-red-500 text-center">Kontrollera lagnamnet och försök igen.</p>';
+                document.getElementById('team-hub-content').innerHTML = '<p class="text-red-500 text-center col-span-full">Kontrollera lagnamnet.</p>';
                 return;
             }
 
-            document.getElementById('team-logo-hub').src = currentTeamInfo.logo;
-            document.getElementById('team-logo-hub').alt = `${currentTeamInfo.teamName} Logotyp`;
-            document.getElementById('team-name-hub').textContent = currentTeamInfo.teamName;
-            document.getElementById('team-group-hub').textContent = `Grupp ${currentTeamInfo.group || 'N/A'}`;
+            // --- Populate Header ---
+            document.getElementById('team-logo-hub').src = currentTeam.logo || 'https://placehold.co/80x80/aabbcc/ffffff?text=Logo';
+            document.getElementById('team-name-hub').textContent = currentTeam.teamName;
+            document.getElementById('team-group-hub').textContent = `Grupp ${currentTeam.group || 'N/A'}`;
 
-            // Populate Overview
-            document.getElementById('team-description-hub').textContent = currentTeamInfo.teamDescription && currentTeamInfo.teamDescription.toLowerCase() !== 'n/a' ? currentTeamInfo.teamDescription : 'Ingen beskrivning tillgänglig.';
+            // --- Populate Overview Section ---
+            const setText = (id, value) => { document.getElementById(id).textContent = value && value.toLowerCase() !== 'n/a' ? value : '-'; };
+            setText('team-motto-hub', currentTeam.motto);
+            setText('team-captain-hub', currentTeam.captainName);
+            setText('team-style-hub', currentTeam.teamStyle);
+            setText('team-secret-weapon-hub', currentTeam.secretWeapon);
+            setText('team-group-threat-hub', currentTeam.groupThreat);
+            setText('team-description-hub', currentTeam.teamDescription);
 
-            document.getElementById('team-style-hub').textContent = currentTeamInfo.teamStyle && currentTeamInfo.teamStyle.toLowerCase() !== 'n/a' ? currentTeamInfo.teamStyle : '-';
-            document.getElementById('team-secret-weapon-hub').textContent = currentTeamInfo.secretWeapon && currentTeamInfo.secretWeapon.toLowerCase() !== 'n/a' ? currentTeamInfo.secretWeapon : '-';
-            document.getElementById('team-highlight-ops-hub').textContent = currentTeamInfo.highlightOps && currentTeamInfo.highlightOps.toLowerCase() !== 'n/a' ? currentTeamInfo.highlightOps : '-';
-            document.getElementById('team-group-threat-hub').textContent = currentTeamInfo.groupThreat && currentTeamInfo.groupThreat.toLowerCase() !== 'n/a' ? currentTeamInfo.groupThreat : '-';
-            document.getElementById('team-exp-hub').textContent = currentTeamInfo.teamExp && currentTeamInfo.teamExp.toLowerCase() !== 'n/a' ? currentTeamInfo.teamExp : '-';
-            document.getElementById('team-celebration-hub').textContent = currentTeamInfo.celebration && currentTeamInfo.celebration.toLowerCase() !== 'n/a' ? currentTeamInfo.celebration : '-';
-
-            document.getElementById('team-motto-hub').textContent = currentTeamInfo.motto && currentTeamInfo.motto.toLowerCase() !== 'n/a' ? currentTeamInfo.motto : '-';
-            document.getElementById('team-captain-hub').textContent = currentTeamInfo.captainName && currentTeamInfo.captainName.toLowerCase() !== 'n/a' ? currentTeamInfo.captainName : '-';
-
-
-            if (currentTeamInfo.sponsorName && currentTeamInfo.sponsorName.toLowerCase() !== 'n/a') {
-                document.getElementById('team-sponsor-name-hub').textContent = currentTeamInfo.sponsorName;
-                if (currentTeamInfo.sponsorLogoUrl && currentTeamInfo.sponsorLogoUrl.toLowerCase() !== 'n/a') {
-                    const sponsorLogoImg = document.getElementById('team-sponsor-logo-hub');
-                    sponsorLogoImg.src = currentTeamInfo.sponsorLogoUrl;
-                    sponsorLogoImg.alt = `${currentTeamInfo.sponsorName} Logotyp`;
-                    sponsorLogoImg.classList.remove('hidden');
+            // Sponsor Info
+            if (currentTeam.partnerInfoRaw && currentTeam.partnerInfoRaw.toLowerCase() !== 'n/a') {
+                const [partnerName, partnerLogoUrl] = currentTeam.partnerInfoRaw.split(';').map(s => s.trim());
+                setText('team-sponsor-name-hub', partnerName);
+                if (partnerLogoUrl && partnerLogoUrl.startsWith('http')) {
+                    const logoImg = document.getElementById('team-sponsor-logo-hub');
+                    logoImg.src = partnerLogoUrl;
+                    logoImg.alt = `${partnerName} Logotyp`;
+                    logoImg.classList.remove('hidden');
                 }
             } else {
-                document.getElementById('team-sponsor-info-hub').innerHTML = '<p>Ingen huvudsponsor angiven.</p>';
+                document.getElementById('team-sponsor-info-hub').innerHTML = '<p class="text-gray-500 text-sm">Ingen huvudsponsor angiven.</p>';
             }
 
-            const hubTopScorerName = document.getElementById('hub-top-scorer-name');
-            const hubTopCardPlayerName = document.getElementById('hub-top-card-player-name');
-            if (allPlayerStats.length > 0) {
-                const teamPlayers = allPlayerStats.filter(p => p.team === currentTeamInfo.teamName);
-                if (teamPlayers.length > 0) {
-                    const topScorer = [...teamPlayers].sort((a, b) => b.goals - a.goals)[0];
-                    if (topScorer && topScorer.goals > 0) {
-                        hubTopScorerName.textContent = `${topScorer.playerName} (${topScorer.goals} mål)`;
-                    } else {
-                        hubTopScorerName.textContent = 'Inga mål registrerade';
-                    }
-                    const topCardPlayer = [...teamPlayers].sort((a, b) => (b.redCards * 2 + b.yellowCards) - (a.redCards * 2 + a.yellowCards))[0]; // Red card counts as 2 for sorting
-                    const totalCardPoints = topCardPlayer ? (topCardPlayer.redCards * 2 + topCardPlayer.yellowCards) : 0;
-                    if (topCardPlayer && totalCardPoints > 0) {
-                        hubTopCardPlayerName.textContent = `${topCardPlayer.playerName} (${topCardPlayer.yellowCards}G, ${topCardPlayer.redCards}R)`;
-                    } else {
-                        hubTopCardPlayerName.textContent = 'Inga kort registrerade';
-                    }
-                } else {
-                    hubTopScorerName.textContent = 'Statistik saknas';
-                    hubTopCardPlayerName.textContent = 'Statistik saknas';
-                }
-            } else {
-                hubTopScorerName.textContent = 'Statistik ej tillgänglig';
-                hubTopCardPlayerName.textContent = 'Statistik ej tillgänglig';
-            }
+            // --- Populate Matches ---
+            const teamGames = schedule.filter(game => game.team1 === teamNameQuery || game.team2 === teamNameQuery)
+                .sort((a, b) => a.time.localeCompare(b.time));
 
-            // Populate All Matches (Merged Section)
             const allMatchesDiv = document.getElementById('all-matches-hub');
-            const teamAllGames = allScheduledGames.filter(game =>
-                (game.team1 === teamNameQuery || game.team2 === teamNameQuery)
-            ).sort((a, b) => {
-                const timeA = new Date(`1970/01/01 ${a.time}`); // Create comparable date objects
-                const timeB = new Date(`1970/01/01 ${b.time}`);
-                if (timeA < timeB) return -1;
-                if (timeA > timeB) return 1;
-
-                const statusOrder = { 'Kommande': 1, 'Pågående': 2, 'Slutrapporterad': 3 }; // Pågående before Slutrapporterad
-                const statusA = statusOrder[a.matchStatus] || 4; // Default for other statuses
-                const statusB = statusOrder[b.matchStatus] || 4;
-                return statusA - statusB;
-            });
-
-            if (teamAllGames.length > 0) {
-                allMatchesDiv.innerHTML = teamAllGames.map(game => {
+            if (teamGames.length > 0) {
+                allMatchesDiv.innerHTML = teamGames.map(game => {
                     let matchClass = 'match-item';
-                    let matchInfo = `<strong>${game.time}</strong> vs ${game.team1 === teamNameQuery ? game.team2 : game.team1} på ${game.venue || 'Okänd plan'}`;
+                    let opponent = game.team1 === teamNameQuery ? game.team2 : game.team1;
+                    let info = `<strong>${game.time}</strong> vs ${opponent} (${game.venue})`;
 
-                    if (game.matchStatus === 'Slutrapporterad' && game.result && game.result !== 'N/A' && game.result.trim() !== '' && game.result.trim() !== '-') {
+                    if (game.matchStatus === 'Slutrapporterad' && game.result && game.result.trim() !== '-') {
                         matchClass += ' past';
-                        matchInfo = `${game.team1} <strong>${game.result}</strong> ${game.team2} (${game.time})`;
-                    } else if (game.matchStatus === 'Kommande' || game.matchStatus === 'Pågående') {
+                        info = `${game.team1} <strong class="text-lg">${game.result}</strong> ${game.team2} (${game.time})`;
+                    } else if (game.matchStatus === 'Pågående') {
+                        matchClass += ' ongoing';
+                        info += ` <span class="text-red-500 font-semibold">(Pågår)</span>`;
+                    } else {
                         matchClass += ' upcoming';
-                        if (game.matchStatus === 'Pågående') matchInfo += ` <span class="text-red-500 font-semibold">(Pågår)</span>`;
                     }
-                    return `<div class="${matchClass}">${matchInfo}</div>`;
+                    return `<div class="${matchClass}">${info}</div>`;
                 }).join('');
             } else {
-                allMatchesDiv.innerHTML = '<p class="text-gray-500">Inga matcher schemalagda för detta lag.</p>';
+                allMatchesDiv.innerHTML = '<p class="text-gray-500">Inga matcher schemalagda.</p>';
             }
 
-
+            // --- Populate Player Roster ---
             const playerRosterDiv = document.getElementById('player-roster-hub');
-            const teamPlayersStats = allPlayerStats.filter(player => player.team === teamNameQuery);
-            let playersToDisplay = [];
-            if (teamPlayersStats.length > 0) {
-                playersToDisplay = teamPlayersStats.map(p => ({
-                    name: p.playerName,
-                    goals: p.goals,
-                    yellowCards: p.yellowCards,
-                    redCards: p.redCards
-                }));
-            } else if (currentTeamInfo.playersRaw) {
-                playersToDisplay = currentTeamInfo.playersRaw.split(',').map(name => ({
-                    name: name.replace(/\s*\(K\)|\s*\(MV\)/i, '').trim(),
-                    goals: '?', yellowCards: '?', redCards: '?'
-                }));
-            }
-            if (playersToDisplay.length > 0) {
-                playersToDisplay.sort((a, b) => a.name.localeCompare(b.name));
-                playerRosterDiv.innerHTML = playersToDisplay.map(player => `
-                    <div class="player-list-item-hub">
-                        <span>${player.name}</span>
-                        <span class="text-xs">
-                            Mål: ${player.goals} | G: ${player.yellowCards} | R: ${player.redCards}
-                        </span>
-                    </div>
-                `).join('');
+            const teamPlayers = playerStats.filter(p => p.teamName === teamNameQuery).sort((a, b) => a.playerName.localeCompare(b.playerName));
+            if (teamPlayers.length > 0) {
+                playerRosterDiv.innerHTML = `
+                    <h3 class="font-bold mb-2 text-gray-800">Spelare</h3>
+                    <div class="space-y-1 text-sm">${teamPlayers.map(p => `
+                        <div class="flex justify-between items-center bg-white p-2 rounded">
+                            <span>${p.playerName}</span>
+                            <span class="text-xs text-gray-500">Mål: ${p.goals || 0} | G: ${p.yellowCards || 0} | R: ${p.redCards || 0}</span>
+                        </div>`).join('')}
+                    </div>`;
             } else {
-                playerRosterDiv.innerHTML = '<p class="text-gray-500">Ingen spelartrupp tillgänglig.</p>';
+                playerRosterDiv.innerHTML = `<h3 class="font-bold mb-2 text-gray-800">Spelare</h3><p class="text-gray-500">Ingen spelartrupp tillgänglig.</p>`;
             }
 
-            const groupStandingsInHubContainer = document.getElementById('group-standings-in-hub-container');
-            if (currentTeamInfo.group && currentTeamInfo.group !== 'N/A' && allStandings.length > 0) {
-                const teamsInThisGroup = allStandings
-                    .filter(s => s.group === currentTeamInfo.group)
-                    .sort((a, b) => {
-                        if (b.points !== a.points) return b.points - a.points;
-                        if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
-                        return b.goalsFor - a.goalsFor;
-                    });
+            // --- Populate Group Standings ---
+            const groupStandingsContainer = document.getElementById('group-standings-in-hub-container');
+            const groupStandings = standings.filter(s => s.group === currentTeam.group)
+                .sort((a, b) => (b.points - a.points) || (b.gDiff - a.gDiff) || (b.gFor - a.gFor));
 
-                if (teamsInThisGroup.length > 0) {
-                    let tableHtml = `<h3>Ställning Grupp ${currentTeamInfo.group}</h3>
-                                     <table class="mini-standings-table">
-                                        <thead>
-                                            <tr><th>Lag</th><th>P</th><th>M</th><th>V</th><th>O</th><th>F</th><th>MS</th></tr>
-                                        </thead>
-                                        <tbody>`;
-                    teamsInThisGroup.forEach(team => {
-                        tableHtml += `<tr>
-                                        <td class="team-name-cell">${team.teamName}</td>
-                                        <td class="points-cell">${team.points}</td>
-                                        <td>${team.matchesPlayed}</td>
-                                        <td>${team.wins}</td>
-                                        <td>${team.draws}</td>
-                                        <td>${team.losses}</td>
-                                        <td>${team.goalDifference}</td>
-                                      </tr>`;
-                    });
-                    tableHtml += `</tbody></table>`;
-                    groupStandingsInHubContainer.innerHTML = tableHtml;
-                } else {
-                    groupStandingsInHubContainer.innerHTML = `<p class="text-gray-500">Ingen tabellinformation för Grupp ${currentTeamInfo.group}.</p>`;
-                }
+            if (groupStandings.length > 0) {
+                groupStandingsContainer.innerHTML = `
+                    <h3 class="font-bold mb-2 text-gray-800">Ställning Grupp ${currentTeam.group}</h3>
+                    <table class="mini-standings-table">
+                        <thead><tr><th>Lag</th><th>P</th><th>M</th><th>MS</th></tr></thead>
+                        <tbody>${groupStandings.map(team => `
+                            <tr class="${team.teamName === teamNameQuery ? 'current-team-row' : ''}">
+                                <td class="font-semibold">${team.teamName}</td>
+                                <td class="points-cell">${team.points}</td>
+                                <td>${team.M}</td>
+                                <td>${team.gDiff > 0 ? '+' : ''}${team.gDiff}</td>
+                            </tr>`).join('')}
+                        </tbody>
+                    </table>`;
             } else {
-                groupStandingsInHubContainer.innerHTML = `<p class="text-gray-500">Lagets gruppinformation saknas eller tabell ej tillgänglig.</p>`;
+                groupStandingsContainer.innerHTML = `<h3 class="font-bold mb-2 text-gray-800">Gruppställning</h3><p class="text-gray-500">Tabell ej tillgänglig.</p>`;
             }
         });
     </script>
