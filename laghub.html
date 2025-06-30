@@ -382,6 +382,7 @@
             font-size: 0.95rem;
             border: 1px solid #e2e8f0;
             border-left-width: 4px;
+            text-align: center;
         }
 
         .match-item.upcoming {
@@ -462,7 +463,7 @@
                                     <h3>Tävling</h3>
                                     <ul>
                                         <li><a href="fotbollsschema.html">Spelschema</a></li>
-                                        <li><a href="lagregister.html">Anmälda Lag</a></li>
+                                        <li><a href="lagregister.html">Lagregister</a></li>
                                         <li><a href="regler.html">Regler</a></li>
                                     </ul>
                                 </div>
@@ -470,7 +471,7 @@
                                     <h3>Statistik</h3>
                                     <ul>
                                         <li><a href="tabeller.html">Tabell & Resultat</a></li>
-                                        <li><a href="Leaderboards.html">Rekord</a></li>
+                                        <li><a href="topcup.html">Cup Toppen</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -478,7 +479,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="sponsorer.html" class="menu-button">Partners</a>
+                        <a href="partners.html" class="menu-button"> Våra partners</a>
                     </li>
                 </ul>
             </nav>
@@ -494,13 +495,12 @@
     <!-- Mobile Navigation Panel -->
     <div id="mobile-nav" role="navigation">
         <ul>
-            <li class="menu-item"><a href="index.html">Startsida</a></li>
-            <li class="menu-item"><a href="lagregister.html">Anmälda Lag</a></li>
+            <li class="menu-item"><a href="lagregister.html">Lagregister</a></li>
             <li class="menu-item"><a href="fotbollsschema.html">Spelschema</a></li>
             <li class="menu-item"><a href="tabeller.html">Tabell & Resultat</a></li>
-            <li class="menu-item"><a href="Leaderboards.html">Rekord</a></li>
+            <li class="menu-item"><a href="topcup.html">Cup Toppen</a></li>
             <li class="menu-item"><a href="regler.html">Regler</a></li>
-            <li class="menu-item"><a href="sponsorer.html">Partners</a></li>
+            <li class="menu-item"><a href="partners.html">Våra Partners</a></li>
         </ul>
     </div>
     <div id="menu-overlay"></div>
@@ -724,7 +724,7 @@
             } else {
                 document.getElementById('team-sponsor-info-hub').innerHTML = '<p class="text-gray-500 text-sm">Ingen huvudsponsor angiven.</p>';
             }
-            // TODO: Finished games should present resu
+            // TODO: matchStatus should fill the bar or be smaller
             // TODO: Implement a way to integrate slutspelsdata in leaderboards and standings
             // --- Populate Matches ---
             const teamGames = schedule.filter(game => game.team1 === teamNameQuery || game.team2 === teamNameQuery)
@@ -737,9 +737,9 @@
                     let opponent = game.team1 === teamNameQuery ? game.team2 : game.team1;
                     let info = `<strong>${game.time}</strong> vs ${opponent} (${game.venue})`;
 
-                    if (game.matchStatus === 'Slutrapporterad' && game.result && game.result.trim() !== '-') {
+                    if (game.matchStatus === 'Slutrapporterad') {
                         matchClass += ' past';
-                        info = `${game.team1} <strong class="text-lg">${game.result}</strong> ${game.team2} (${game.time})`;
+                        info = `${game.team1} <strong class="text-lg">${game.resultM}</strong> ${game.team2} (${game.time})`;
                     } else if (game.matchStatus === 'Pågående') {
                         matchClass += ' ongoing';
                         info += ` <span class="text-red-500 font-semibold">(Pågår)</span>`;

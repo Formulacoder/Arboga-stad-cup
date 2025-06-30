@@ -485,7 +485,7 @@
                                     <h3>Tävling</h3>
                                     <ul>
                                         <li><a href="fotbollsschema.html">Spelschema</a></li>
-                                        <li><a href="lagregister.html">Anmälda Lag</a></li>
+                                        <li><a href="lagregister.html">Lagregister</a></li>
                                         <li><a href="regler.html">Regler</a></li>
                                     </ul>
                                 </div>
@@ -493,7 +493,7 @@
                                     <h3>Statistik</h3>
                                     <ul>
                                         <li><a href="tabeller.html">Tabell & Resultat</a></li>
-                                        <li><a href="Leaderboards.html">Rekord</a></li>
+                                        <li><a href="topcup.html">Cup Toppen</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -501,7 +501,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="sponsorer.html" class="menu-button">Partners</a>
+                        <a href="partners.html" class="menu-button"> Våra partners</a>
                     </li>
                 </ul>
             </nav>
@@ -517,13 +517,12 @@
     <!-- Mobile Navigation Panel -->
     <div id="mobile-nav" role="navigation">
         <ul>
-            <li class="menu-item"><a href="index.html">Startsida</a></li>
-            <li class="menu-item"><a href="lagregister.html">Anmälda Lag</a></li>
+            <li class="menu-item"><a href="lagregister.html">Lagregister</a></li>
             <li class="menu-item"><a href="fotbollsschema.html">Spelschema</a></li>
             <li class="menu-item"><a href="tabeller.html">Tabell & Resultat</a></li>
-            <li class="menu-item"><a href="Leaderboards.html">Rekord</a></li>
+            <li class="menu-item"><a href="topcup.html">Cup Toppen</a></li>
             <li class="menu-item"><a href="regler.html">Regler</a></li>
-            <li class="menu-item"><a href="sponsorer.html">Partners</a></li>
+            <li class="menu-item"><a href="partners.html">Våra Partners</a></li>
         </ul>
     </div>
     <div id="menu-overlay"></div>
@@ -756,15 +755,11 @@
                 return `
                     <div class="game-cell-card ${isGameHighlighted ? 'highlighted-game-cell' : ''}">
                         <div class="game-cell-teams">
-                            <img src="${team1Logo}" alt="${game.team1} Logo" class="team-logo mx-auto">
                             <span class="team-name ${isTeam1Highlighted ? 'highlighted-team-text' : ''}">${game.team1 || 'N/A'}</span>
+                            <img src="${team1Logo}" alt="${game.team1} Logo" class="team-logo mx-auto">
                             <div class="vs-separator-cell">vs</div>
                             <img src="${team2Logo}" alt="${game.team2} Logo" class="team-logo mx-auto">
                             <span class="team-name ${isTeam2Highlighted ? 'highlighted-team-text' : ''}">${game.team2 || 'N/A'}</span>
-                        </div>
-                        <div class="game-cell-details">
-                            <span class="group-info">Grupp: ${game.group || 'N/A'}</span>
-                            ${game.matchStatus && !['N/A', 'blank/null', ''].includes(game.matchStatus) ? `<span class="status-info">Status: ${game.matchStatus}</span>` : ''}
                         </div>
                     </div>
                 `;
